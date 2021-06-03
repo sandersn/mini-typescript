@@ -7,7 +7,7 @@ export function parse(lexer: Lexer): [Module, string[]] {
     function parseModule(): Module {
         const statements = parseSeparated(parseStatement, () => tryParseToken(Token.Semicolon))
         parseExpected(Token.EOF)
-        return { statements }
+        return { statements, locals: new Map() }
     }
     function parseExpression(): Expression {
         const t = parseToken()

@@ -1,5 +1,5 @@
 import * as fs from 'fs'
-import { Module, Statement, Token, Node, Identifier, Expression } from './types'
+import { Module, Statement, Token, Node, Identifier, Expression, Table } from './types'
 import { lexAll } from './lex'
 import { compile } from './compile'
 function test(kind: string, name: string, value: unknown) {
@@ -35,7 +35,14 @@ function displayLex(token: { token: Token, text?: string }) {
         return [Token[token.token]]
 }
 function displayModule(m: Module) {
-    return [m.env, m.statements.map(displayStatement)]
+    return [displayTable(m.locals), m.statements.map(displayStatement)]
+}
+function displayTable(locals: Table) {
+    let o = {} as any
+    for (const [k,v] of locals) {
+        o[k] = displayStatement(v)
+    }
+    return o
 }
 function displayStatement(s: Statement) {
     switch (s.kind) {

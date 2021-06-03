@@ -9,6 +9,7 @@
         "types.ts",
         "lex.ts",
         "parse.ts",
+        "bind.ts",
         "compile.ts",
         "test.ts",
         "index.ts"

@@ -1,10 +1,10 @@
 [
   {
-    "singleDeclaration": {
+    "x": {
       "kind": "Var",
       "name": {
         "kind": "Identifier",
-        "text": "singleDeclaration"
+        "text": "x"
       },
       "init": {
         "kind": "Literal",
@@ -17,11 +17,22 @@
       "kind": "Var",
       "name": {
         "kind": "Identifier",
-        "text": "singleDeclaration"
+        "text": "x"
       },
       "init": {
         "kind": "Literal",
         "value": 1
+      }
+    },
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
+        "text": "x"
+      },
+      "init": {
+        "kind": "Literal",
+        "value": 2
       }
     }
   ]

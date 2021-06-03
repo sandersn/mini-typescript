@@ -59,7 +59,8 @@ export type Var = {
 }
 export type Declaration = Var // plus others, like function, type, etc
 
+export type Table = Map<string, Declaration>
 export type Module = {
-    env?: Map<Identifier, Var>
+    locals: Table
     statements: Statement[]
 }
