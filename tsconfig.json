@@ -8,6 +8,7 @@
     "files": [
         "types.ts",
         "lex.ts",
+        "parse.ts",
         "test.ts",
         "index.ts"
     ]

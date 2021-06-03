@@ -1,5 +1,5 @@
 import * as fs from 'fs'
-import { SyntaxKind } from './types'
+import { Token } from './types'
 import { lexAll } from './lex'
 function test(kind: string, name: string, value: unknown) {
     const reference = `baselines/reference/${name}.${kind}.baseline`
@@ -27,11 +27,11 @@ const lexTests = {
     "semicolonLex": "x; y",
     "newlineLex": "x\n y  \n" ,
 }
-function displayLex(token: { token: SyntaxKind, text?: string }) {
+function displayLex(token: { token: Token, text?: string }) {
     if (token.text)
-        return [SyntaxKind[token.token], token.text]
+        return [Token[token.token], token.text]
     else
-        return [SyntaxKind[token.token]]
+        return [Token[token.token]]
 }
 let result = sum(Object.entries(lexTests).map(
     ([name, text]) => test("lex", name, lexAll(text).map(displayLex))))

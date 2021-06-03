@@ -1,10 +1,10 @@
-import { SyntaxKind, Lexer } from './types'
+import { Token, Lexer } from './types'
 const keywords = {
-    "function": SyntaxKind.Function,
-    "var": SyntaxKind.Var,
-    "if": SyntaxKind.If,
-    "else": SyntaxKind.Else,
-    "return": SyntaxKind.Return,
+    "function": Token.Function,
+    "var": Token.Var,
+    "if": Token.If,
+    "else": Token.Else,
+    "return": Token.Return,
 }
 function findKey<T>(o: T, pred: (s: keyof T) => boolean): keyof T | undefined {
     for (const k in o) {
@@ -16,12 +16,12 @@ function findKey<T>(o: T, pred: (s: keyof T) => boolean): keyof T | undefined {
 export function lex(s: string): Lexer {
     let pos = 0
     let text = ""
-    let token = SyntaxKind.BOF
+    let token = Token.BOF
     return {
         scan() {
             scanForward(c => /[ \t\b]/.test(c))
             if (pos === s.length) {
-                token = SyntaxKind.EOF
+                token = Token.EOF
             }
             else if (!scanKeyword()) {
                 scanToken()
@@ -37,26 +37,26 @@ export function lex(s: string): Lexer {
         if (/[0-9]/.test(s.charAt(pos))) {
             scanForward(c => /[0-9]/.test(c))
             text = s.slice(start, pos)
-            token = SyntaxKind.IntLiteral
+            token = Token.Literal
             return
         }
         if (/[_a-zA-Z]/.test(s.charAt(pos))) {
             scanForward(c => /[_a-zA-Z0-9]/.test(c))
             text = s.slice(start, pos)
-            token = SyntaxKind.Identifier
+            token = Token.Identifier
             return
         }
         pos++
         switch (s.charAt(pos - 1)) {
-            case '\n': token = SyntaxKind.Newline; break
-            case "{": token = SyntaxKind.LeftBrace; break
-            case "}": token = SyntaxKind.RightBrace; break
-            case '(': token = SyntaxKind.LeftParen; break
-            case ')': token = SyntaxKind.RightParen; break
-            case '=': token = SyntaxKind.Equals; break
-            case ';': token = SyntaxKind.Semicolon; break
-            case ":": token = SyntaxKind.Colon; break
-            default: token = SyntaxKind.Unknown; break
+            case '\n': token = Token.Newline; break
+            case "{": token = Token.LeftBrace; break
+            case "}": token = Token.RightBrace; break
+            case '(': token = Token.LeftParen; break
+            case ')': token = Token.RightParen; break
+            case '=': token = Token.Equals; break
+            case ';': token = Token.Semicolon; break
+            case ":": token = Token.Colon; break
+            default: token = Token.Unknown; break
         }
     }
     function scanKeyword() {
@@ -80,10 +80,10 @@ export function lexAll(s: string) {
         lexer.scan()
         t = lexer.token()
         switch (t) {
-            case SyntaxKind.EOF:
+            case Token.EOF:
                 return tokens
-            case SyntaxKind.Identifier:
-            case SyntaxKind.IntLiteral:
+            case Token.Identifier:
+            case Token.Literal:
                 tokens.push({ token: t, text: lexer.text() })
                 break
             default:

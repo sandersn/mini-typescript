@@ -1,6 +1,6 @@
 [
   [
-    "IntLiteral",
+    "Literal",
     "1200"
   ],
   [
@@ -15,7 +15,7 @@
     "Unknown"
   ],
   [
-    "IntLiteral",
+    "Literal",
     "14"
   ],
   [

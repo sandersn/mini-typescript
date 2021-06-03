@@ -1,4 +1,4 @@
-export enum SyntaxKind {
+export enum Token {
     Function,
     Var,
     If,
@@ -9,8 +9,8 @@ export enum SyntaxKind {
     LeftParen,
     RightParen,
     Equals,
-    IntLiteral, // of text: string * value: int,
-    Identifier, // of text: string,
+    Literal,
+    Identifier,
     Newline,
     Semicolon,
     Colon,
@@ -21,7 +21,45 @@ export enum SyntaxKind {
 }
 export type Lexer = {
     scan(): void
-    token(): SyntaxKind
+    token(): Token
     pos(): number
     text(): string
+}
+export enum Node {
+    Identifier,
+    Literal,
+    Assignment,
+    ExpressionStatement,
+    Var
+}
+export type Expression = Identifier | Literal | Assignment
+export type Identifier = {
+    kind: Node.Identifier
+    text: string
+}
+export type Literal = {
+    kind: Node.Literal
+    value: number
+}
+export type Assignment = {
+    kind: Node.Assignment
+    name: Identifier
+    value: Expression
+}
+export type Statement = ExpressionStatement | Var
+export type ExpressionStatement = {
+    kind: Node.ExpressionStatement
+    expr: Expression
+}
+export type Var = {
+    kind: Node.Var
+    name: Identifier
+    typename?: Identifier | undefined
+    init: Expression
+}
+export type Declaration = Var // plus others, like function, type, etc
+
+export type Module = {
+    env?: Map<Identifier, Var>
+    statements: Statement[]
 }
