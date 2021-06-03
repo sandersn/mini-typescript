@@ -1,0 +1,31 @@
+{
+  "name": "mini-typescript",
+  "version": "1.0.0",
+  "description": "A miniature model of the Typescript compiler",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sandersn/mini-typescript.git"
+  },
+  "keywords": [
+    "Typescript",
+    "compiler",
+    "miniature",
+    "model",
+    "example",
+    "teaching"
+  ],
+  "author": "Nathan Shively-Sanders",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sandersn/mini-typescript/issues"
+  },
+  "homepage": "https://github.com/sandersn/mini-typescript#readme",
+  "devDependencies": {
+    "typescript": "latest"
+  }
+}
