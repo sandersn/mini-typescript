@@ -1,0 +1,32 @@
+[
+  [
+    "Function"
+  ],
+  [
+    "Identifier",
+    "f"
+  ],
+  [
+    "LeftParen"
+  ],
+  [
+    "Identifier",
+    "x"
+  ],
+  [
+    "RightParen"
+  ],
+  [
+    "LeftBrace"
+  ],
+  [
+    "Return"
+  ],
+  [
+    "Identifier",
+    "x"
+  ],
+  [
+    "RightBrace"
+  ]
+]

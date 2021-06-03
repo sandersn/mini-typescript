@@ -1,10 +1,14 @@
 {
     "compilerOptions": {
+        "module": "commonjs",
         "strict": true,
-        "target": "esnext"
+        "target": "esnext",
+        "lib": ["esnext", "dom"]
     },
     "files": [
-        "index.ts",
-        "test.ts"
+        "types.ts",
+        "lex.ts",
+        "test.ts",
+        "index.ts"
     ]
 }

@@ -1,0 +1,25 @@
+[
+  [
+    "IntLiteral",
+    "1200"
+  ],
+  [
+    "Identifier",
+    "Hello"
+  ],
+  [
+    "Identifier",
+    "World1"
+  ],
+  [
+    "Unknown"
+  ],
+  [
+    "IntLiteral",
+    "14"
+  ],
+  [
+    "Identifier",
+    "d"
+  ]
+]

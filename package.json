@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "test": "tsc && node test.js",
+    "test": "rm baselines/local/*; tsc && node test.js",
+    "accept": "mv baselines/local/* baselines/reference/",
     "run": "node index.js"
   },
   "repository": {
@@ -27,6 +28,7 @@
   },
   "homepage": "https://github.com/sandersn/mini-typescript#readme",
   "devDependencies": {
+    "@types/node": "^15.12.0",
     "typescript": "latest"
   }
 }

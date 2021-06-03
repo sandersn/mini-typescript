@@ -1,0 +1,16 @@
+[
+  [
+    "Var"
+  ],
+  [
+    "Identifier",
+    "x"
+  ],
+  [
+    "Equals"
+  ],
+  [
+    "IntLiteral",
+    "1"
+  ]
+]
