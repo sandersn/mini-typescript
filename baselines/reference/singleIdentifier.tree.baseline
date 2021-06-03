@@ -1,0 +1,12 @@
+[
+  null,
+  [
+    {
+      "kind": "ExpressionStatement",
+      "expr": {
+        "kind": "Identifier",
+        "text": "x"
+      }
+    }
+  ]
+]

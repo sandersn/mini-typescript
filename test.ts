@@ -1,6 +1,7 @@
 import * as fs from 'fs'
-import { Token } from './types'
+import { Module, Statement, Token, Node, Identifier, Expression } from './types'
 import { lexAll } from './lex'
+import { compile } from './compile'
 function test(kind: string, name: string, value: unknown) {
     const reference = `baselines/reference/${name}.${kind}.baseline`
     const local = `baselines/local/${name}.${kind}.baseline`
@@ -33,8 +34,47 @@ function displayLex(token: { token: Token, text?: string }) {
     else
         return [Token[token.token]]
 }
-let result = sum(Object.entries(lexTests).map(
+function displayModule(m: Module) {
+    return [m.env, m.statements.map(displayStatement)]
+}
+function displayStatement(s: Statement) {
+    switch (s.kind) {
+        case Node.ExpressionStatement:
+            return { kind: Node[Node.ExpressionStatement], expr: displayExpression(s.expr) }
+        case Node.Var:
+            return {
+                kind: Node[Node.Var],
+                name: displayIdentifier(s.name),
+                typename: s.typename ? displayIdentifier(s.typename) : undefined,
+                init: displayExpression(s.init)
+            }
+    }
+}
+function displayExpression(e: Expression): object {
+    switch (e.kind) {
+        case Node.Identifier:
+            return { kind: Node[Node.Identifier], text: e.text }
+        case Node.Literal:
+            return { kind: Node[Node.Literal], value: e.value }
+        case Node.Assignment:
+            return {
+                kind: Node[Node.Assignment],
+                name: displayIdentifier(e.name),
+                value: displayExpression(e.value)
+            }
+    }
+}
+function displayIdentifier(id: Identifier) {
+    return { kind: Node[Node.Identifier], text: id.text }
+}
+let lexResult = sum(Object.entries(lexTests).map(
     ([name, text]) => test("lex", name, lexAll(text).map(displayLex))))
+let compileResult = sum(fs.readdirSync("tests").map(file => {
+    const [tree, errors] = compile(fs.readFileSync("tests/" + file, 'utf8'))
+    const name = file.slice(0, file.length - 3)
+    return test("tree", name, displayModule(tree)) + test("errors", name, errors)
+}))
+let result = lexResult + compileResult
 if (result === 0) {
     console.log("All tests passed")
 }

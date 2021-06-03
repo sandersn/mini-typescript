@@ -1,16 +1,17 @@
 import { Lexer, Token, Node, Statement, Identifier, Expression, Module } from './types'
-export function parse(lexer: Lexer) {
+export function parse(lexer: Lexer): [Module, string[]] {
     const errors: string[] = []
     lexer.scan()
     return [parseModule(), errors]
 
     function parseModule(): Module {
-        const statements = parseSeparated(parseStatement, () => tryParseToken(Token.Newline))
+        const statements = parseSeparated(parseStatement, () => tryParseToken(Token.Semicolon))
         parseExpected(Token.EOF)
         return { statements }
     }
     function parseExpression(): Expression {
-        switch (parseToken()) {
+        const t = parseToken()
+        switch (t) {
             case Token.Identifier:
                 const name = { kind: Node.Identifier, text: lexer.text() } as const
                 if (tryParseToken(Token.Equals)) {
@@ -22,7 +23,7 @@ export function parse(lexer: Lexer) {
             case Token.Literal:
                 return { kind: Node.Literal, value: +lexer.text() }
             default:
-                errors.push("Expected identifier or literal.")
+                errors.push("Expected identifier or literal but got " + Token[t])
                 return { kind: Node.Identifier, text: "(missing)" }
         }
     }
@@ -39,12 +40,10 @@ export function parse(lexer: Lexer) {
         }
     }
     function parseIdentifier(): Identifier {
-        let text
-        if (parseToken() !== Token.Identifier) {
-            text = lexer.text()
-        }
-        else {
-            errors.push("parseIdentifier: Expected Identifier but got " + Token[lexer.token()])
+        let text = lexer.text()
+        const t = parseToken()
+        if (t !== Token.Identifier) {
+            errors.push("parseIdentifier: Expected Identifier but got " + Token[t])
             text = "(missing)"
         }
         return { kind: Node.Identifier, text }

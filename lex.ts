@@ -19,7 +19,7 @@ export function lex(s: string): Lexer {
     let token = Token.BOF
     return {
         scan() {
-            scanForward(c => /[ \t\b]/.test(c))
+            scanForward(c => /[ \t\b\n]/.test(c))
             if (pos === s.length) {
                 token = Token.EOF
             }
@@ -48,7 +48,6 @@ export function lex(s: string): Lexer {
         }
         pos++
         switch (s.charAt(pos - 1)) {
-            case '\n': token = Token.Newline; break
             case "{": token = Token.LeftBrace; break
             case "}": token = Token.RightBrace; break
             case '(': token = Token.LeftParen; break

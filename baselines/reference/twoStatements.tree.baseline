@@ -1,0 +1,30 @@
+[
+  null,
+  [
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
+        "text": "arthurTwoShedsJackson"
+      },
+      "init": {
+        "kind": "Literal",
+        "value": 1
+      }
+    },
+    {
+      "kind": "ExpressionStatement",
+      "expr": {
+        "kind": "Assignment",
+        "name": {
+          "kind": "Identifier",
+          "text": "arthurTwoShedsJackson"
+        },
+        "value": {
+          "kind": "Literal",
+          "value": 2
+        }
+      }
+    }
+  ]
+]

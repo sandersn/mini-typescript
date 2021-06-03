@@ -1,0 +1,34 @@
+[
+  null,
+  [
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
+        "text": "s"
+      },
+      "typename": {
+        "kind": "Identifier",
+        "text": "string"
+      },
+      "init": {
+        "kind": "Literal",
+        "value": 1
+      }
+    },
+    {
+      "kind": "ExpressionStatement",
+      "expr": {
+        "kind": "Assignment",
+        "name": {
+          "kind": "Identifier",
+          "text": "s"
+        },
+        "value": {
+          "kind": "Literal",
+          "value": 2
+        }
+      }
+    }
+  ]
+]

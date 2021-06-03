@@ -1,0 +1,16 @@
+[
+  null,
+  [
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
+        "text": "singleDeclaration"
+      },
+      "init": {
+        "kind": "Literal",
+        "value": 1
+      }
+    }
+  ]
+]
