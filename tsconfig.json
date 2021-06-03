@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "target": "esnext"
+    },
+    "files": [
+        "index.ts",
+        "test.ts"
+    ]
+}
