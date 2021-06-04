@@ -75,9 +75,11 @@ function displayIdentifier(id: Identifier) {
 let lexResult = sum(Object.entries(lexTests).map(
     ([name, text]) => test("lex", name, lexAll(text).map(displayLex))))
 let compileResult = sum(fs.readdirSync("tests").map(file => {
-    const [tree, errors] = compile(fs.readFileSync("tests/" + file, 'utf8'))
+    const [tree, errors, js] = compile(fs.readFileSync("tests/" + file, 'utf8'))
     const name = file.slice(0, file.length - 3)
-    return test("tree", name, displayModule(tree)) + test("errors", name, errors)
+    return test("tree", name, displayModule(tree))
+        + test("errors", name, errors)
+        + test("js", name, js)
 }))
 let result = lexResult + compileResult
 if (result === 0) {
