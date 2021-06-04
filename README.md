@@ -29,7 +29,3 @@ I realised a small Typescript would be useful to others who want to learn how th
 - Add an ES5 transformer that converts let -> var.
 - Add function declarations and function calls.
 - Add arrow functions with an appropriate transform in ES5.
-
-## TODO
-
-- checker, transformer, emitter

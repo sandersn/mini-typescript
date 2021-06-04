@@ -19,19 +19,16 @@ export function lex(s: string): Lexer {
         const start = pos
         if (pos === s.length) {
             token = Token.EOF
-            return
         }
         else if (/[0-9]/.test(s.charAt(pos))) {
             scanForward(c => /[0-9]/.test(c))
             text = s.slice(start, pos)
             token = Token.Literal
-            return
         }
         else if (/[_a-zA-Z]/.test(s.charAt(pos))) {
             scanForward(c => /[_a-zA-Z0-9]/.test(c))
             text = s.slice(start, pos)
             token = text in keywords ? keywords[text as keyof typeof keywords] : Token.Identifier
-            return
         }
         else {
             pos++
