@@ -23,8 +23,6 @@ const lexTests = {
     "firstLex": " 1200Hello    World1! 14d",
     "underscoreLex": "x_y is _aSingle Identifier_",
     "varLex": "var x = 1",
-    "functionLex": "function f (x) { return x }",
-    "ifLex": "if (f(x)) y else { z }",
     "semicolonLex": "x; y",
     "newlineLex": "x\n y  \n" ,
 }

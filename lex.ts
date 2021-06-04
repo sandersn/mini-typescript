@@ -6,66 +6,44 @@ const keywords = {
     "else": Token.Else,
     "return": Token.Return,
 }
-function findKey<T>(o: T, pred: (s: keyof T) => boolean): keyof T | undefined {
-    for (const k in o) {
-        if (pred(k)) {
-            return k
-        }
-    }
-}
 export function lex(s: string): Lexer {
     let pos = 0
     let text = ""
     let token = Token.BOF
     return {
-        scan() {
-            scanForward(c => /[ \t\b\n]/.test(c))
-            if (pos === s.length) {
-                token = Token.EOF
-            }
-            else if (!scanKeyword()) {
-                scanToken()
-            }
-        },
+        scan,
         token: () => token,
         pos: () => pos,
         text: () => text,
     }
-
-    function scanToken() {
+    function scan() {
+        scanForward(c => /[ \t\b\n]/.test(c))
         const start = pos
-        if (/[0-9]/.test(s.charAt(pos))) {
+        if (pos === s.length) {
+            token = Token.EOF
+            return
+        }
+        else if (/[0-9]/.test(s.charAt(pos))) {
             scanForward(c => /[0-9]/.test(c))
             text = s.slice(start, pos)
             token = Token.Literal
             return
         }
-        if (/[_a-zA-Z]/.test(s.charAt(pos))) {
+        else if (/[_a-zA-Z]/.test(s.charAt(pos))) {
             scanForward(c => /[_a-zA-Z0-9]/.test(c))
             text = s.slice(start, pos)
-            token = Token.Identifier
+            token = text in keywords ? keywords[text as keyof typeof keywords] : Token.Identifier
             return
         }
-        pos++
-        switch (s.charAt(pos - 1)) {
-            case "{": token = Token.LeftBrace; break
-            case "}": token = Token.RightBrace; break
-            case '(': token = Token.LeftParen; break
-            case ')': token = Token.RightParen; break
-            case '=': token = Token.Equals; break
-            case ';': token = Token.Semicolon; break
-            case ":": token = Token.Colon; break
-            default: token = Token.Unknown; break
+        else {
+            pos++
+            switch (s.charAt(pos - 1)) {
+                case '=': token = Token.Equals; break
+                case ';': token = Token.Semicolon; break
+                case ":": token = Token.Colon; break
+                default: token = Token.Unknown; break
+            }
         }
-    }
-    function scanKeyword() {
-        let kw = findKey(keywords, kw => s.slice(pos).startsWith(kw))
-        if (kw) {
-            text = kw
-            token = keywords[kw]
-            pos += kw.length
-        }
-        return !!kw
     }
     function scanForward(pred: (x: string) => boolean) {
         while (pos < s.length && pred(s.charAt(pos))) pos++
