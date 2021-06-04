@@ -38,7 +38,7 @@ function displayModule(m: Module) {
 function displayTable(locals: Table) {
     let o = {} as any
     for (const [k,v] of locals) {
-        o[k] = displayStatement(v)
+        o[k] = displayStatement(v.declaration)
     }
     return o
 }

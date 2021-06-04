@@ -10,6 +10,7 @@
         "lex.ts",
         "parse.ts",
         "bind.ts",
+        "check.ts",
         "compile.ts",
         "test.ts",
         "index.ts"

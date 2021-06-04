@@ -1,13 +1,7 @@
 export enum Token {
     Function,
     Var,
-    If,
-    Else,
     Return,
-    LeftBrace,
-    RightBrace,
-    LeftParen,
-    RightParen,
     Equals,
     Literal,
     Identifier,
@@ -58,9 +52,10 @@ export type Var = {
     init: Expression
 }
 export type Declaration = Var // plus others, like function, type, etc
-
-export type Table = Map<string, Declaration>
+export type Symbol = { declaration: Declaration }
+export type Table = Map<string, Symbol>
 export type Module = {
     locals: Table
     statements: Statement[]
 }
+export type Type = { id: string }

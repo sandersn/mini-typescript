@@ -5,12 +5,10 @@ I started this project as part of reading [Modern Compiler Implementation in ML]
 
 I realised a small Typescript would be useful to others who want to learn how the Typescript compiler works.  so I rewrote it in Typescript and added some exercises to let you practise with it.
 
-
-
 ## Limitations
 
 1. This is an example of the way that Typescript's compiler does things. A compiler textbook will help you learn *compilers*. This project will help you learn *Typescript's code*.
-2. This is only a tiny slice of the language, also unlike a textbook.
+2. This is only a tiny slice of the language, also unlike a textbook. Often I only put it one instance of a thing, like nodes that introduce a scope, to keep the code size small.
 3. There is no laziness, caching or node reuse, so the checker and transformer code do not teach you those aspects of the design.
 4. There's no surrounding infrastructure, like a language service or a program builder. This is just a model of tsc.
 

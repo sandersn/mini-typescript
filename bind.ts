@@ -7,7 +7,7 @@ export function bind(m: Module) {
                 errors.push(`Cannot redeclare ${statement.name.text}`)
             }
             else {
-                locals.set(statement.name.text, statement)
+                locals.set(statement.name.text, { declaration: statement })
             }
         }
     }
@@ -15,4 +15,7 @@ export function bind(m: Module) {
         bindStatement(m.locals, statement)
     }
     return errors
+}
+export function resolve(locals: Table, name: string) {
+    return locals.get(name)
 }
