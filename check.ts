@@ -8,6 +8,7 @@ function typeToString(type: Type) {
 }
 export function check(module: Module) {
     return module.statements.flatMap(st => checkStatement(st)[1])
+
     function checkStatement(statement: Statement): [Type, string[]] {
         switch (statement.kind) {
             case Node.ExpressionStatement:
@@ -20,7 +21,7 @@ export function check(module: Module) {
                 const [t, e2] = checkType(statement.typename)
                 const error = t === i
                     ? []
-                    : [`Cannot assign initialiser of type ${typeToString(i)} to variable with declared type '%{typeToString(t)'.`]
+                    : [`Cannot assign initialiser of type '${typeToString(i)}' to variable with declared type '${typeToString(t)}'.`]
                 return [t, [...e, ...e2, ...error]]
         }
     }
@@ -39,7 +40,7 @@ export function check(module: Module) {
                 const [n] = checkExpression(expression.name)
                 const error = v === n
                     ? []
-                    : [`Cannot assign initialiser of type ${typeToString(n)} to variable of type '%{typeToString(v)'.`]
+                    : [`Cannot assign value of type '${typeToString(v)}' to variable of type '${typeToString(n)}'.`]
                 return [n, [...e, ...error]]
         }
     }

@@ -3,7 +3,7 @@
         "module": "commonjs",
         "strict": true,
         "target": "esnext",
-        "lib": ["esnext", "dom"]
+        "lib": ["es2020", "dom"]
     },
     "files": [
         "types.ts",
