@@ -41,9 +41,7 @@ export function parse(lexer: Lexer): [Module, string[]] {
     }
     function parseIdentifier(): Identifier {
         let text = lexer.text()
-        const t = parseToken()
-        if (t !== Token.Identifier) {
-            errors.push("parseIdentifier: Expected Identifier but got " + Token[t])
+        if (!parseExpected(Token.Identifier)) {
             text = "(missing)"
         }
         return { kind: Node.Identifier, text }
@@ -68,6 +66,7 @@ export function parse(lexer: Lexer): [Module, string[]] {
         if (actual !== expected) {
             errors.push(`parseToken: Expected ${Token[expected]} but got ${Token[actual]}`)
         }
+        return actual === expected
     }
     function parseSeparated<T>(element: () => T, separator: () => unknown) {
         const list = [element()]
