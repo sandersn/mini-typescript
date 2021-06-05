@@ -1,8 +1,8 @@
 import { Lexer, Token, Node, Statement, Identifier, Expression, Module } from './types'
-export function parse(lexer: Lexer): [Module, string[]] {
-    const errors: string[] = []
+import { error } from './error'
+export function parse(lexer: Lexer): Module {
     lexer.scan()
-    return [parseModule(), errors]
+    return parseModule()
 
     function parseModule(): Module {
         const statements = parseSeparated(parseStatement, () => tryParseToken(Token.Semicolon))
@@ -10,41 +10,44 @@ export function parse(lexer: Lexer): [Module, string[]] {
         return { statements, locals: new Map() }
     }
     function parseExpression(): Expression {
+        const pos = lexer.pos()
         const t = parseToken()
         switch (t) {
             case Token.Identifier:
-                const name = { kind: Node.Identifier, text: lexer.text() } as const
+                const name = { kind: Node.Identifier, text: lexer.text(), pos } as const
                 if (tryParseToken(Token.Equals)) {
-                    return { kind: Node.Assignment, name, value: parseExpression() }
+                    return { kind: Node.Assignment, name, value: parseExpression(), pos }
                 }
                 else {
                     return name
                 }
             case Token.Literal:
-                return { kind: Node.Literal, value: +lexer.text() }
+                return { kind: Node.Literal, value: +lexer.text(), pos }
             default:
-                errors.push("Expected identifier or literal but got " + Token[t])
-                return { kind: Node.Identifier, text: "(missing)" }
+                error(pos, "Expected identifier or literal but got " + Token[t])
+                return { kind: Node.Identifier, text: "(missing)", pos }
         }
     }
     function parseStatement(): Statement {
+        const pos = lexer.pos()
         if (tryParseToken(Token.Var)) {
             const name = parseIdentifier()
             const typename = tryParseToken(Token.Colon) ? parseIdentifier() : undefined
             parseExpected(Token.Equals)
             const init = parseExpression()
-            return { kind: Node.Var, name, typename, init }
+            return { kind: Node.Var, name, typename, init, pos }
         }
         else {
-            return { kind: Node.ExpressionStatement, expr: parseExpression() }
+            return { kind: Node.ExpressionStatement, expr: parseExpression(), pos }
         }
     }
     function parseIdentifier(): Identifier {
+        const pos = lexer.pos()
         let text = lexer.text()
         if (!parseExpected(Token.Identifier)) {
             text = "(missing)"
         }
-        return { kind: Node.Identifier, text }
+        return { kind: Node.Identifier, text, pos }
     }
 
     function parseToken() {
@@ -62,9 +65,10 @@ export function parse(lexer: Lexer): [Module, string[]] {
         }
     }
     function parseExpected(expected: Token) {
+        const pos = lexer.pos()
         const actual = parseToken()
         if (actual !== expected) {
-            errors.push(`parseToken: Expected ${Token[expected]} but got ${Token[actual]}`)
+            error(pos, `parseToken: Expected ${Token[expected]} but got ${Token[actual]}`)
         }
         return actual === expected
     }

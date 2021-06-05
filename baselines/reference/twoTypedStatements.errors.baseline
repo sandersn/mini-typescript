@@ -1,4 +1,10 @@
 [
-  "Cannot assign initialiser of type 'number' to variable with declared type 'string'.",
-  "Cannot assign value of type 'number' to variable of type 'string'."
+  {
+    "pos": 17,
+    "message": "Cannot assign initialiser of type 'number' to variable with declared type 'string'."
+  },
+  {
+    "pos": 24,
+    "message": "Cannot assign value of type 'number' to variable of type 'string'."
+  }
 ]

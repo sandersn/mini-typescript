@@ -2,14 +2,7 @@
   {
     "x": {
       "kind": "Var",
-      "name": {
-        "kind": "Identifier",
-        "text": "x"
-      },
-      "init": {
-        "kind": "Literal",
-        "value": 1
-      }
+      "pos": 3
     }
   },
   [

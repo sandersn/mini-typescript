@@ -38,7 +38,7 @@ function displayModule(m: Module) {
 function displayTable(locals: Table) {
     let o = {} as any
     for (const [k,v] of locals) {
-        o[k] = displayStatement(v.declaration)
+        o[k] = { kind: Node[v.declaration.kind], pos: v.declaration.pos, }
     }
     return o
 }

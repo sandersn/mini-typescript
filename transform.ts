@@ -11,7 +11,7 @@ function typescript(statements: Statement[]) {
             case Node.ExpressionStatement:
                 return statement
             case Node.Var:
-                return { kind: Node.Var, name: statement.name, init: statement.init }
+                return { ...statement, typename: undefined }
         }
     }
 }

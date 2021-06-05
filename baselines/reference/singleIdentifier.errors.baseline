@@ -1,3 +1,6 @@
 [
-  "Could not resolve x"
+  {
+    "pos": 1,
+    "message": "Could not resolve x"
+  }
 ]

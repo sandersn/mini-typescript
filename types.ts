@@ -26,26 +26,33 @@ export enum Node {
     ExpressionStatement,
     Var
 }
+export type Error = {
+    pos: number,
+    message: string,
+}
+export interface Location {
+    pos: number
+}
 export type Expression = Identifier | Literal | Assignment
-export type Identifier = {
+export type Identifier = Location & {
     kind: Node.Identifier
     text: string
 }
-export type Literal = {
+export type Literal = Location & {
     kind: Node.Literal
     value: number
 }
-export type Assignment = {
+export type Assignment = Location & {
     kind: Node.Assignment
     name: Identifier
     value: Expression
 }
 export type Statement = ExpressionStatement | Var
-export type ExpressionStatement = {
+export type ExpressionStatement = Location & {
     kind: Node.ExpressionStatement
     expr: Expression
 }
-export type Var = {
+export type Var = Location & {
     kind: Node.Var
     name: Identifier
     typename?: Identifier | undefined

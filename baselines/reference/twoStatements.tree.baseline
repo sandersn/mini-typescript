@@ -2,14 +2,7 @@
   {
     "arthurTwoShedsJackson": {
       "kind": "Var",
-      "name": {
-        "kind": "Identifier",
-        "text": "arthurTwoShedsJackson"
-      },
-      "init": {
-        "kind": "Literal",
-        "value": 1
-      }
+      "pos": 3
     }
   },
   [
