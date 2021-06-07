@@ -3,7 +3,7 @@ A miniature model of the Typescript compiler, intended to teach the structure of
 
 I started this project as part of reading [Modern Compiler Implementation in ML](https://www.cs.princeton.edu/~appel/modern/ml/) because I wanted to learn more about compiler backends. When I started building the example compiler I found I disagreed with the implementation of nearly everything in the *frontend*. So I wrote my own, and found that I had just written [a small Typescript](https://github.com/sandersn/minits).
 
-I realised a small Typescript would be useful to others who want to learn how the Typescript compiler works.  so I rewrote it in Typescript and added some exercises to let you practise with it.
+I realised a small Typescript would be useful to others who want to learn how the Typescript compiler works. So I rewrote it in Typescript and added some exercises to let you practise with it. The resulting compiler covers a tiny slice of Typescript: just `var` declarations, assignments and numeric literals. The only two types are `string` and `number`.
 
 ## Limitations
 
@@ -20,12 +20,13 @@ I realised a small Typescript would be useful to others who want to learn how th
   - Bonus: Switch from semicolon to newline as statement ender.
 - Add string literals.
 - Add let.
-  - Then and add use-before-declaration errors in the checker.
+  - Then add use-before-declaration errors in the checker.
 - Allow var to have multiple declarations.
   - You'll need to convert a Symbol's declaration into a list.
   - Check that all declarations have the same type.
 - Add type aliases.
   - You'll need to convert a Symbol's declaration into a list.
+  - Name resolution will need to search a symbol's declarations to see whether it has a type declaration.
 - Add an ES5 transformer that converts let -> var.
 - Add function declarations and function calls.
 - Add arrow functions with an appropriate transform in ES5.
