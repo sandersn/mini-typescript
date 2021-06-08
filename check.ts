@@ -35,7 +35,7 @@ export function check(module: Module) {
                 error(expression.pos, "Could not resolve " + expression.text)
                 return errorType
             case Node.Literal:
-                return numberType
+                return typeof expression.value === 'string' ? stringType : numberType
             case Node.Assignment:
                 const v = checkExpression(expression.value)
                 const t = checkExpression(expression.name)
