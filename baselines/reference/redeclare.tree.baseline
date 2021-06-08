@@ -1,11 +1,11 @@
-[
-  {
+{
+  "locals": {
     "x": {
       "kind": "Var",
       "pos": 3
     }
   },
-  [
+  "statements": [
     {
       "kind": "Var",
       "name": {
@@ -29,4 +29,4 @@
       }
     }
   ]
-]
+}

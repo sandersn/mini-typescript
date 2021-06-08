@@ -26,54 +26,8 @@ const lexTests = {
     "semicolonLex": "x; y",
     "newlineLex": "x\n y  \n" ,
 }
-function displayLex(token: { token: Token, text?: string }) {
-    if (token.text)
-        return [Token[token.token], token.text]
-    else
-        return [Token[token.token]]
-}
-function displayModule(m: Module) {
-    return [displayTable(m.locals), m.statements.map(displayStatement)]
-}
-function displayTable(locals: Table) {
-    let o = {} as any
-    for (const [k,v] of locals) {
-        o[k] = { kind: Node[v.declaration.kind], pos: v.declaration.pos, }
-    }
-    return o
-}
-function displayStatement(s: Statement) {
-    switch (s.kind) {
-        case Node.ExpressionStatement:
-            return { kind: Node[Node.ExpressionStatement], expr: displayExpression(s.expr) }
-        case Node.Var:
-            return {
-                kind: Node[Node.Var],
-                name: displayIdentifier(s.name),
-                typename: s.typename ? displayIdentifier(s.typename) : undefined,
-                init: displayExpression(s.init)
-            }
-    }
-}
-function displayExpression(e: Expression): object {
-    switch (e.kind) {
-        case Node.Identifier:
-            return { kind: Node[Node.Identifier], text: e.text }
-        case Node.Literal:
-            return { kind: Node[Node.Literal], value: e.value }
-        case Node.Assignment:
-            return {
-                kind: Node[Node.Assignment],
-                name: displayIdentifier(e.name),
-                value: displayExpression(e.value)
-            }
-    }
-}
-function displayIdentifier(id: Identifier) {
-    return { kind: Node[Node.Identifier], text: id.text }
-}
 let lexResult = sum(Object.entries(lexTests).map(
-    ([name, text]) => test("lex", name, lexAll(text).map(displayLex))))
+    ([name, text]) => test("lex", name, lexAll(text).map(t => t.text ? [Token[t.token], t.text] : [Token[t.token]]))))
 let compileResult = sum(fs.readdirSync("tests").map(file => {
     const [tree, errors, js] = compile(fs.readFileSync("tests/" + file, 'utf8'))
     const name = file.slice(0, file.length - 3)
@@ -81,6 +35,27 @@ let compileResult = sum(fs.readdirSync("tests").map(file => {
         + test("errors", name, errors)
         + test("js", name, js)
 }))
+function displayModule(m: Module) {
+    return { locals: displayTable(m.locals), statements: m.statements.map(display) }
+}
+function displayTable(table: Table) {
+    const o = {} as any
+    for (const [k,v] of table) {
+        o[k] = { kind: Node[v.declaration.kind], pos: v.declaration.pos, }
+    }
+    return o
+}
+function display(o: any) {
+    const o2 = {} as any
+    for (const k in o) {
+        if (k === 'pos') continue
+        else if (k === 'kind') o2[k] = Node[o.kind]
+        else if (typeof o[k] === 'object') o2[k] = display(o[k])
+        else o2[k] = o[k]
+    }
+    return o2
+}
+
 let result = lexResult + compileResult
 if (result === 0) {
     console.log("All tests passed")

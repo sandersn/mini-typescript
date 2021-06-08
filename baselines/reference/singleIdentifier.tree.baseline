@@ -1,6 +1,6 @@
-[
-  {},
-  [
+{
+  "locals": {},
+  "statements": [
     {
       "kind": "ExpressionStatement",
       "expr": {
@@ -9,4 +9,4 @@
       }
     }
   ]
-]
+}
