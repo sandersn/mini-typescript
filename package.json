@@ -1,21 +1,20 @@
 {
   "name": "mini-typescript",
   "version": "1.0.0",
-  "description": "A miniature model of the Typescript compiler",
+  "description": "A miniature model of the TypeScript compiler",
   "main": "compiler/index.js",
   "scripts": {
     "build": "tsc",
-    "test": "rm baselines/local/*; tsc && node test.js",
+    "test": "rm baselines/local/*; tsc && node built/test.js",
     "accept": "mv baselines/local/* baselines/reference/",
-    "run": "node compiler/index.js",
-    "mtsc": "node compiler/index.js"
+    "mtsc": "node built/index.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sandersn/mini-typescript.git"
   },
   "keywords": [
-    "Typescript",
+    "TypeScript",
     "compiler",
     "miniature",
     "model",
