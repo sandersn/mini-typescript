@@ -16,7 +16,7 @@ code .
 npm i
 npm run build
 
-# Rr have your changes instantly show
+# Or have your changes instantly happen
 npm run build --watch
 
 # Run the compiler:
