@@ -2,17 +2,42 @@ import * as fs from 'fs'
 import { Module, Statement, Token, Node, Identifier, Expression, Table } from './types'
 import { lexAll } from './lex'
 import { compile } from './compile'
+
+const args = process.argv.slice(2);
+const write = args.includes("--write")
+
+const strong = (str: string) => console.log('\x1b[1m%s\x1b[0m', str);
+
 function test(kind: string, name: string, value: unknown) {
     const reference = `baselines/reference/${name}.${kind}.baseline`
     const local = `baselines/local/${name}.${kind}.baseline`
     const actual = JSON.stringify(value, undefined, 2)
     const expected = fs.existsSync(reference) ? fs.readFileSync(reference, "utf8") : ""
     if (actual !== expected) {
+        if (!fs.existsSync("./baselines/local")) fs.mkdirSync("./baselines/local")
         fs.writeFileSync(local, actual)
+
+        strong(`${name} failed: Expected baselines to match`)
+        if (actual && expected) {
+            console.log(` - result   - ${local}`)
+            console.log(` - expected - ${reference}`)
+            console.log(` - run: diff ${local} ${reference}`)
+        } else if (actual && !expected) {
+            console.log(` - result   - ${local}`)
+            console.log(` - missing  - ${reference}`)
+            if (!write) {
+                console.log(` - run with '--write' to update the baselines`)
+            } else {
+                console.log(` - updated baselines`)
+                fs.writeFileSync(reference, actual)
+            }
+        }
+        console.log(``)
         return 1
     }
     return 0
 }
+
 function sum(ns: number[]) {
     let total = 0
     for (const n of ns) total += n
@@ -58,9 +83,10 @@ function display(o: any) {
 
 let result = lexResult + compileResult
 if (result === 0) {
-    console.log("All tests passed")
+    strong("All tests passed")
 }
 else {
     console.log(result, "tests failed.")
 }
+console.log("")
 process.exit(result)
