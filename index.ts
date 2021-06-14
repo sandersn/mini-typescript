@@ -1,6 +1,29 @@
 import fs = require('fs')
 import { compile } from './compile'
-const [_tree, errors, js] = compile(fs.readFileSync(process.argv[1], 'utf8'))
-// print errors, write js to file
-console.log(errors)
-fs.writeFileSync(process.argv[1] + '.js', js)
+
+const args = process.argv.slice(2);
+const title = (str: string) => console.log('\x1b[1m%s\x1b[0m', str);
+
+if (!args.length) {
+    console.error("Expected a path to a TS file as the argument")
+    process.exit(1)
+}
+
+title(`Looking at: ${args[0]}\n`)
+const ts = fs.readFileSync(args[0], 'utf8')
+const [_tree, errors, js] = compile(ts)
+
+
+title("> TS input:")
+console.log(ts)
+
+if (errors.length) {
+    title("> Errors:")
+    console.log(errors)
+}
+
+title("> Output:")
+console.log(js)
+
+// Print errors, write js to file
+fs.writeFileSync(args[0] + '.js', js)

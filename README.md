@@ -5,6 +5,24 @@ I started this project as part of reading [Modern Compiler Implementation in ML]
 
 I realised a small Typescript would be useful to others who want to learn how the Typescript compiler works. So I rewrote it in Typescript and added some exercises to let you practise with it. The resulting compiler covers a tiny slice of Typescript: just `var` declarations, assignments and numeric literals. The only two types are `string` and `number`.
 
+### To get set up
+
+```sh
+git clone https://github.com/sandersn/mini-typescript
+cd mini-typescript
+code .
+
+# Get set up
+npm i
+npm run build
+
+# Or have your changes instantly happen
+npm run build --watch
+
+# Run the compiler:
+npm run mtsc ./tests/singleVar.ts
+```
+
 ## Limitations
 
 1. This is an example of the way that Typescript's compiler does things. A compiler textbook will help you learn *compilers*. This project will help you learn *Typescript's code*.
