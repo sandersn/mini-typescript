@@ -1,0 +1,76 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "Overview",
+  "steps": [
+    {
+      "file": "src/index.ts",
+      "description": "`mini-typescript` is a miniature Typescript compiler intended to teach you how the real Typescript compiler works. It only compiles a tiny slice of the Typescript language, but for that tiny slice, it does almost everything that the real compiler does. (It doesn't cover the language service -- mini-typescript is just a batch compiler.)\n\nThis overview covers all the compiler phases that mini-typescript has. But first, let's look at how the batch compiler `mtsc` works.",
+      "line": 2
+    },
+    {
+      "file": "src/index.ts",
+      "description": "First of all `mtsc` processes arguments. The only allowed syntax is `mtsc file.ts`, so the code is pretty simple.",
+      "line": 4
+    },
+    {
+      "file": "src/index.ts",
+      "description": "Then it reads the file and passes it to `compile`. `compile` returns the parse tree, a list of errors and the output JS file. If mini-typescript had an API, it would return the parse tree, but `mtsc` just ignores it.\n\nLet's look at `compile` next.",
+      "line": 14
+    },
+    {
+      "file": "src/compile.ts",
+      "description": "`mini-typescript` is a pipeline of the following phases:\n\n- Lex\n- Parse\n- Bind\n- Check\n- Transform\n- Emit\n\nThese phases are common to almost all compilers, although they may be combined.\n\nOne important phase that `mini-typescript` omits is module resolution. And both Typescript and `mini-typescript` have relatively simple transform and emit phases, since their target is Javascript, a language that is very close to Typescript.\n\nI'll briefly explain each phase now.",
+      "line": 10
+    },
+    {
+      "file": "src/compile.ts",
+      "description": "The lexer breaks source text down into *tokens*, which represent classes of words and punctuation. Some examples:\n\n* Keywords: `Function`, `Var`, `Let`\n* Names: `Identifier`\n* Punctuation: `LeftBrace`, `RightBrace`, `LeftBracket`, `RightBracket`",
+      "line": 3
+    },
+    {
+      "file": "src/compile.ts",
+      "description": "Using the tokens that the lexer produces, the parser builds a *tree* to represent the structure of the program. For example, a function has a name, a list of parameters and a body. The body in turn contains a list of statements. So when a parser sees the Function keyword, it knows the next token should be Identifier, followed by a list of parameters and then a function body. From those 3 parts it produces something like this object:\n\n```ts\n{\n    name: \"foo\",\n    parameters: [...],\n    body: { statements: [...] }\n}\n```\n\nAll the phases after the parser work by visiting each node in the parse tree. That is, for the example function above, there is code to check the function itself, plus code that checks the parameters and the body recursively.",
+      "line": 4
+    },
+    {
+      "file": "src/compile.ts",
+      "description": "The binder produces an *environment*, which is a table that maps names to where they're declared. For example, if you declare `var x = 1`, the binder will record that `x` is declared at `var x = 1`. This lets the checker *resolve* a name to a declaration so it can figure out what its type is.\n\nIn a full language, many constructs have their own environments because they introduce a new *scope*, which is an area where names are valid. For example, functions have parameters and local variables that are only valid inside their body, and classes have properties that behave similarly. In mini-typescript, only modules have an environment because there are no functions or classes.",
+      "line": 5
+    },
+    {
+      "file": "src/compile.ts",
+      "description": "The checker checks each node in the parse tree and issues an error whenever it finds something wrong.\n\nAlthough the checker *mainly* checks types, it can check lots of other things too. Even in mini-typescript, it issues an error for an undeclared identifier. But Typescript's checker has errors for incorrect use of modifiers like `public` and `override`, errors for incorrect imports and even errors for complex incorrect syntax, among many others.",
+      "line": 6
+    },
+    {
+      "file": "src/compile.ts",
+      "description": "The transformer converts the Typescript parse tree into a Javascript parse tree. For mini-typescript, this just means removing type annotations. The same is true for the full Typescript compiler when you target ES Next, but when you target old ES versions like ES2015, the compiler converts new features like object spread into `Object.assign` calls.\n\nNotably, the transformer works with no information from the binder or checker. It just uses the parse tree. In the full Typescript compiler, this is important for fast emit of single files as you edit.",
+      "line": 7
+    },
+    {
+      "file": "src/compile.ts",
+      "description": "The emitter converts a Javascript parse tree into a string. It's basically a giant `toString`.\n\nNotably, the emitter can emit a Typescript parse tree too, since the only difference is that TS has type annotations.",
+      "line": 8
+    },
+    {
+      "file": "src/compile.ts",
+      "description": "That leaves 3 more pieces of the compiler to cover:\n\n1. Types\n2. Errors\n3. Tests",
+      "line": 2
+    },
+    {
+      "file": "src/types.ts",
+      "description": "Typescript puts all of its types into a single file named `types.ts`. They're all here, for every single phase.",
+      "line": 2
+    },
+    {
+      "file": "src/error.ts",
+      "description": "`mini-typescript` maintains a global array of errors that any phase can add to. To avoid dupes and follow-on errors, only the first error at a position is shown. Typescript works similarly, except that it distinguishes between syntax errors (from the parser), semantic errors (from the binder+checker), and suggestions (only shown in the editor).",
+      "line": 2
+    },
+    {
+      "file": "src/test.ts",
+      "description": "`mini-typescript` uses *baselines* for its tests, kind of like Jest snapshots. So does Typescript. Basically, you write a .ts file, and the tests make sure that the compiler's tree, javascript and errors match the ones from the baseline.",
+      "line": 6
+    }
+  ]
+}
