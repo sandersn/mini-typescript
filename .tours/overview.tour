@@ -24,7 +24,7 @@
     },
     {
       "file": "src/compile.ts",
-      "description": "The lexer breaks source text down into *tokens*, which represent classes of words and punctuation. Some examples:\n\n* Keywords: `Function`, `Var`, `Let`\n* Names: `Identifier`\n* Punctuation: `LeftBrace`, `RightBrace`, `LeftBracket`, `RightBracket`",
+      "description": "The lexer breaks source text down into *tokens*, which represent words and punctuation. Lexing makes it easier for the parser by distinguishing `=` from `==` or `+` from `++`, for example. Some more examples:\n\n* Keywords: `Function`, `Var`, `Let`\n* Punctuation: `Equals`, `EqualsEquals`, `LeftBrace`, `RightBrace`\n* Names: `Identifier`",
       "line": 3
     },
     {
