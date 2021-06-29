@@ -11,22 +11,34 @@ export function parse(lexer: Lexer): Module {
     }
     function parseExpression(): Expression {
         const pos = lexer.pos()
+        const e = parseIdentifierOrLiteral()
+        if (e.kind === Node.Identifier && tryParseToken(Token.Equals)) {
+            return { kind: Node.Assignment, name: e, value: parseExpression(), pos }
+        }
+        else {
+            return e
+        }
+    }
+    function parseIdentifierOrLiteral(): Expression {
+        const pos = lexer.pos()
         const t = parseToken()
         switch (t) {
             case Token.Identifier:
-                const name = { kind: Node.Identifier, text: lexer.text(), pos } as const
-                if (tryParseToken(Token.Equals)) {
-                    return { kind: Node.Assignment, name, value: parseExpression(), pos }
-                }
-                else {
-                    return name
-                }
+                return { kind: Node.Identifier, text: lexer.text(), pos }
             case Token.Literal:
                 return { kind: Node.Literal, value: +lexer.text(), pos }
             default:
                 error(pos, "Expected identifier or literal but got " + Token[t])
                 return { kind: Node.Identifier, text: "(missing)", pos }
         }
+    }
+    function parseIdentifier(): Identifier {
+        const pos = lexer.pos()
+        let text = lexer.text()
+        if (!parseExpected(Token.Identifier)) {
+            text = "(missing)"
+        }
+        return { kind: Node.Identifier, text, pos }
     }
     function parseStatement(): Statement {
         const pos = lexer.pos()
@@ -40,14 +52,6 @@ export function parse(lexer: Lexer): Module {
         else {
             return { kind: Node.ExpressionStatement, expr: parseExpression(), pos }
         }
-    }
-    function parseIdentifier(): Identifier {
-        const pos = lexer.pos()
-        let text = lexer.text()
-        if (!parseExpected(Token.Identifier)) {
-            text = "(missing)"
-        }
-        return { kind: Node.Identifier, text, pos }
     }
 
     function parseToken() {
