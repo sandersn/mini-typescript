@@ -33,12 +33,12 @@ export function parse(lexer: Lexer): Module {
         }
     }
     function parseIdentifier(): Identifier {
-        const pos = lexer.pos()
-        let text = lexer.text()
-        if (!parseExpected(Token.Identifier)) {
-            text = "(missing)"
+        const e = parseIdentifierOrLiteral()
+        if (e.kind === Node.Identifier) {
+            return e
         }
-        return { kind: Node.Identifier, text, pos }
+        error(e.pos, "Expected identifier but got a literal")
+        return { kind: Node.Identifier, text: "(missing)", pos: e.pos }
     }
     function parseStatement(): Statement {
         const pos = lexer.pos()
