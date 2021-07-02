@@ -38,13 +38,8 @@
     },
     {
       "file": "src/lex.ts",
-      "description": "mini-typescript's lexer first checks whether it's at the end and sets `token` to `EOF` if so. That's the signal for the parser to stop parsing.\n\nNotice that `scan` doesn't *return*: it sets `token` instead. mini-typescript is simple enough that it can just run to the end of the function, but Typescript is not.",
+      "description": "mini-typescript's lexer first checks whether it's at the end of the source text and sets `token` to `EOF` if so. That's the signal for the parser to stop parsing.\n\nNotice that `scan` doesn't *return*: it sets `token` instead. mini-typescript is simple enough that it can just run to the end of the function, but Typescript is not.",
       "line": 20
-    },
-    {
-      "file": "src/lex.ts",
-      "description": "First, create a lexer (plus an array to hold the tokens and a variable to hold the current token).",
-      "line": 48
     },
     {
       "file": "src/lex.ts",
@@ -73,8 +68,8 @@
     },
     {
       "file": "src/lex.ts",
-      "description": "`lexer.scan()` advances to the next token,",
-      "line": 51
+      "description": "First, create a lexer (plus an array to hold the tokens and a variable to hold the current token).",
+      "line": 48
     },
     {
       "file": "src/lex.ts",

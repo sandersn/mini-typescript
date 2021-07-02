@@ -1,0 +1,60 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "Parser",
+  "steps": [
+    {
+      "title": "Introduction",
+      "description": "The parser builds a *tree* to represent the structure of the program. For example, a function has a name, a list of parameters and a body. The body in turn contains a list of statements. So when a parser sees the Function keyword, it knows the next token should be Identifier, followed by a list of parameters and then a function body. From those 3 parts it produces something like this object:\n\n```ts\n{\n    name: \"foo\",\n    parameters: [...],\n    body: { statements: [...] }\n}\n```\n\nAll the phases after the parser work by visiting each node in the parse tree. For example, to emit a function, the emitter writes \"function\", followed by the function name. Then it recurs on the function's parameters and body."
+    },
+    {
+      "file": "src/types.ts",
+      "description": "The `Node` enum is used as the `kind` discriminant for node types. Conveniently, this acts as an index of all the node types that the parser can construct.\n\nYou can see that mini-typescript parses only a few different kinds of nodes.",
+      "line": 22
+    },
+    {
+      "file": "src/types.ts",
+      "description": "`Expression` is a union of all the expression types. For mini-typescript, that's just `Identifier`, `Literal` and `Assignment`.\n\nThe real Typescript compiler doesn't have unions for all its types -- for many it uses interface inheritance instead. That's mostly for historical reasons, because discriminated unions weren't available until Typescript 2.0.",
+      "line": 36
+    },
+    {
+      "file": "src/types.ts",
+      "description": "Similarly, mini-typescript's node types use intersection to add `Location` for error reporting. Typescript uses interface inheritance.",
+      "line": 37
+    },
+    {
+      "file": "src/types.ts",
+      "description": "`Statement` consists of `Var` and `ExpressionStatement`. The latter is an expression that is used for its side-effects, like `Assignment`: `x = 1`.",
+      "line": 50
+    },
+    {
+      "file": "src/types.ts",
+      "description": "The parser returns a `Module`, which is really just a file. It ambitiously assumes that everyone will soon be writing nothing but modules in mini-typescript.\n\nThe parser only fills in `statements`; the binder fills in `locals`.",
+      "line": 66
+    },
+    {
+      "file": "src/parse.ts",
+      "description": "A module consists of statements, separated by semicolons. `parseSeparated` alternates calling `parseStatement` and `tryParseToken(Token.Semicolon)` until the latter return false.\nThe final call to `parseExpected(Token.EOF)` logs an error if there's stray text at the end of the file after the last statement.",
+      "line": 8
+    },
+    {
+      "file": "src/parse.ts",
+      "description": "`tryParseToken` shows off basic lexer usage: first it checks whether the lexer's current token is the one expected by the caller. If it is, it advances to the next token. Otherwise it stays put. This lets the caller inspect the lexer's current token and report errors on it.",
+      "line": 51
+    },
+    {
+      "file": "src/parse.ts",
+      "description": "Both mini-typescript and Typescript use a hand-written recursive descent parser. These parser are collections of functions that recursively call each other. For example `parseStatement` recursively calls `parseIdentifier` and `parseExpression`.",
+      "line": 40
+    },
+    {
+      "file": "src/parse.ts",
+      "description": " Then `parseExpression` recursively calls itself for assignments.",
+      "line": 15
+    },
+    {
+      "file": "src/parse.ts",
+      "description": "The easiest grammar rules to parse have unambiguous start tokens. Here, statements that start with a `var` keyword are `Var` and all others are ExpressionStatements.\n\nThe original rules are obscured by the code in a recursive descent grammar, but if you work you can see them:\n\n```\nStatement -> Expression | 'var' Identifier [':' Identifier] '=' Expression\nExpression -> *literal* | Identifier ['=' Expression]\n```",
+      "line": 42
+    }
+  ]
+}

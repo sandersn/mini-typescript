@@ -15,22 +15,19 @@ export function parse(lexer: Lexer): Module {
         if (e.kind === Node.Identifier && tryParseToken(Token.Equals)) {
             return { kind: Node.Assignment, name: e, value: parseExpression(), pos }
         }
-        else {
-            return e
-        }
+        return e
     }
     function parseIdentifierOrLiteral(): Expression {
         const pos = lexer.pos()
-        const t = parseToken()
-        switch (t) {
-            case Token.Identifier:
-                return { kind: Node.Identifier, text: lexer.text(), pos }
-            case Token.Literal:
-                return { kind: Node.Literal, value: +lexer.text(), pos }
-            default:
-                error(pos, "Expected identifier or literal but got " + Token[t])
-                return { kind: Node.Identifier, text: "(missing)", pos }
+        if (tryParseToken(Token.Identifier)) {
+            return { kind: Node.Identifier, text: lexer.text(), pos }
         }
+        else if (tryParseToken(Token.Literal)) {
+            return { kind: Node.Literal, value: +lexer.text(), pos }
+        }
+        error(pos, "Expected identifier or literal but got " + Token[lexer.token()])
+        lexer.scan()
+        return { kind: Node.Identifier, text: "(missing)", pos }
     }
     function parseIdentifier(): Identifier {
         const e = parseIdentifierOrLiteral()
@@ -49,32 +46,19 @@ export function parse(lexer: Lexer): Module {
             const init = parseExpression()
             return { kind: Node.Var, name, typename, init, pos }
         }
-        else {
-            return { kind: Node.ExpressionStatement, expr: parseExpression(), pos }
-        }
+        return { kind: Node.ExpressionStatement, expr: parseExpression(), pos }
     }
-
-    function parseToken() {
-        const t = lexer.token()
-        lexer.scan()
-        return t
-    }
-    function tryParseToken(token: Token) {
-        if (lexer.token() === token) {
+    function tryParseToken(expected: Token) {
+        const ok = lexer.token() === expected
+        if (ok) {
             lexer.scan()
-            return true
         }
-        else {
-            return false
-        }
+        return ok
     }
     function parseExpected(expected: Token) {
-        const pos = lexer.pos()
-        const actual = parseToken()
-        if (actual !== expected) {
-            error(pos, `parseToken: Expected ${Token[expected]} but got ${Token[actual]}`)
+        if (!tryParseToken(expected)) {
+            error(lexer.pos(), `parseToken: Expected ${Token[expected]} but got ${Token[lexer.token()]}`)
         }
-        return actual === expected
     }
     function parseSeparated<T>(element: () => T, separator: () => unknown) {
         const list = [element()]
