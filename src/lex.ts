@@ -2,6 +2,7 @@ import { Token, Lexer } from './types'
 const keywords = {
     "function": Token.Function,
     "var": Token.Var,
+    "type": Token.Type,
     "return": Token.Return,
 }
 export function lex(s: string): Lexer {

@@ -9,6 +9,8 @@ function emitStatement(statement: Statement): string {
         case Node.Var:
             const typestring = statement.typename ? ": " + statement.name : ""
             return `var ${statement.name.text}${typestring} = ${emitExpression(statement.init)}`
+        case Node.TypeAlias:
+            return `type ${statement.name.text} = ${statement.typename.text}`
     }
 }
 function emitExpression(expression: Expression): string {

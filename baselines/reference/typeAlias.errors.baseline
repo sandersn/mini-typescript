@@ -1,0 +1,18 @@
+[
+  {
+    "pos": 76,
+    "message": "Cannot redeclare Not; first declared at 57"
+  },
+  {
+    "pos": 124,
+    "message": "Cannot assign initialiser of type 'number' to variable with declared type 'string'."
+  },
+  {
+    "pos": 153,
+    "message": "Could not resolve type Nut"
+  },
+  {
+    "pos": 192,
+    "message": "Could not resolve Net"
+  }
+]

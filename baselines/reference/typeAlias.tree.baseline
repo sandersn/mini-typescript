@@ -1,0 +1,197 @@
+{
+  "locals": {
+    "Nat": [
+      {
+        "kind": "TypeAlias",
+        "pos": 4
+      },
+      {
+        "kind": "Var",
+        "pos": 22
+      }
+    ],
+    "nat": [
+      {
+        "kind": "Var",
+        "pos": 36
+      }
+    ],
+    "Not": [
+      {
+        "kind": "TypeAlias",
+        "pos": 57
+      }
+    ],
+    "Nit": [
+      {
+        "kind": "TypeAlias",
+        "pos": 95
+      }
+    ],
+    "nit": [
+      {
+        "kind": "Var",
+        "pos": 110
+      }
+    ],
+    "Nut": [
+      {
+        "kind": "Var",
+        "pos": 130
+      }
+    ],
+    "nut": [
+      {
+        "kind": "Var",
+        "pos": 144
+      }
+    ],
+    "Net": [
+      {
+        "kind": "TypeAlias",
+        "pos": 164
+      }
+    ],
+    "net": [
+      {
+        "kind": "Var",
+        "pos": 182
+      }
+    ]
+  },
+  "statements": [
+    {
+      "kind": "TypeAlias",
+      "name": {
+        "kind": "Identifier",
+        "text": "Nat"
+      },
+      "typename": {
+        "kind": "Identifier",
+        "text": "number"
+      }
+    },
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
+        "text": "Nat"
+      },
+      "init": {
+        "kind": "Literal",
+        "value": 12
+      }
+    },
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
+        "text": "nat"
+      },
+      "typename": {
+        "kind": "Identifier",
+        "text": "Nat"
+      },
+      "init": {
+        "kind": "Literal",
+        "value": 13
+      }
+    },
+    {
+      "kind": "TypeAlias",
+      "name": {
+        "kind": "Identifier",
+        "text": "Not"
+      },
+      "typename": {
+        "kind": "Identifier",
+        "text": "string"
+      }
+    },
+    {
+      "kind": "TypeAlias",
+      "name": {
+        "kind": "Identifier",
+        "text": "Not"
+      },
+      "typename": {
+        "kind": "Identifier",
+        "text": "number"
+      }
+    },
+    {
+      "kind": "TypeAlias",
+      "name": {
+        "kind": "Identifier",
+        "text": "Nit"
+      },
+      "typename": {
+        "kind": "Identifier",
+        "text": "Not"
+      }
+    },
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
+        "text": "nit"
+      },
+      "typename": {
+        "kind": "Identifier",
+        "text": "Not"
+      },
+      "init": {
+        "kind": "Literal",
+        "value": 14
+      }
+    },
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
+        "text": "Nut"
+      },
+      "init": {
+        "kind": "Literal",
+        "value": 15
+      }
+    },
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
+        "text": "nut"
+      },
+      "typename": {
+        "kind": "Identifier",
+        "text": "Nut"
+      },
+      "init": {
+        "kind": "Literal",
+        "value": 16
+      }
+    },
+    {
+      "kind": "TypeAlias",
+      "name": {
+        "kind": "Identifier",
+        "text": "Net"
+      },
+      "typename": {
+        "kind": "Identifier",
+        "text": "number"
+      }
+    },
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
+        "text": "net"
+      },
+      "init": {
+        "kind": "Identifier",
+        "text": "Net"
+      }
+    }
+  ]
+}

@@ -1,9 +1,11 @@
 {
   "locals": {
-    "arthurTwoShedsJackson": {
-      "kind": "Var",
-      "pos": 3
-    }
+    "arthurTwoShedsJackson": [
+      {
+        "kind": "Var",
+        "pos": 3
+      }
+    ]
   },
   "statements": [
     {

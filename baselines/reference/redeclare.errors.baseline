@@ -1,6 +1,6 @@
 [
   {
     "pos": 14,
-    "message": "Cannot redeclare x"
+    "message": "Cannot redeclare x; first declared at 3"
   }
 ]

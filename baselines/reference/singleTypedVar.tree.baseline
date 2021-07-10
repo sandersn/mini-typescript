@@ -1,9 +1,11 @@
 {
   "locals": {
-    "s": {
-      "kind": "Var",
-      "pos": 3
-    }
+    "s": [
+      {
+        "kind": "Var",
+        "pos": 3
+      }
+    ]
   },
   "statements": [
     {

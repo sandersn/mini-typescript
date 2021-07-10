@@ -66,7 +66,7 @@ function displayModule(m: Module) {
 function displayTable(table: Table) {
     const o = {} as any
     for (const [k,v] of table) {
-        o[k] = { kind: Node[v.declaration.kind], pos: v.declaration.pos, }
+        o[k] = v.declarations.map(({ kind, pos }) => ({ kind: Node[kind], pos }))
     }
     return o
 }

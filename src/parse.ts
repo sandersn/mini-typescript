@@ -46,6 +46,12 @@ export function parse(lexer: Lexer): Module {
             const init = parseExpression()
             return { kind: Node.Var, name, typename, init, pos }
         }
+        else if (tryParseToken(Token.Type)) {
+            const name = parseIdentifier()
+            parseExpected(Token.Equals)
+            const typename = parseIdentifier()
+            return { kind: Node.TypeAlias, name, typename, pos }
+        }
         return { kind: Node.ExpressionStatement, expr: parseExpression(), pos }
     }
     function tryParseToken(expected: Token) {

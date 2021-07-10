@@ -14,82 +14,82 @@
     {
       "file": "src/types.ts",
       "description": "The Lexer type exposes two categories of functions:\n\n1. `scan` advances to the next token.\n2. `token`, `pos`, `text` return the respective parts of the lexer's state.\n\nTypically, the parser calls `token` to decide what to do based on the current token. It might collect additional information with `pos` and `text`, then advances to the next token with `scan`.",
-      "line": 16
+      "line": 17
     },
     {
       "file": "src/types.ts",
       "description": "`text` returns the text of word-like tokens -- that is, `'hi'` for strings, `x` for identifiers, `1` for numbers. The parser should only call this function when the *current* token is known to be word-like, because the lexer just keeps the text around from the last word-like token.",
-      "line": 20
+      "line": 21
     },
     {
       "file": "src/lex.ts",
       "description": "All the complexity of the lexer is in `scan`. `token`, `pos` and `text` just expose the state of the lexer.",
-      "line": 12
+      "line": 13
     },
     {
       "file": "src/lex.ts",
       "description": "`scan` first skips all whitespace by calling the `scanForward` utility.\n\nThe real Typescript lexer retains some information about this step to help with ASI, and it also saves the position before scanning forward.",
-      "line": 18
+      "line": 19
     },
     {
       "file": "src/lex.ts",
       "description": "`scanForward` is a `while` loop that increments its position as long as the predicate function is true.\n\nI can't remember if the real Typescript lexer works like this. I don't think it does.",
-      "line": 43
+      "line": 44
     },
     {
       "file": "src/lex.ts",
       "description": "mini-typescript's lexer first checks whether it's at the end of the source text and sets `token` to `EOF` if so. That's the signal for the parser to stop parsing.\n\nNotice that `scan` doesn't *return*: it sets `token` instead. mini-typescript is simple enough that it can just run to the end of the function, but Typescript is not.",
-      "line": 20
+      "line": 21
     },
     {
       "file": "src/lex.ts",
       "description": "Then it checks for numbers -- mini-typescript only supports integers, so the regexes are simple.\nNote that `scan` sets both `text` and `token` for numbers.\nAlso, mini-typescript doesn't support string, boolean or bigint literals, so it just calls the number literal token `Literal`.",
-      "line": 23
+      "line": 24
     },
     {
       "file": "src/lex.ts",
       "description": "Third, the scanner checks for identifiers. This is basically the same as lexing a number.\n\nThe real Typescript lexer uses Unicode classes for identifiers.",
-      "line": 28
+      "line": 29
     },
     {
       "file": "src/lex.ts",
       "description": "Identifiers get turned into keywords if they're found as keys in the `keywords` object.",
-      "line": 31
+      "line": 32
     },
     {
       "file": "src/lex.ts",
       "description": "Finally, single characters fall through a giant switch statement with all the punctuation tokens.\n\nThe real Typescript lexer handles digraphs like `==` by checking for another `=` in the `=` case. But mini-typescript doesn't support any digraphs.",
-      "line": 35
+      "line": 36
     },
     {
       "file": "src/lex.ts",
       "description": "`lexAll` is a convenience function used only for testing: it turns a string into an *array* of tokens instead of an object that lets you iterate a *stream* of tokens. It makes a good, simple example of how to use the lexer.",
-      "line": 47
-    },
-    {
-      "file": "src/lex.ts",
-      "description": "First, create a lexer (plus an array to hold the tokens and a variable to hold the current token).",
       "line": 48
     },
     {
       "file": "src/lex.ts",
-      "description": "1. Advance to the next token.",
-      "line": 52
+      "description": "First, create a lexer (plus an array to hold the tokens and a variable to hold the current token).",
+      "line": 49
     },
     {
       "file": "src/lex.ts",
-      "description": "2. Save the token.",
+      "description": "1. Advance to the next token.",
       "line": 53
     },
     {
       "file": "src/lex.ts",
+      "description": "2. Save the token.",
+      "line": 54
+    },
+    {
+      "file": "src/lex.ts",
       "description": "3. Quit if the token is `EOF`.",
-      "line": 55
+      "line": 56
     },
     {
       "file": "src/lex.ts",
       "description": "4. For word-like tokens, save both the token and its text. Otherwise just save the token.",
-      "line": 57
+      "line": 58
     }
   ]
 }
