@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/sandersn/mini-typescript#readme",
   "devDependencies": {
-    "@types/node": "^15.12.0",
+    "@types/node": "^18.7.14",
     "typescript": "latest"
   }
 }
