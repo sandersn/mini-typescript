@@ -30,6 +30,40 @@ npm run mtsc ./tests/singleVar.ts
 3. There is no laziness, caching or node reuse, so the checker and transformer code do not teach you those aspects of the design.
 4. There's no surrounding infrastructure, like a language service or a program builder. This is just a model of tsc.
 
+## Future work
+
+### Centi-typescript
+
+A larger, 1/100-scale model of Typescript.
+Things are still simplified, but the interfaces and method names are the same ones that Typescript uses.
+I expect this to be a lot less friendly than the current milli-typescript approach, which only tries to convey the underlying ideas.
+It might support enough of the language to write real programs. I'm not sure.
+
+Some concerns that might make it in:
+
+- build system
+- language service
+- file watcher
+- module target
+- module resolution
+- package.json/tsconfig.json handling
+- some fun flags (strict, target, checkjs?)
+- different transform targets
+- real binder flags implementation
+- lookahead parsing of arrows
+- type inference
+- overloads
+- real assignability implemention
+- classes
+- generics
+- advanced types (index [access], mapped, conditional, template literals) -- probably not
+- more efficient, realistic transform pipeline
+- .d.ts transform
+- js support. of any kind.
+- realistic parsing/checking of binary expressions
+- more realistic types
+- objects and object types
+
 ## Exercises
 
 - Add EmptyStatement.
