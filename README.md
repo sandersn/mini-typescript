@@ -42,6 +42,7 @@ It might support enough of the language to write real programs. I'm not sure.
 Some concerns that might make it in:
 
 - build system
+- more realistic interface (eg createChecker, createFile, getSemanticDiagnostics, etc)
 - language service
 - file watcher
 - module target
@@ -63,6 +64,8 @@ Some concerns that might make it in:
 - realistic parsing/checking of binary expressions
 - more realistic types
 - objects and object types
+- more realistic top-level exception handling and errors
+- maybe generate error messages like diagnosticMessages.json?
 
 ## Exercises
 

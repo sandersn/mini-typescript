@@ -1,9 +1,5 @@
 import fs = require('fs')
 import { compile } from './compile'
-// should probably support flags (at least target, verbose and strict)
-// more realistic exception handling and errors
-// more realistic interface (eg createChecker, createFile, getSemanticDiagnostics, etc)
-// maybe generate error messages like diagnosticMessages.json?
 
 const args = process.argv.slice(2);
 const title = (str: string) => console.log('\x1b[1m%s\x1b[0m', str);
