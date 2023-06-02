@@ -37,15 +37,18 @@ npm run mtsc ./tests/singleVar.ts
   - Hint: You'll need a predicate to peek at the next token and decide if it's the start of an element.
   - Bonus: Switch from semicolon to newline as statement ender.
 - Add string literals.
-- Add let.
-  - Then add use-before-declaration errors in the checker.
+- Add `let`.
+  - Make sure the binder resolves variables declared with `var` and `let` the same way. The simplest way is to add a `kind` property to `Symbol`.
+  - Add use-before-declaration errors in the checker.
   - Finally, add an ES2015 -> ES5 transform that transforms `let` to `var`.
 - Allow var to have multiple declarations.
-  - You'll need to convert a Symbol's declaration into a list.
   - Check that all declarations have the same type.
-- Add type aliases.
-  - You'll need to convert a Symbol's declaration into a list.
-  - Name resolution will need to search a symbol's declarations to see whether it has a type declaration.
-- Add an ES5 transformer that converts let -> var.
+- Add objects and object types.
+  - `Type` will need to become more complicated.
+- Add `interface`.
+  - Make sure the binder resolves types declared with `type` and `interface` the same way.
+  - After the basics are working, allow interface to have multiple declarations.
+  - Interfaces should have an object type, but that object type should combine the properties from every declaration.
+- Add an ES5 transformer that converts `let` -> `var`.
 - Add function declarations and function calls.
 - Add arrow functions with an appropriate transform in ES5.
