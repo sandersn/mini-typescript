@@ -1,1 +1,6 @@
-"var Nat = 12;\nvar nat = 13;\nvar nit = 14;\nvar Nut = 15;\nvar nut = 16;\nvar net = Net"
+var Nat = 12;
+var nat = 13;
+var nit = 14;
+var Nut = 15;
+var nut = 16;
+var net = Net

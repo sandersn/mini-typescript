@@ -32,12 +32,16 @@ npm run mtsc ./tests/singleVar.ts
 
 ## Future work
 
-### Centi-typescript
+### Deci-typescript
 
-A larger, 1/100-scale model of Typescript.
+A larger, 1/10-scale model of Typescript.
 Things are still simplified, but the interfaces and method names are the same ones that Typescript uses.
 I expect this to be a lot less friendly than the current milli-typescript approach, which only tries to convey the underlying ideas.
-It might support enough of the language to write real programs. I'm not sure.
+Roughly, my aim for mini-typescript originally was to be a textbook compiler written the Typescript way. I didn't look at the Typescript source when writing it.
+My aim fom for deci-typescript is to be a simplified Typescript compiler. I'll start from Typescript's implementation most of the time.
+
+One big difference from TypeScript will be better organisation.
+A 1/10-scale of the checker is still 5,000 lines, but I intend to split it into one file per component.
 
 Some concerns that might make it in:
 
@@ -62,10 +66,21 @@ Some concerns that might make it in:
 - .d.ts transform
 - js support. of any kind.
 - realistic parsing/checking of binary expressions
-- more realistic types
+- more realistic types (specifically, SyntaxKind and a single Node interface)
 - objects and object types
 - more realistic top-level exception handling and errors
 - maybe generate error messages like diagnosticMessages.json?
+- probably more realistic tests
+
+But:
+
+- better organisation as files get long
+- better baselines (and perhaps dropping or simplifying symbol baselines)
+
+First up:
+
+- strings
+- objects and object types
 
 ## Exercises
 

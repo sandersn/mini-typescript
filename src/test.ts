@@ -15,7 +15,7 @@ function test(kind: string, name: string, value: unknown) {
     const expected = fs.existsSync(reference) ? fs.readFileSync(reference, "utf8") : ""
     if (actual !== expected) {
         if (!fs.existsSync("./baselines/local")) fs.mkdirSync("./baselines/local")
-        fs.writeFileSync(local, actual)
+        fs.writeFileSync(local, typeof value === 'string' ? value : actual)
 
         strong(`${name} failed: Expected baselines to match`)
         if (actual && expected) {
