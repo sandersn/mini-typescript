@@ -21,10 +21,23 @@ export function lex(s: string): Lexer {
         if (pos === s.length) {
             token = Token.EOF
         }
+        else if (s.charAt(pos) === '"') {
+            pos++
+            scanForward(c => /[^\"]/.test(c))
+            if (s.charAt(pos) !== '"') {
+                throw new Error("lexer regular expression [^\"] didn't work the way I expected")
+            }
+            else {
+                pos++
+            }
+            // TODO: Add test
+            text = s.slice(start, pos)
+            token = Token.StringLiteral
+        }
         else if (/[0-9]/.test(s.charAt(pos))) {
             scanForward(c => /[0-9]/.test(c))
             text = s.slice(start, pos)
-            token = Token.Literal
+            token = Token.NumericLiteral
         }
         else if (/[_a-zA-Z]/.test(s.charAt(pos))) {
             scanForward(c => /[_a-zA-Z0-9]/.test(c))
@@ -56,7 +69,7 @@ export function lexAll(s: string) {
             case Token.EOF:
                 return tokens
             case Token.Identifier:
-            case Token.Literal:
+            case Token.NumericLiteral:
                 tokens.push({ token: t, text: lexer.text() })
                 break
             default:

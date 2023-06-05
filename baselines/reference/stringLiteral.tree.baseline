@@ -1,0 +1,12 @@
+{
+  "locals": {},
+  "statements": [
+    {
+      "kind": "ExpressionStatement",
+      "expr": {
+        "kind": "StringLiteral",
+        "value": "\"hello\""
+      }
+    }
+  ]
+}

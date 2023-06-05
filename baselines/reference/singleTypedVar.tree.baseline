@@ -19,7 +19,7 @@
         "text": "string"
       },
       "init": {
-        "kind": "Literal",
+        "kind": "NumericLiteral",
         "value": 1
       }
     }

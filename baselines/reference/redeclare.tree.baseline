@@ -15,7 +15,7 @@
         "text": "x"
       },
       "init": {
-        "kind": "Literal",
+        "kind": "NumericLiteral",
         "value": 1
       }
     },
@@ -26,7 +26,7 @@
         "text": "x"
       },
       "init": {
-        "kind": "Literal",
+        "kind": "NumericLiteral",
         "value": 2
       }
     }

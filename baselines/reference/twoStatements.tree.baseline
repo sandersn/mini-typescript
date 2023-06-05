@@ -15,7 +15,7 @@
         "text": "arthurTwoShedsJackson"
       },
       "init": {
-        "kind": "Literal",
+        "kind": "NumericLiteral",
         "value": 1
       }
     },
@@ -28,7 +28,7 @@
           "text": "arthurTwoShedsJackson"
         },
         "value": {
-          "kind": "Literal",
+          "kind": "NumericLiteral",
           "value": 2
         }
       }

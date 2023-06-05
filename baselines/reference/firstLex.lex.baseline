@@ -1,6 +1,6 @@
 [
   [
-    "Literal",
+    "NumericLiteral",
     "1200"
   ],
   [
@@ -15,7 +15,7 @@
     "Unknown"
   ],
   [
-    "Literal",
+    "NumericLiteral",
     "14"
   ],
   [

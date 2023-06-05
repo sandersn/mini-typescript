@@ -11,11 +11,11 @@ const strong = (str: string) => console.log('\x1b[1m%s\x1b[0m', str);
 function test(kind: string, name: string, value: unknown) {
     const reference = `baselines/reference/${name}.${kind}.baseline`
     const local = `baselines/local/${name}.${kind}.baseline`
-    const actual = JSON.stringify(value, undefined, 2)
+    const actual = typeof value === 'string' ? value : JSON.stringify(value, undefined, 2)
     const expected = fs.existsSync(reference) ? fs.readFileSync(reference, "utf8") : ""
     if (actual !== expected) {
         if (!fs.existsSync("./baselines/local")) fs.mkdirSync("./baselines/local")
-        fs.writeFileSync(local, typeof value === 'string' ? value : actual)
+        fs.writeFileSync(local, actual)
 
         strong(`${name} failed: Expected baselines to match`)
         if (actual && expected) {
@@ -50,6 +50,7 @@ const lexTests = {
     "varLex": "var x = 1",
     "semicolonLex": "x; y",
     "newlineLex": "x\n y  \n" ,
+    "stringLex": '"hello"',
 }
 let lexResult = sum(Object.entries(lexTests).map(
     ([name, text]) => test("lex", name, lexAll(text).map(t => t.text ? [Token[t.token], t.text] : [Token[t.token]]))))

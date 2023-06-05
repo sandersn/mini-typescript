@@ -78,7 +78,7 @@
         "text": "Nat"
       },
       "init": {
-        "kind": "Literal",
+        "kind": "NumericLiteral",
         "value": 12
       }
     },
@@ -93,7 +93,7 @@
         "text": "Nat"
       },
       "init": {
-        "kind": "Literal",
+        "kind": "NumericLiteral",
         "value": 13
       }
     },
@@ -141,7 +141,7 @@
         "text": "Not"
       },
       "init": {
-        "kind": "Literal",
+        "kind": "NumericLiteral",
         "value": 14
       }
     },
@@ -152,7 +152,7 @@
         "text": "Nut"
       },
       "init": {
-        "kind": "Literal",
+        "kind": "NumericLiteral",
         "value": 15
       }
     },
@@ -167,7 +167,7 @@
         "text": "Nut"
       },
       "init": {
-        "kind": "Literal",
+        "kind": "NumericLiteral",
         "value": 16
       }
     },

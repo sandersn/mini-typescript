@@ -15,7 +15,7 @@
         "text": "singleDeclaration"
       },
       "init": {
-        "kind": "Literal",
+        "kind": "NumericLiteral",
         "value": 1
       }
     }
