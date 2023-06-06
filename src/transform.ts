@@ -1,4 +1,4 @@
-import { Statement, Node } from './types'
+import { Statement, Node } from './types.js'
 export function transform(statements: Statement[]) {
     return typescript(statements)
 }

@@ -1,11 +1,11 @@
-import { Error, Module } from "./types"
-import { errors } from './error'
-import { lex } from "./lex"
-import { parse } from "./parse"
-import { bind } from "./bind"
-import { check } from "./check"
-import { transform } from "./transform"
-import { emit } from "./emit"
+import { Error, Module } from "./types.js"
+import { errors } from './error.js'
+import { lex } from "./lex.js"
+import { parse } from "./parse.js"
+import { bind } from "./bind.js"
+import { check } from "./check.js"
+import { transform } from "./transform.js"
+import { emit } from "./emit.js"
 
 export function compile(s: string): [Module, Error[], string] {
     errors.clear()

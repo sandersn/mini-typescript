@@ -1,4 +1,4 @@
-import { Token, Lexer } from './types'
+import { Token, Lexer } from './types.js'
 const keywords = {
     "function": Token.Function,
     "var": Token.Var,
@@ -25,12 +25,12 @@ export function lex(s: string): Lexer {
             pos++
             scanForward(c => /[^\"]/.test(c))
             if (s.charAt(pos) !== '"') {
-                throw new Error("lexer regular expression [^\"] didn't work the way I expected")
+                // TODO: Better error reporting (and return the current span as a string)
+                throw new Error("unclosed string literal")
             }
             else {
                 pos++
             }
-            // TODO: Add test
             text = s.slice(start, pos)
             token = Token.StringLiteral
         }
@@ -48,8 +48,11 @@ export function lex(s: string): Lexer {
             pos++
             switch (s.charAt(pos - 1)) {
                 case '=': token = Token.Equals; break
+                case ',': token = Token.Comma; break
                 case ';': token = Token.Semicolon; break
                 case ":": token = Token.Colon; break
+                case "{": token = Token.OpenBrace; break
+                case "}": token = Token.CloseBrace; break
                 default: token = Token.Unknown; break
             }
         }

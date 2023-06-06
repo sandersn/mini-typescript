@@ -1,10 +1,11 @@
 import * as fs from 'fs'
-import { Module, Statement, Token, Node, Identifier, Expression, Table } from './types'
-import { lexAll } from './lex'
-import { compile } from './compile'
+import { Module, Token, Node, Table } from './types.js'
+import { lexAll } from './lex.js'
+import { compile } from './compile.js'
 
 const args = process.argv.slice(2);
 const write = args.includes("--write")
+const patterns = args.filter(a => !a.startsWith("--"))
 
 const strong = (str: string) => console.log('\x1b[1m%s\x1b[0m', str);
 
@@ -51,15 +52,20 @@ const lexTests = {
     "semicolonLex": "x; y",
     "newlineLex": "x\n y  \n" ,
     "stringLex": '"hello"',
+    "braceLex": "{ x: 1, y: \"string\" }",
 }
-let lexResult = sum(Object.entries(lexTests).map(
-    ([name, text]) => test("lex", name, lexAll(text).map(t => t.text ? [Token[t.token], t.text] : [Token[t.token]]))))
-let compileResult = sum(fs.readdirSync("tests").map(file => {
-    const [tree, errors, js] = compile(fs.readFileSync("tests/" + file, 'utf8'))
-    const name = file.slice(0, file.length - 3)
-    return test("tree", name, displayModule(tree))
-        + test("errors", name, errors)
-        + test("js", name, js)
+let lexResult = sum(Object.entries(lexTests)
+    .filter(([name]) => patterns.length ? patterns.some(p => name.match(p)) : true)
+    .map(([name, text]) =>
+        test("lex", name, lexAll(text).map(t => t.text ? [Token[t.token], t.text] : [Token[t.token]]))))
+let compileResult = sum(fs.readdirSync("tests")
+    .filter(file => patterns.length ? patterns.some(p => file.match(p)) : true)
+    .map(file => {
+        const [tree, errors, js] = compile(fs.readFileSync("tests/" + file, 'utf8'))
+        const name = file.slice(0, file.length - 3)
+        return test("tree", name, displayModule(tree))
+            + test("errors", name, errors)
+            + test("js", name, js)
 }))
 function displayModule(m: Module) {
     return { locals: displayTable(m.locals), statements: m.statements.map(display) }
@@ -74,7 +80,7 @@ function displayTable(table: Table) {
 function display(o: any) {
     const o2 = {} as any
     for (const k in o) {
-        if (k === 'pos') continue
+        if (k === 'pos' || k === 'symbol') continue
         else if (k === 'kind') o2[k] = Node[o.kind]
         else if (typeof o[k] === 'object') o2[k] = display(o[k])
         else o2[k] = o[k]

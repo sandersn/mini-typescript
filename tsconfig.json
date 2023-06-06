@@ -1,10 +1,12 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
+        "module": "nodenext",
+        "moduleResolution": "nodenext",
         "strict": true,
         "target": "esnext",
         "lib": ["es2020", "dom"],
-        "outDir": "built"
+        "outDir": "built",
+        "sourceMap": true,
     },
     "include": [
         "src"

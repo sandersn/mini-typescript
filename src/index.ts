@@ -1,5 +1,5 @@
-import fs = require('fs')
-import { compile } from './compile'
+import * as fs from 'fs'
+import { compile } from './compile.js'
 
 const args = process.argv.slice(2);
 const title = (str: string) => console.log('\x1b[1m%s\x1b[0m', str);

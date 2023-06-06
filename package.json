@@ -2,6 +2,7 @@
   "name": "mini-typescript",
   "version": "1.0.0",
   "description": "A miniature model of the TypeScript compiler",
+  "type": "module",
   "main": "compiler/index.js",
   "scripts": {
     "build": "tsc",
@@ -29,6 +30,6 @@
   "homepage": "https://github.com/sandersn/mini-typescript#readme",
   "devDependencies": {
     "@types/node": "^20.2.5",
-    "typescript": "latest"
+    "typescript": "^5.1.3"
   }
 }

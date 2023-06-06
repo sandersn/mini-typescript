@@ -9,8 +9,11 @@ export enum Token {
     Identifier,
     Newline,
     Semicolon,
+    Comma,
     Colon,
     Whitespace,
+    OpenBrace,
+    CloseBrace,
     Unknown,
     BOF,
     EOF,
@@ -29,6 +32,10 @@ export enum Node {
     ExpressionStatement,
     Var,
     TypeAlias,
+    Object,
+    PropertyAssignment,
+    ObjectType,
+    PropertyDeclaration,
 }
 export type Error = {
     pos: number
@@ -37,7 +44,7 @@ export type Error = {
 export interface Location {
     pos: number
 }
-export type Expression = Identifier | NumericLiteral | StringLiteral | Assignment
+export type Expression = Identifier | NumericLiteral | StringLiteral | Assignment | Object
 export type Identifier = Location & {
     kind: Node.Identifier
     text: string
@@ -49,6 +56,16 @@ export type NumericLiteral = Location & {
 export type StringLiteral = Location & {
     kind: Node.StringLiteral
     value: string
+}
+export type Object = Location & {
+    kind: Node.Object
+    properties: PropertyAssignment[]
+    symbol: ObjectSymbol
+}
+export type PropertyAssignment = Location & {
+    kind: Node.PropertyAssignment
+    name: Identifier
+    initializer: Expression
 }
 export type Assignment = Location & {
     kind: Node.Assignment
@@ -65,20 +82,33 @@ export type Var = Location & {
     name: Identifier
     typename?: Identifier | undefined
     init: Expression
+    symbol: Symbol
 }
 export type TypeAlias = Location & {
     kind: Node.TypeAlias
     name: Identifier
     typename: Identifier
+    symbol: Symbol
 }
-export type Declaration = Var | TypeAlias // plus others, like function
+export type Declaration = Var | TypeAlias | Object | PropertyAssignment
 export type Symbol = {
     valueDeclaration: Declaration | undefined
     declarations: Declaration[]
+}
+export type ObjectSymbol = Symbol & {
+    members: Table
+}
+export enum Meaning {
+    Value,
+    Type,
 }
 export type Table = Map<string, Symbol>
 export type Module = {
     locals: Table
     statements: Statement[]
 }
-export type Type = { id: string }
+export type SimpleType = { id: number }
+export type ObjectType = SimpleType & {
+    members: Table
+}
+export type Type = SimpleType | ObjectType

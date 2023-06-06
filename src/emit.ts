@@ -1,4 +1,4 @@
-import { Statement, Node, Expression } from './types'
+import { Statement, Node, Expression, PropertyAssignment } from './types.js'
 export function emit(statements: Statement[]) {
     return statements.map(emitStatement).join(";\n")
 }
@@ -23,6 +23,11 @@ function emitExpression(expression: Expression): string {
             return expression.value
         case Node.Assignment:
             return `${expression.name.text} = ${emitExpression(expression.value)}`
+        case Node.Object:
+            return `{${expression.properties.map(emitProperty).join(", ")}}`
     }
+}
+function emitProperty(property: PropertyAssignment): string {
+    return `${property.name.text}: ${emitExpression(property.initializer)}`
 }
 

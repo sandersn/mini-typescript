@@ -59,8 +59,10 @@ Some concerns that might make it in:
 - type inference
 - overloads
 - real assignability implemention
+- literals (and other unit types)
 - classes
 - generics
+- late-bound fields
 - advanced types (index [access], mapped, conditional, template literals) -- probably not
 - more efficient, realistic transform pipeline
 - .d.ts transform
@@ -71,6 +73,9 @@ Some concerns that might make it in:
 - more realistic top-level exception handling and errors
 - maybe generate error messages like diagnosticMessages.json?
 - probably more realistic tests
+- 3rd resolution space for binder: namespaces
+- symbol flags
+- caching of types on symbols
 
 But:
 
@@ -79,8 +84,12 @@ But:
 
 First up:
 
-- strings
-- objects and object types
+- [x] strings
+- [x] objects
+- [ ] function expressions (arrows are too hard to parse and functions show off `this` semantics to boot)
+- [ ] object types
+- [ ] signatures
+- [ ] assignability
 
 ## Exercises
 

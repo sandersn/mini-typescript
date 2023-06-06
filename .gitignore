@@ -1,3 +1,5 @@
 node_modules/
 baselines/local/
 *.js
+*.js.map
+.vscode/
