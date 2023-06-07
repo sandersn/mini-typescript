@@ -1,8 +1,9 @@
-import { Expression, Module, Node, Statement, Table, PropertyAssignment, Declaration, Meaning } from './types.js'
+import { Expression, Module, AllNodes, Location, Node, Statement, Table, Declaration, Meaning } from './types.js'
 import { error } from './error.js'
-export const valueKinds = new Set([Node.Var, Node.Object, Node.PropertyAssignment])
-export const typeKinds = new Set([Node.TypeAlias])
+export const valueDeclarations = new Set([Node.Var, Node.Object, Node.PropertyAssignment, Node.Parameter])
+export const typeDeclarations = new Set([Node.TypeAlias])
 export function bind(m: Module) {
+    setParents(m, m.statements)
     for (const statement of m.statements) {
         bindStatement(m.locals, statement)
     }
@@ -10,33 +11,55 @@ export function bind(m: Module) {
     function bindStatement(locals: Table, statement: Statement) {
         switch (statement.kind) {
             case Node.Var:
+                setParents(statement, [statement.name, statement.typename, statement.init])
                 bindExpression(statement.init)
                 declareSymbol(locals, statement, Meaning.Value)
                 break
             case Node.TypeAlias:
+                setParents(statement, [statement.name, statement.typename])
                 declareSymbol(locals, statement, Meaning.Type)
                 break
             case Node.ExpressionStatement:
+            case Node.Return:
+                setParents(statement, [statement.expr])
                 bindExpression(statement.expr)
                 break
+            default:
+                throw new Error(`Unexpected statement kind ${Node[(statement as Statement).kind]}`)
         }
     }
     function bindExpression(expr: Expression) {
-        if (expr.kind === Node.Object) {
-            for (const property of expr.properties) {
-                bindProperty(expr.symbol.members, property)
-            }
-        }
-    }
-    function bindProperty(container: Table, property: PropertyAssignment) {
-        if (property.kind === Node.PropertyAssignment) {
-            bindExpression(property.initializer)
-            declareSymbol(container, property, Meaning.Value)
+        switch (expr.kind) {
+            case Node.Object:
+                setParents(expr, expr.properties)
+                for (const property of expr.properties) {
+                    bindExpression(property.initializer)
+                    declareSymbol(expr.symbol.members, property, Meaning.Value)
+                }
+                break
+            case Node.Function:
+                setParents(expr, [expr.name, ...expr.parameters, expr.typename, ...expr.body])
+                for (const parameter of expr.parameters) {
+                    declareSymbol(expr.locals, parameter, Meaning.Value)
+                }
+                for (const statement of expr.body) {
+                    bindStatement(expr.locals, statement)
+                }
+                break
+            case Node.Assignment:
+                setParents(expr, [expr.name, expr.value])
+                break
+            case Node.Identifier:
+            case Node.StringLiteral:
+            case Node.NumericLiteral:
+                break
+            default:
+                throw new Error(`Unexpected expression kind ${Node[(expr as Expression).kind]}`)
         }
     }
     function declareSymbol(container: Table, declaration: Declaration, meaning: Meaning) {
         const name = getDeclarationName(declaration)
-        const symbol = container.get(name)
+        let symbol = container.get(name)
         if (symbol) {
             const other = symbol.declarations.find(d => meaning === getMeaning(d))
             if (other) {
@@ -50,21 +73,30 @@ export function bind(m: Module) {
             }
         }
         else {
-            container.set(name, {
+            symbol = {
                 declarations: [declaration],
                 valueDeclaration: meaning == Meaning.Value ? declaration : undefined,
-            })
+            }
+            container.set(name, symbol)
         }
+        declaration.symbol = symbol
+    }
+}
+function setParents(parent: AllNodes, children: (Location | undefined)[]) {
+    for (const child of children) {
+        if (child)
+            child.parent = parent
     }
 }
 export function getMeaning(declaration: Declaration) {
-    return valueKinds.has(declaration.kind) ? Meaning.Value : Meaning.Type
+    return valueDeclarations.has(declaration.kind) ? Meaning.Value : Meaning.Type
 }
 export function getDeclarationName(node: Declaration) {
     switch (node.kind) {
         case Node.Var:
         case Node.TypeAlias:
         case Node.PropertyAssignment:
+        case Node.Parameter:
             return node.name.text
         case Node.Object:
             return "__object"
@@ -72,11 +104,4 @@ export function getDeclarationName(node: Declaration) {
             error((node as Declaration).pos, `Cannot get name of ${(node as Declaration).kind}`)
             return "__missing"
     }
-}
-export function resolve(locals: Table, name: string, meaning: Meaning) {
-    const symbol = locals.get(name)
-    if (symbol?.declarations.some(d => getMeaning(d) === meaning)) {
-        return symbol
-    }
-    // TODO: Maybe move error from callers to here
 }

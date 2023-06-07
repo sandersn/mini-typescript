@@ -1,5 +1,5 @@
 {
-  "locals": {},
+  "kind": "Module",
   "statements": [
     {
       "kind": "ExpressionStatement",
@@ -8,5 +8,6 @@
         "value": "\"hello\""
       }
     }
-  ]
+  ],
+  "locals": {}
 }

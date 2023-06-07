@@ -62,6 +62,7 @@ Some concerns that might make it in:
 - literals (and other unit types)
 - classes
 - generics
+- `this` types and/or `this` parameters
 - late-bound fields
 - advanced types (index [access], mapped, conditional, template literals) -- probably not
 - more efficient, realistic transform pipeline
@@ -86,10 +87,16 @@ First up:
 
 - [x] strings
 - [x] objects
-- [ ] function expressions (arrows are too hard to parse and functions show off `this` semantics to boot)
+- [x] function expressions (arrows are too hard to parse and functions show off `this` semantics to boot)
+- [x] return statements
+- [ ] calls
 - [ ] object types
 - [ ] signatures
 - [ ] assignability
+
+Then:
+- [ ] `this`
+- [ ] union types
 
 ## Exercises
 

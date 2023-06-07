@@ -1,12 +1,5 @@
 {
-  "locals": {
-    "s": [
-      {
-        "kind": "Var",
-        "pos": 3
-      }
-    ]
-  },
+  "kind": "Module",
   "statements": [
     {
       "kind": "Var",
@@ -23,5 +16,13 @@
         "value": 1
       }
     }
-  ]
+  ],
+  "locals": {
+    "s": [
+      {
+        "kind": "Var",
+        "pos": 3
+      }
+    ]
+  }
 }

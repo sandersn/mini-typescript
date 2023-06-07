@@ -1,10 +1,12 @@
-import { Module, Statement, Type, Symbol, Node, Expression, Declaration, Identifier, TypeAlias, Object, PropertyAssignment, ObjectType, Table, Meaning } from './types.js'
+import { Node, Meaning } from './types.js'
+import type { AllNodes, Container, Module, Statement, Type, Symbol, Expression, Declaration, Identifier, TypeAlias, Object, PropertyAssignment, ObjectType, Function, Parameter, Return, Table } from './types.js'
 import { error } from './error.js'
-import { resolve } from './bind.js'
+import { getMeaning } from './bind.js'
 let typeCount = 0
 const stringType: Type = { id: typeCount++ }
 const numberType: Type = { id: typeCount++ }
 const errorType: Type = { id: typeCount++ }
+const anyType: Type = { id: typeCount++ }
 export function check(module: Module) {
     return module.statements.map(checkStatement)
 
@@ -23,12 +25,14 @@ export function check(module: Module) {
                 return t
             case Node.TypeAlias:
                 return checkType(statement.typename)
+            case Node.Return:
+                return checkExpression(statement.expr)
         }
     }
     function checkExpression(expression: Expression): Type {
         switch (expression.kind) {
             case Node.Identifier:
-                const symbol = resolve(module.locals, expression.text, Meaning.Value)
+                const symbol = resolve(expression, expression.text, Meaning.Value)
                 if (symbol) {
                     return getValueTypeOfSymbol(symbol)
                 }
@@ -46,12 +50,14 @@ export function check(module: Module) {
                 if (t !== v)
                     error(expression.value.pos, `Cannot assign value of type '${typeToString(v)}' to variable of type '${typeToString(t)}'.`)
                 return t
+            case Node.Function:
+                return checkFunction(expression)
         }
     }
     function checkObject(object: Object): ObjectType {
         const members: Table = new Map()
         for (const p of object.properties) {
-            const symbol = resolve(object.symbol.members, p.name.text, Meaning.Value)
+            const symbol = resolve(p, p.name.text, Meaning.Value)
             if (!symbol) {
                 throw new Error(`Binder did not correctly bind property ${p.name.text} of object with keys ${Object.keys(object.symbol.members)}`)
             }
@@ -63,6 +69,55 @@ export function check(module: Module) {
     function checkProperty(property: PropertyAssignment): Type {
         return checkExpression(property.initializer)
     }
+    function checkFunction(func: Function): Type {
+        const bodyType = checkBody(func.body)
+        for (const parameters of func.parameters) {
+            checkParameter(parameters)
+        }
+        const returnType = func.typename ? checkType(func.typename) : undefined
+        // TODO: Check assignability of body type to return type
+        return {
+            id: typeCount++,
+            signature: {
+                parameters: func.parameters.map(p => p.symbol),
+                returnType: returnType || bodyType,
+            }
+        }
+    }
+    function checkParameter(parameter: Parameter): Type {
+        return parameter.typename ? checkType(parameter.typename) : anyType
+    }
+    function checkBody(body: Statement[]): Type {
+        for (const statement of body) {
+            checkStatement(statement)
+        }
+        // now find all return statements and munge their types together
+        const types: Type[] = []
+        forEachReturnStatement(body, returnStatement => {
+            // TODO: Dedupe
+            types.push(checkStatement(returnStatement))
+        })
+        // TODO: Union types, I guess
+        return types[0]
+    }
+    function forEachReturnStatement(body: Statement[], callback: (returnStatement: Return) => void): void {
+        for (const statement of body) {
+            traverse(statement)
+        }
+        function traverse(node: Statement) {
+            switch (node.kind) {
+                case Node.ExpressionStatement:
+                case Node.Var:
+                case Node.TypeAlias:
+                    return
+                case Node.Return:
+                    return callback(node)
+                default:
+                    const unused: never = node
+                    console.log(`${unused} should *never* have been used`)
+            }
+        }
+    }
     function checkType(name: Identifier): Type {
         switch (name.text) {
             case "string":
@@ -70,7 +125,7 @@ export function check(module: Module) {
             case "number":
                 return numberType
             default:
-                const symbol = resolve(module.locals, name.text, Meaning.Type)
+                const symbol = resolve(name, name.text, Meaning.Type)
                 if (symbol) {
                     return checkType((symbol.declarations.find(d => d.kind === Node.TypeAlias) as TypeAlias).typename)
                 }
@@ -92,8 +147,10 @@ export function check(module: Module) {
                 return checkExpression(symbol.valueDeclaration)
             case Node.PropertyAssignment:
                 return checkProperty(symbol.valueDeclaration)
+            case Node.Parameter:
+                return checkParameter(symbol.valueDeclaration)
             default:
-                throw new Error("Unxpected value declaration kind " + (symbol.valueDeclaration as Declaration).kind)
+                throw new Error("Unxpected value declaration kind " + Node[(symbol.valueDeclaration as Declaration).kind])
         }
     }
     function typeToString(type: Type): string {
@@ -107,5 +164,29 @@ export function check(module: Module) {
                 }
                 return '(anonymous)'
         }
+    }
+    function resolve(location: AllNodes, name: string, meaning: Meaning) {
+        while (location) {
+            if (location.kind === Node.Module || location.kind === Node.Function) {
+                const symbol = getSymbol((location as Container).locals, name, meaning)
+                if (symbol) {
+                    return symbol
+                }
+            }
+            else if (location.kind === Node.Object) {
+                const symbol = getSymbol((location as Object).symbol.members, name, meaning)
+                if (symbol) {
+                    return symbol
+                }
+            }
+            location = location.parent as AllNodes
+        }
+    }
+    function getSymbol(locals: Table, name: string, meaning: Meaning) {
+        const symbol = locals.get(name)
+        if (symbol?.declarations.some(d => getMeaning(d) === meaning)) {
+            return symbol
+        }
+        // TODO: Maybe move error from callers to here
     }
 }

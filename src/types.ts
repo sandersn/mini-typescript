@@ -14,6 +14,8 @@ export enum Token {
     Whitespace,
     OpenBrace,
     CloseBrace,
+    OpenParen,
+    CloseParen,
     Unknown,
     BOF,
     EOF,
@@ -25,6 +27,7 @@ export type Lexer = {
     text(): string
 }
 export enum Node {
+    Module,
     Identifier,
     NumericLiteral,
     StringLiteral,
@@ -36,15 +39,23 @@ export enum Node {
     PropertyAssignment,
     ObjectType,
     PropertyDeclaration,
+    Function,
+    Parameter,
+    Return,
 }
 export type Error = {
     pos: number
     message: string
 }
 export interface Location {
+    parent: AllNodes
     pos: number
 }
-export type Expression = Identifier | NumericLiteral | StringLiteral | Assignment | Object
+export type Expression = Identifier | NumericLiteral | StringLiteral | Assignment | Object | Function
+export type Statement = Var | TypeAlias | ExpressionStatement | Return
+export type Declaration = Var | TypeAlias | Object | Parameter | PropertyAssignment
+export type Container = Module | Function
+export type AllNodes = Expression | Statement | Declaration | Module
 export type Identifier = Location & {
     kind: Node.Identifier
     text: string
@@ -66,13 +77,27 @@ export type PropertyAssignment = Location & {
     kind: Node.PropertyAssignment
     name: Identifier
     initializer: Expression
+    symbol: Symbol
 }
 export type Assignment = Location & {
     kind: Node.Assignment
     name: Identifier
     value: Expression
 }
-export type Statement = ExpressionStatement | Var | TypeAlias
+export type Function = Location & {
+    kind: Node.Function
+    name?: Identifier
+    parameters: Parameter[]
+    typename?: Identifier | undefined // TODO: This needs to be more complex
+    body: Statement[] // TODO: Maybe need to be Block
+    locals: Table
+}
+export type Parameter = Location & {
+    kind: Node.Parameter
+    name: Identifier
+    typename?: Identifier // TODO: This needs to be more complex
+    symbol: Symbol
+}
 export type ExpressionStatement = Location & {
     kind: Node.ExpressionStatement
     expr: Expression
@@ -80,17 +105,20 @@ export type ExpressionStatement = Location & {
 export type Var = Location & {
     kind: Node.Var
     name: Identifier
-    typename?: Identifier | undefined
+    typename?: Identifier | undefined // TODO: This needs to be more complex
     init: Expression
     symbol: Symbol
 }
 export type TypeAlias = Location & {
     kind: Node.TypeAlias
     name: Identifier
-    typename: Identifier
+    typename: Identifier // TODO: This needs to be more complex
     symbol: Symbol
 }
-export type Declaration = Var | TypeAlias | Object | PropertyAssignment
+export type Return = Location & {
+    kind: Node.Return
+    expr: Expression
+}
 export type Symbol = {
     valueDeclaration: Declaration | undefined
     declarations: Declaration[]
@@ -103,7 +131,8 @@ export enum Meaning {
     Type,
 }
 export type Table = Map<string, Symbol>
-export type Module = {
+export type Module = Location & {
+    kind: Node.Module
     locals: Table
     statements: Statement[]
 }
@@ -111,4 +140,11 @@ export type SimpleType = { id: number }
 export type ObjectType = SimpleType & {
     members: Table
 }
-export type Type = SimpleType | ObjectType
+export type FunctionType = SimpleType & {
+    signature: Signature
+}
+export type Signature = {
+    parameters: Symbol[]
+    returnType: Type
+}
+export type Type = SimpleType | ObjectType | FunctionType

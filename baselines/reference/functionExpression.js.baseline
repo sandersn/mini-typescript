@@ -1,0 +1,6 @@
+var f = function (x) {
+    return x
+};
+var g = function g(x) {
+    return x
+}

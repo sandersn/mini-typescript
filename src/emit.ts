@@ -1,4 +1,4 @@
-import { Statement, Node, Expression, PropertyAssignment } from './types.js'
+import { Statement, Node, Expression, PropertyAssignment, Parameter } from './types.js'
 export function emit(statements: Statement[]) {
     return statements.map(emitStatement).join(";\n")
 }
@@ -11,6 +11,8 @@ function emitStatement(statement: Statement): string {
             return `var ${statement.name.text}${typestring} = ${emitExpression(statement.init)}`
         case Node.TypeAlias:
             return `type ${statement.name.text} = ${statement.typename.text}`
+        case Node.Return:
+            return `return ${emitExpression(statement.expr)}`
     }
 }
 function emitExpression(expression: Expression): string {
@@ -25,9 +27,18 @@ function emitExpression(expression: Expression): string {
             return `${expression.name.text} = ${emitExpression(expression.value)}`
         case Node.Object:
             return `{${expression.properties.map(emitProperty).join(", ")}}`
+        case Node.Function:
+            return `function ${expression.name ? expression.name.text : ""}(${expression.parameters.map(emitParameter).join(", ")}) {
+    ${expression.body.map(emitStatement).join(";\n    ")}
+}`
     }
 }
 function emitProperty(property: PropertyAssignment): string {
     return `${property.name.text}: ${emitExpression(property.initializer)}`
 }
-
+function emitParameter(parameter: Parameter): string {
+    if (parameter.typename) {
+        return `${parameter.name.text}: ${parameter.typename.text}`
+    }
+    return parameter.name.text
+}

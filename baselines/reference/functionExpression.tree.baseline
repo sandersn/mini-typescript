@@ -1,0 +1,103 @@
+{
+  "kind": "Module",
+  "statements": [
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
+        "text": "f"
+      },
+      "init": {
+        "kind": "Function",
+        "parameters": [
+          {
+            "kind": "Parameter",
+            "name": {
+              "kind": "Identifier",
+              "text": "x"
+            },
+            "typename": {
+              "kind": "Identifier",
+              "text": "number"
+            }
+          }
+        ],
+        "typename": {
+          "kind": "Identifier",
+          "text": "number"
+        },
+        "body": [
+          {
+            "kind": "Return",
+            "expr": {
+              "kind": "Identifier",
+              "text": "x"
+            }
+          }
+        ],
+        "locals": {
+          "x": [
+            {
+              "kind": "Parameter",
+              "pos": 19
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
+        "text": "g"
+      },
+      "init": {
+        "kind": "Function",
+        "name": {
+          "kind": "Identifier",
+          "text": "g"
+        },
+        "parameters": [
+          {
+            "kind": "Parameter",
+            "name": {
+              "kind": "Identifier",
+              "text": "x"
+            }
+          }
+        ],
+        "body": [
+          {
+            "kind": "Return",
+            "expr": {
+              "kind": "Identifier",
+              "text": "x"
+            }
+          }
+        ],
+        "locals": {
+          "x": [
+            {
+              "kind": "Parameter",
+              "pos": 72
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "locals": {
+    "f": [
+      {
+        "kind": "Var",
+        "pos": 3
+      }
+    ],
+    "g": [
+      {
+        "kind": "Var",
+        "pos": 54
+      }
+    ]
+  }
+}

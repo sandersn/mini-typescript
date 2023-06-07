@@ -1,12 +1,5 @@
 {
-  "locals": {
-    "o": [
-      {
-        "kind": "Var",
-        "pos": 3
-      }
-    ]
-  },
+  "kind": "Module",
   "statements": [
     {
       "kind": "Var",
@@ -16,8 +9,8 @@
       },
       "init": {
         "kind": "Object",
-        "properties": {
-          "0": {
+        "properties": [
+          {
             "kind": "PropertyAssignment",
             "name": {
               "kind": "Identifier",
@@ -28,7 +21,7 @@
               "value": 1
             }
           },
-          "1": {
+          {
             "kind": "PropertyAssignment",
             "name": {
               "kind": "Identifier",
@@ -39,8 +32,16 @@
               "value": "\"string\""
             }
           }
-        }
+        ]
       }
     }
-  ]
+  ],
+  "locals": {
+    "o": [
+      {
+        "kind": "Var",
+        "pos": 3
+      }
+    ]
+  }
 }

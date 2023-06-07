@@ -53,6 +53,7 @@ const lexTests = {
     "newlineLex": "x\n y  \n" ,
     "stringLex": '"hello"',
     "braceLex": "{ x: 1, y: \"string\" }",
+    "functionLex": "var f = function (x: number): number { return x }"
 }
 let lexResult = sum(Object.entries(lexTests)
     .filter(([name]) => patterns.length ? patterns.some(p => name.match(p)) : true)
@@ -63,7 +64,7 @@ let compileResult = sum(fs.readdirSync("tests")
     .map(file => {
         const [tree, errors, js] = compile(fs.readFileSync("tests/" + file, 'utf8'))
         const name = file.slice(0, file.length - 3)
-        return test("tree", name, displayModule(tree))
+        return test("tree", name, display(tree))
             + test("errors", name, errors)
             + test("js", name, js)
 }))
@@ -80,8 +81,10 @@ function displayTable(table: Table) {
 function display(o: any) {
     const o2 = {} as any
     for (const k in o) {
-        if (k === 'pos' || k === 'symbol') continue
+        if (k === 'pos' || k === 'symbol' || k === 'parent') continue
         else if (k === 'kind') o2[k] = Node[o.kind]
+        else if (k === 'locals') o2[k] = displayTable(o.locals)
+        else if (Array.isArray(o[k])) o2[k] = o[k].map(display)
         else if (typeof o[k] === 'object') o2[k] = display(o[k])
         else o2[k] = o[k]
     }

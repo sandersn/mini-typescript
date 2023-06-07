@@ -1,64 +1,5 @@
 {
-  "locals": {
-    "Nat": [
-      {
-        "kind": "TypeAlias",
-        "pos": 4
-      },
-      {
-        "kind": "Var",
-        "pos": 22
-      }
-    ],
-    "nat": [
-      {
-        "kind": "Var",
-        "pos": 36
-      }
-    ],
-    "Not": [
-      {
-        "kind": "TypeAlias",
-        "pos": 57
-      }
-    ],
-    "Nit": [
-      {
-        "kind": "TypeAlias",
-        "pos": 95
-      }
-    ],
-    "nit": [
-      {
-        "kind": "Var",
-        "pos": 110
-      }
-    ],
-    "Nut": [
-      {
-        "kind": "Var",
-        "pos": 130
-      }
-    ],
-    "nut": [
-      {
-        "kind": "Var",
-        "pos": 144
-      }
-    ],
-    "Net": [
-      {
-        "kind": "TypeAlias",
-        "pos": 164
-      }
-    ],
-    "net": [
-      {
-        "kind": "Var",
-        "pos": 182
-      }
-    ]
-  },
+  "kind": "Module",
   "statements": [
     {
       "kind": "TypeAlias",
@@ -193,5 +134,65 @@
         "text": "Net"
       }
     }
-  ]
+  ],
+  "locals": {
+    "Nat": [
+      {
+        "kind": "TypeAlias",
+        "pos": 4
+      },
+      {
+        "kind": "Var",
+        "pos": 22
+      }
+    ],
+    "nat": [
+      {
+        "kind": "Var",
+        "pos": 36
+      }
+    ],
+    "Not": [
+      {
+        "kind": "TypeAlias",
+        "pos": 57
+      }
+    ],
+    "Nit": [
+      {
+        "kind": "TypeAlias",
+        "pos": 95
+      }
+    ],
+    "nit": [
+      {
+        "kind": "Var",
+        "pos": 110
+      }
+    ],
+    "Nut": [
+      {
+        "kind": "Var",
+        "pos": 130
+      }
+    ],
+    "nut": [
+      {
+        "kind": "Var",
+        "pos": 144
+      }
+    ],
+    "Net": [
+      {
+        "kind": "TypeAlias",
+        "pos": 164
+      }
+    ],
+    "net": [
+      {
+        "kind": "Var",
+        "pos": 182
+      }
+    ]
+  }
 }

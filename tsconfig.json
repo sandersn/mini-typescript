@@ -3,6 +3,7 @@
         "module": "nodenext",
         "moduleResolution": "nodenext",
         "strict": true,
+        "noImplicitReturns": false,
         "target": "esnext",
         "lib": ["es2020", "dom"],
         "outDir": "built",
