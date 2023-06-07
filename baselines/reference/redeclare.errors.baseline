@@ -1,6 +1,7 @@
 [
   {
     "pos": 14,
-    "message": "Cannot redeclare x; first declared at 3"
+    "message": "Cannot redeclare x; first declared at 3",
+    "snippet": "x = 1;\nvar/*!!*/ x = 2\n"
   }
 ]

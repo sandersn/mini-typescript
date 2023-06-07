@@ -84,6 +84,31 @@
           ]
         }
       }
+    },
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
+        "text": "e"
+      },
+      "init": {
+        "kind": "Function",
+        "parameters": [],
+        "typename": {
+          "kind": "Identifier",
+          "text": "string"
+        },
+        "body": [
+          {
+            "kind": "Return",
+            "expr": {
+              "kind": "NumericLiteral",
+              "value": 1
+            }
+          }
+        ],
+        "locals": {}
+      }
     }
   ],
   "locals": {
@@ -97,6 +122,12 @@
       {
         "kind": "Var",
         "pos": 54
+      }
+    ],
+    "e": [
+      {
+        "kind": "Var",
+        "pos": 91
       }
     ]
   }

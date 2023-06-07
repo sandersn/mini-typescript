@@ -1,5 +1,5 @@
 import * as fs from 'fs'
-import { Module, Token, Node, Table } from './types.js'
+import { Error, Token, Node, Table } from './types.js'
 import { lexAll } from './lex.js'
 import { compile } from './compile.js'
 
@@ -62,14 +62,15 @@ let lexResult = sum(Object.entries(lexTests)
 let compileResult = sum(fs.readdirSync("tests")
     .filter(file => patterns.length ? patterns.some(p => file.match(p)) : true)
     .map(file => {
-        const [tree, errors, js] = compile(fs.readFileSync("tests/" + file, 'utf8'))
+        const text = fs.readFileSync("tests/" + file, 'utf8')
+        const [tree, errors, js] = compile(text)
         const name = file.slice(0, file.length - 3)
         return test("tree", name, display(tree))
-            + test("errors", name, errors)
+            + test("errors", name, displayErrors(errors, text))
             + test("js", name, js)
 }))
-function displayModule(m: Module) {
-    return { locals: displayTable(m.locals), statements: m.statements.map(display) }
+function displayErrors(errors: Error[], text: string) {
+    return errors.map(e => ({ ...e, snippet: text.slice(e.pos - 10, e.pos) + "/*!!*/" + text.slice(e.pos, e.pos + 10) }))
 }
 function displayTable(table: Table) {
     const o = {} as any

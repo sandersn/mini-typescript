@@ -1,6 +1,7 @@
 [
   {
     "pos": 1,
-    "message": "Could not resolve x"
+    "message": "Could not resolve x",
+    "snippet": "x/*!!*/\n"
   }
 ]

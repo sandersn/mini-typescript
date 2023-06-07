@@ -1,6 +1,7 @@
 [
   {
     "pos": 17,
-    "message": "Cannot assign initialiser of type 'number' to variable with declared type 'string'."
+    "message": "Cannot assign initialiser of type 'number' to variable with declared type 'string'.",
+    "snippet": "string = 1/*!!*/\n"
   }
 ]

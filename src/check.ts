@@ -47,6 +47,7 @@ export function check(module: Module) {
             case Node.Assignment:
                 const v = checkExpression(expression.value)
                 const t = checkExpression(expression.name)
+                // TODO: real assignability check
                 if (t !== v)
                     error(expression.value.pos, `Cannot assign value of type '${typeToString(v)}' to variable of type '${typeToString(t)}'.`)
                 return t
@@ -70,24 +71,24 @@ export function check(module: Module) {
         return checkExpression(property.initializer)
     }
     function checkFunction(func: Function): Type {
-        const bodyType = checkBody(func.body)
+        const declaredType = func.typename && checkType(func.typename)
+        const bodyType = checkBody(func.body, declaredType)
+        const returnType = declaredType || bodyType
         for (const parameters of func.parameters) {
             checkParameter(parameters)
         }
-        const returnType = func.typename ? checkType(func.typename) : undefined
-        // TODO: Check assignability of body type to return type
         return {
             id: typeCount++,
             signature: {
                 parameters: func.parameters.map(p => p.symbol),
-                returnType: returnType || bodyType,
+                returnType,
             }
         }
     }
     function checkParameter(parameter: Parameter): Type {
         return parameter.typename ? checkType(parameter.typename) : anyType
     }
-    function checkBody(body: Statement[]): Type {
+    function checkBody(body: Statement[], declaredType?: Type): Type {
         for (const statement of body) {
             checkStatement(statement)
         }
@@ -95,7 +96,13 @@ export function check(module: Module) {
         const types: Type[] = []
         forEachReturnStatement(body, returnStatement => {
             // TODO: Dedupe
-            types.push(checkStatement(returnStatement))
+            const returnType = checkStatement(returnStatement)
+            if (declaredType && returnType !== declaredType) {
+                // TODO: real assignability check
+                if (returnType !== declaredType)
+                    error(returnStatement.pos, `Returned type '${typeToString(returnType)}' does not match declared return type '${typeToString(declaredType)}'.`)
+            }
+            types.push(returnType)
         })
         // TODO: Union types, I guess
         return types[0]

@@ -5,14 +5,12 @@ export function parse(lexer: Lexer): Module {
     return parseModule()
 
     function parseModule(): Module {
-        const statements = parseSeparated(parseStatement, () => tryParseToken(Token.Semicolon))
-        parseExpected(Token.EOF)
+        const statements = parseTerminated(parseStatement, Token.Semicolon, Token.EOF)
         return { kind: Node.Module, statements, locals: new Map(), pos: 0, parent: undefined! }
     }
     function parseBlock(): Statement[] {
         parseExpected(Token.OpenBrace)
-        const statements = parseSeparated(parseStatement, () => tryParseToken(Token.Semicolon))
-        parseExpected(Token.CloseBrace)
+        const statements = parseTerminated(parseStatement, Token.Semicolon, Token.CloseBrace)
         return statements
     }
     function parseExpression(): Expression {
@@ -20,20 +18,18 @@ export function parse(lexer: Lexer): Module {
         if (tryParseToken(Token.OpenBrace)) {
             const object = {
                 kind: Node.Object,
-                properties: parseSeparated(parseProperty, () => tryParseToken(Token.Comma)),
+                properties: parseTerminated(parseProperty, Token.Comma, Token.CloseBrace),
                 symbol: undefined!,
                 pos,
                 parent: undefined!,
             } as Object
-            parseExpected(Token.CloseBrace)
             object.symbol = { valueDeclaration: object, declarations: [object], members: new Map() }
             return object
         }
         else if (tryParseToken(Token.Function)) {
             const name = lexer.token() === Token.Identifier ? parseIdentifier() : undefined
             parseExpected(Token.OpenParen)
-            const parameters = parseSeparated(parseParameter, () => tryParseToken(Token.Comma))
-            parseExpected(Token.CloseParen)
+            const parameters = parseTerminated(parseParameter, Token.Comma, Token.CloseParen)
             const typename = tryParseTypeAnnotation()
             const body = parseBlock()
             return { kind: Node.Function, name, parameters, typename, body, locals: new Map(), pos, parent: undefined! }
@@ -127,10 +123,17 @@ export function parse(lexer: Lexer): Module {
             error(lexer.pos(), `parseToken: Expected ${Token[expected]} but got ${Token[lexer.token()]}`)
         }
     }
-    function parseSeparated<T>(element: () => T, separator: () => unknown) {
-        const list = [element()]
-        while (separator()) {
-            list.push(element())
+    function parseTerminated<T>(element: () => T, separator: Token, terminator: Token) {
+        const list = []
+        while (true) {
+            if (tryParseToken(terminator)) {
+                break
+            }
+            else {
+                list.push(element())
+                // You could parseExpected instead if you wanted to be annoying (or if the start of `element` is ambiguous with its end)
+                tryParseToken(separator)
+            }
         }
         return list
     }

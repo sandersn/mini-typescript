@@ -1,18 +1,22 @@
 [
   {
     "pos": 76,
-    "message": "Cannot redeclare Not; first declared at 57"
+    "message": "Cannot redeclare Not; first declared at 57",
+    "snippet": "ring;\ntype/*!!*/ Not = num"
   },
   {
     "pos": 124,
-    "message": "Cannot assign initialiser of type 'number' to variable with declared type 'string'."
+    "message": "Cannot assign initialiser of type 'number' to variable with declared type 'string'.",
+    "snippet": ": Not = 14/*!!*/;\n\nvar Nut"
   },
   {
     "pos": 153,
-    "message": "Could not resolve type Nut"
+    "message": "Could not resolve type Nut",
+    "snippet": "r nut: Nut/*!!*/ = 16;\ntyp"
   },
   {
     "pos": 192,
-    "message": "Could not resolve Net"
+    "message": "Could not resolve Net",
+    "snippet": " net = Net/*!!*/"
   }
 ]

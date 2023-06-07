@@ -1,1 +1,7 @@
-[]
+[
+  {
+    "pos": 124,
+    "message": "Returned type 'number' does not match declared return type 'string'.",
+    "snippet": "g { return/*!!*/ 1 }\n"
+  }
+]

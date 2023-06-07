@@ -89,6 +89,7 @@ First up:
 - [x] objects
 - [x] function expressions (arrows are too hard to parse and functions show off `this` semantics to boot)
 - [x] return statements
+- [ ] assignability stub
 - [ ] calls
 - [ ] object types
 - [ ] signatures
