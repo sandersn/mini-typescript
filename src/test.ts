@@ -79,13 +79,13 @@ function displayTable(table: Table) {
     }
     return o
 }
-function display(o: any) {
+function display(o: any): any {
+    if (Array.isArray(o)) return o.map(display)
     const o2 = {} as any
     for (const k in o) {
         if (k === 'pos' || k === 'symbol' || k === 'parent') continue
         else if (k === 'kind') o2[k] = Node[o.kind]
-        else if (k === 'locals') o2[k] = displayTable(o.locals)
-        else if (Array.isArray(o[k])) o2[k] = o[k].map(display)
+        else if (k === 'locals' || k === 'members') o2[k] = displayTable(o[k])
         else if (typeof o[k] === 'object') o2[k] = display(o[k])
         else o2[k] = o[k]
     }

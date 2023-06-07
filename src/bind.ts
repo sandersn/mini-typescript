@@ -48,6 +48,7 @@ export function bind(m: Module) {
                 break
             case Node.Assignment:
                 setParents(expr, [expr.name, expr.value])
+                bindExpression(expr.value)
                 break
             case Node.Identifier:
             case Node.StringLiteral:

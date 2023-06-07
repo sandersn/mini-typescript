@@ -34,6 +34,180 @@
           }
         ]
       }
+    },
+    {
+      "kind": "ExpressionStatement",
+      "expr": {
+        "kind": "Assignment",
+        "name": {
+          "kind": "Identifier",
+          "text": "o"
+        },
+        "value": {
+          "kind": "Object",
+          "properties": [
+            {
+              "kind": "PropertyAssignment",
+              "name": {
+                "kind": "Identifier",
+                "text": "x"
+              },
+              "initializer": {
+                "kind": "NumericLiteral",
+                "value": 2
+              }
+            },
+            {
+              "kind": "PropertyAssignment",
+              "name": {
+                "kind": "Identifier",
+                "text": "y"
+              },
+              "initializer": {
+                "kind": "StringLiteral",
+                "value": "\"string\""
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "ExpressionStatement",
+      "expr": {
+        "kind": "Assignment",
+        "name": {
+          "kind": "Identifier",
+          "text": "o"
+        },
+        "value": {
+          "kind": "Object",
+          "properties": [
+            {
+              "kind": "PropertyAssignment",
+              "name": {
+                "kind": "Identifier",
+                "text": "x"
+              },
+              "initializer": {
+                "kind": "NumericLiteral",
+                "value": 3
+              }
+            },
+            {
+              "kind": "PropertyAssignment",
+              "name": {
+                "kind": "Identifier",
+                "text": "y"
+              },
+              "initializer": {
+                "kind": "StringLiteral",
+                "value": "\"string\""
+              }
+            },
+            {
+              "kind": "PropertyAssignment",
+              "name": {
+                "kind": "Identifier",
+                "text": "extra"
+              },
+              "initializer": {
+                "kind": "StringLiteral",
+                "value": "\"yep\""
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "ExpressionStatement",
+      "expr": {
+        "kind": "Assignment",
+        "name": {
+          "kind": "Identifier",
+          "text": "o"
+        },
+        "value": {
+          "kind": "Object",
+          "properties": [
+            {
+              "kind": "PropertyAssignment",
+              "name": {
+                "kind": "Identifier",
+                "text": "x"
+              },
+              "initializer": {
+                "kind": "NumericLiteral",
+                "value": 4
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "ExpressionStatement",
+      "expr": {
+        "kind": "Assignment",
+        "name": {
+          "kind": "Identifier",
+          "text": "o"
+        },
+        "value": {
+          "kind": "Object",
+          "properties": [
+            {
+              "kind": "PropertyAssignment",
+              "name": {
+                "kind": "Identifier",
+                "text": "x"
+              },
+              "initializer": {
+                "kind": "NumericLiteral",
+                "value": 5
+              }
+            },
+            {
+              "kind": "PropertyAssignment",
+              "name": {
+                "kind": "Identifier",
+                "text": "z"
+              },
+              "initializer": {
+                "kind": "StringLiteral",
+                "value": "\"hiiii\""
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "ExpressionStatement",
+      "expr": {
+        "kind": "Assignment",
+        "name": {
+          "kind": "Identifier",
+          "text": "o"
+        },
+        "value": {
+          "kind": "Object",
+          "properties": [
+            {
+              "kind": "PropertyAssignment",
+              "name": {
+                "kind": "Identifier",
+                "text": "k"
+              },
+              "initializer": {
+                "kind": "StringLiteral",
+                "value": "\"byeeee\""
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "locals": {

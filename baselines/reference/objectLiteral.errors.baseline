@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "pos": 97,
+    "message": "Cannot assign value of type '{ x: number }' to variable of type '{ x: number, y: string }'.",
+    "snippet": " \"yep\" }\no/*!!*/ = { x: 4 "
+  },
+  {
+    "pos": 110,
+    "message": "Cannot assign value of type '{ x: number, z: string }' to variable of type '{ x: number, y: string }'.",
+    "snippet": "{ x: 4 }\no/*!!*/ = { x: 5,"
+  },
+  {
+    "pos": 135,
+    "message": "Cannot assign value of type '{ k: string }' to variable of type '{ x: number, y: string }'.",
+    "snippet": "hiiii\" }\no/*!!*/ = { k: \"b"
+  }
+]

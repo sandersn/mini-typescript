@@ -137,14 +137,24 @@ export type Module = Location & {
     statements: Statement[]
 }
 export type SimpleType = { id: number }
+export type PrimitiveType = SimpleType & {
+    kind: Kind.Primitive
+}
+export enum Kind {
+    Primitive,
+    Object,
+    Function,
+}
 export type ObjectType = SimpleType & {
+    kind: Kind.Object
     members: Table
 }
 export type FunctionType = SimpleType & {
+    kind: Kind.Function
     signature: Signature
 }
 export type Signature = {
     parameters: Symbol[]
     returnType: Type
 }
-export type Type = SimpleType | ObjectType | FunctionType
+export type Type = PrimitiveType | ObjectType | FunctionType

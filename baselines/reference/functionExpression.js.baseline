@@ -6,4 +6,20 @@ var g = function g(x) {
 };
 var e = function () {
     return 1
+};
+e = f;
+e = g;
+f = e;
+g = e;
+e = function () {
+    return "hi"
+};
+e = function () {
+    return 0
+};
+f = function (y) {
+    return 12
+};
+f = function (z) {
+    return 13
 }

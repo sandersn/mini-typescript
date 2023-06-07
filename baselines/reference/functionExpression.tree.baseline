@@ -109,6 +109,196 @@
         ],
         "locals": {}
       }
+    },
+    {
+      "kind": "ExpressionStatement",
+      "expr": {
+        "kind": "Assignment",
+        "name": {
+          "kind": "Identifier",
+          "text": "e"
+        },
+        "value": {
+          "kind": "Identifier",
+          "text": "f"
+        }
+      }
+    },
+    {
+      "kind": "ExpressionStatement",
+      "expr": {
+        "kind": "Assignment",
+        "name": {
+          "kind": "Identifier",
+          "text": "e"
+        },
+        "value": {
+          "kind": "Identifier",
+          "text": "g"
+        }
+      }
+    },
+    {
+      "kind": "ExpressionStatement",
+      "expr": {
+        "kind": "Assignment",
+        "name": {
+          "kind": "Identifier",
+          "text": "f"
+        },
+        "value": {
+          "kind": "Identifier",
+          "text": "e"
+        }
+      }
+    },
+    {
+      "kind": "ExpressionStatement",
+      "expr": {
+        "kind": "Assignment",
+        "name": {
+          "kind": "Identifier",
+          "text": "g"
+        },
+        "value": {
+          "kind": "Identifier",
+          "text": "e"
+        }
+      }
+    },
+    {
+      "kind": "ExpressionStatement",
+      "expr": {
+        "kind": "Assignment",
+        "name": {
+          "kind": "Identifier",
+          "text": "e"
+        },
+        "value": {
+          "kind": "Function",
+          "parameters": [],
+          "body": [
+            {
+              "kind": "Return",
+              "expr": {
+                "kind": "StringLiteral",
+                "value": "\"hi\""
+              }
+            }
+          ],
+          "locals": {}
+        }
+      }
+    },
+    {
+      "kind": "ExpressionStatement",
+      "expr": {
+        "kind": "Assignment",
+        "name": {
+          "kind": "Identifier",
+          "text": "e"
+        },
+        "value": {
+          "kind": "Function",
+          "parameters": [],
+          "body": [
+            {
+              "kind": "Return",
+              "expr": {
+                "kind": "NumericLiteral",
+                "value": 0
+              }
+            }
+          ],
+          "locals": {}
+        }
+      }
+    },
+    {
+      "kind": "ExpressionStatement",
+      "expr": {
+        "kind": "Assignment",
+        "name": {
+          "kind": "Identifier",
+          "text": "f"
+        },
+        "value": {
+          "kind": "Function",
+          "parameters": [
+            {
+              "kind": "Parameter",
+              "name": {
+                "kind": "Identifier",
+                "text": "y"
+              },
+              "typename": {
+                "kind": "Identifier",
+                "text": "number"
+              }
+            }
+          ],
+          "body": [
+            {
+              "kind": "Return",
+              "expr": {
+                "kind": "NumericLiteral",
+                "value": 12
+              }
+            }
+          ],
+          "locals": {
+            "y": [
+              {
+                "kind": "Parameter",
+                "pos": 229
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "kind": "ExpressionStatement",
+      "expr": {
+        "kind": "Assignment",
+        "name": {
+          "kind": "Identifier",
+          "text": "f"
+        },
+        "value": {
+          "kind": "Function",
+          "parameters": [
+            {
+              "kind": "Parameter",
+              "name": {
+                "kind": "Identifier",
+                "text": "z"
+              },
+              "typename": {
+                "kind": "Identifier",
+                "text": "string"
+              }
+            }
+          ],
+          "body": [
+            {
+              "kind": "Return",
+              "expr": {
+                "kind": "NumericLiteral",
+                "value": 13
+              }
+            }
+          ],
+          "locals": {
+            "z": [
+              {
+                "kind": "Parameter",
+                "pos": 268
+              }
+            ]
+          }
+        }
+      }
     }
   ],
   "locals": {

@@ -5,8 +5,8 @@
     "snippet": "string = 1/*!!*/;\ns = 2\n"
   },
   {
-    "pos": 24,
+    "pos": 20,
     "message": "Cannot assign value of type 'number' to variable of type 'string'.",
-    "snippet": "= 1;\ns = 2/*!!*/\n"
+    "snippet": "ing = 1;\ns/*!!*/ = 2\n"
   }
 ]

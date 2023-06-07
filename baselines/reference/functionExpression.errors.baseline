@@ -2,6 +2,31 @@
   {
     "pos": 124,
     "message": "Returned type 'number' does not match declared return type 'string'.",
-    "snippet": "g { return/*!!*/ 1 }\n"
+    "snippet": "g { return/*!!*/ 1 }\ne = f"
+  },
+  {
+    "pos": 130,
+    "message": "Cannot assign value of type '(x: number) => number' to variable of type '() => string'.",
+    "snippet": "turn 1 }\ne/*!!*/ = f\ne = g"
+  },
+  {
+    "pos": 136,
+    "message": "Cannot assign value of type '(x: any) => any' to variable of type '() => string'.",
+    "snippet": " }\ne = f\ne/*!!*/ = g\nf = e"
+  },
+  {
+    "pos": 142,
+    "message": "Cannot assign value of type '() => string' to variable of type '(x: number) => number'.",
+    "snippet": " f\ne = g\nf/*!!*/ = e\ng = e"
+  },
+  {
+    "pos": 186,
+    "message": "Cannot assign value of type '() => number' to variable of type '() => string'.",
+    "snippet": "n \"hi\" }\ne/*!!*/ = functio"
+  },
+  {
+    "pos": 254,
+    "message": "Cannot assign value of type '(z: string) => number' to variable of type '(x: number) => number'.",
+    "snippet": "urn 12 }\nf/*!!*/ = functio"
   }
 ]

@@ -75,7 +75,7 @@ Some concerns that might make it in:
 - maybe generate error messages like diagnosticMessages.json?
 - probably more realistic tests
 - 3rd resolution space for binder: namespaces
-- symbol flags
+- symbol flags/type flags
 - caching of types on symbols
 
 But:
@@ -89,11 +89,12 @@ First up:
 - [x] objects
 - [x] function expressions (arrows are too hard to parse and functions show off `this` semantics to boot)
 - [x] return statements
-- [ ] assignability stub
+- [x] assignability
+- [ ] tests of nested functions and objects
 - [ ] calls
 - [ ] object types
 - [ ] signatures
-- [ ] assignability
+- [ ] real type node in parse tree
 
 Then:
 - [ ] `this`

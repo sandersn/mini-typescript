@@ -1,12 +1,12 @@
-import { Node, Meaning } from './types.js'
+import { Node, Meaning, Kind } from './types.js'
 import type { AllNodes, Container, Module, Statement, Type, Symbol, Expression, Declaration, Identifier, TypeAlias, Object, PropertyAssignment, ObjectType, Function, Parameter, Return, Table } from './types.js'
 import { error } from './error.js'
 import { getMeaning } from './bind.js'
 let typeCount = 0
-const stringType: Type = { id: typeCount++ }
-const numberType: Type = { id: typeCount++ }
-const errorType: Type = { id: typeCount++ }
-const anyType: Type = { id: typeCount++ }
+const stringType: Type = { kind: Kind.Primitive, id: typeCount++ }
+const numberType: Type = { kind: Kind.Primitive, id: typeCount++ }
+const errorType: Type = { kind: Kind.Primitive, id: typeCount++ }
+const anyType: Type = { kind: Kind.Primitive, id: typeCount++ }
 export function check(module: Module) {
     return module.statements.map(checkStatement)
 
@@ -47,9 +47,8 @@ export function check(module: Module) {
             case Node.Assignment:
                 const v = checkExpression(expression.value)
                 const t = checkExpression(expression.name)
-                // TODO: real assignability check
-                if (t !== v)
-                    error(expression.value.pos, `Cannot assign value of type '${typeToString(v)}' to variable of type '${typeToString(t)}'.`)
+                if (!isAssignableTo(v, t))
+                    error(expression.name.pos, `Cannot assign value of type '${typeToString(v)}' to variable of type '${typeToString(t)}'.`)
                 return t
             case Node.Function:
                 return checkFunction(expression)
@@ -65,7 +64,7 @@ export function check(module: Module) {
             members.set(p.name.text, symbol)
             checkProperty(p)
         }
-        return { id: typeCount++, members }
+        return { kind: Kind.Object, id: typeCount++, members }
     }
     function checkProperty(property: PropertyAssignment): Type {
         return checkExpression(property.initializer)
@@ -78,6 +77,7 @@ export function check(module: Module) {
             checkParameter(parameters)
         }
         return {
+            kind: Kind.Function,
             id: typeCount++,
             signature: {
                 parameters: func.parameters.map(p => p.symbol),
@@ -98,8 +98,7 @@ export function check(module: Module) {
             // TODO: Dedupe
             const returnType = checkStatement(returnStatement)
             if (declaredType && returnType !== declaredType) {
-                // TODO: real assignability check
-                if (returnType !== declaredType)
+                if (!isAssignableTo(returnType, declaredType))
                     error(returnStatement.pos, `Returned type '${typeToString(returnType)}' does not match declared return type '${typeToString(declaredType)}'.`)
             }
             types.push(returnType)
@@ -165,12 +164,17 @@ export function check(module: Module) {
             case stringType.id: return 'string'
             case numberType.id: return 'number'
             case errorType.id: return 'error'
-            default:
-                if ('members' in type) {
-                    return `{ ${Object.keys(type.members).map(m => `${m}: ${typeToString(getValueTypeOfSymbol(type.members.get(m)!))}`).join(', ')} }`
-                }
-                return '(anonymous)'
+            case anyType.id: return 'any'
         }
+        if (type.kind === Kind.Object) {
+            const propertiesToString = ([name,symbol]: [string, Symbol]) => `${name}: ${typeToString(getValueTypeOfSymbol(symbol))}`
+            return `{ ${Array.from(type.members).map(propertiesToString).join(', ')} }`
+        }
+        if (type.kind === Kind.Function) {
+            const parametersToString = (p: Symbol) => `${(p.valueDeclaration as Parameter).name.text}: ${typeToString(getValueTypeOfSymbol(p))}`
+            return `(${type.signature.parameters.map(parametersToString).join(', ')}) => ${typeToString(type.signature.returnType)}`
+        }
+        return '(anonymous)'
     }
     function resolve(location: AllNodes, name: string, meaning: Meaning) {
         while (location) {
@@ -194,6 +198,28 @@ export function check(module: Module) {
         if (symbol?.declarations.some(d => getMeaning(d) === meaning)) {
             return symbol
         }
-        // TODO: Maybe move error from callers to here
+    }
+    function isAssignableTo(source: Type, target: Type): boolean {
+        if (source === anyType || target === anyType)
+            return true
+        else if (source.kind === Kind.Primitive || target.kind === Kind.Primitive)
+            return source === target
+        else if (source.kind === Kind.Object && target.kind === Kind.Object) {
+            for (const [key, targetSymbol] of target.members) {
+                const sourceSymbol = source.members.get(key)
+                if (!sourceSymbol || !isAssignableTo(getValueTypeOfSymbol(sourceSymbol), getValueTypeOfSymbol(targetSymbol))) {
+                    return false
+                }
+            }
+            return true
+        }
+        else if (source.kind === Kind.Function && target.kind === Kind.Function) {
+            return isAssignableTo(source.signature.returnType, target.signature.returnType)
+                && target.signature.parameters.length >= source.signature.parameters.length
+                && target.signature.parameters.every((p, i) =>
+                    i >= source.signature.parameters.length
+                    || isAssignableTo(getValueTypeOfSymbol(p), getValueTypeOfSymbol(source.signature.parameters[i])))
+        }
+        return false
     }
 }
