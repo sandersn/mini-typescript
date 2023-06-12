@@ -5,14 +5,14 @@ export function emit(statements: Statement[]) {
 function emitStatement(statement: Statement): string {
     switch (statement.kind) {
         case Node.ExpressionStatement:
-            return emitExpression(statement.expr)
+            return emitExpression(statement.expression)
         case Node.Var:
             const typestring = statement.typename ? ": " + statement.name : ""
             return `var ${statement.name.text}${typestring} = ${emitExpression(statement.initializer)}`
         case Node.TypeAlias:
             return `type ${statement.name.text} = ${statement.typename.text}`
         case Node.Return:
-            return `return ${emitExpression(statement.expr)}`
+            return `return ${emitExpression(statement.expression)}`
     }
 }
 function emitExpression(expression: Expression): string {

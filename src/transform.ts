@@ -9,13 +9,13 @@ function typescript(statements: Statement[]) {
     function transformStatement(statement: Statement): Statement[] {
         switch (statement.kind) {
             case Node.ExpressionStatement:
-                return [{ ...statement, expr: transformExpression(statement.expr) }]
+                return [{ ...statement, expression: transformExpression(statement.expression) }]
             case Node.Var:
                 return [{ ...statement, typename: undefined, initializer: transformExpression(statement.initializer) }]
             case Node.TypeAlias:
                 return []
             case Node.Return:
-                return [{ ...statement, expr: transformExpression(statement.expr) }]
+                return [{ ...statement, expression: transformExpression(statement.expression) }]
         }
     }
     function transformExpression(expr: Expression): Expression {

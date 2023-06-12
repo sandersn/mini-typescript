@@ -14,7 +14,7 @@
     },
     {
       "kind": "ExpressionStatement",
-      "expr": {
+      "expression": {
         "kind": "Assignment",
         "name": {
           "kind": "Identifier",

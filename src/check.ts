@@ -13,7 +13,7 @@ export function check(module: Module) {
     function checkStatement(statement: Statement): Type {
         switch (statement.kind) {
             case Node.ExpressionStatement:
-                return checkExpression(statement.expr)
+                return checkExpression(statement.expression)
             case Node.Var:
                 const i = checkExpression(statement.initializer)
                 if (!statement.typename) {
@@ -26,7 +26,7 @@ export function check(module: Module) {
             case Node.TypeAlias:
                 return checkType(statement.typename)
             case Node.Return:
-                return checkExpression(statement.expr)
+                return checkExpression(statement.expression)
         }
     }
     function checkExpression(expression: Expression): Type {

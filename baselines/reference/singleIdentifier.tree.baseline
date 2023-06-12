@@ -3,7 +3,7 @@
   "statements": [
     {
       "kind": "ExpressionStatement",
-      "expr": {
+      "expression": {
         "kind": "Identifier",
         "text": "x"
       }

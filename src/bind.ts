@@ -21,8 +21,8 @@ export function bind(m: Module) {
                 break
             case Node.ExpressionStatement:
             case Node.Return:
-                setParents(statement, [statement.expr])
-                bindExpression(statement.expr)
+                setParents(statement, [statement.expression])
+                bindExpression(statement.expression)
                 break
             default:
                 throw new Error(`Unexpected statement kind ${Node[(statement as Statement).kind]}`)

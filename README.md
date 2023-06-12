@@ -90,15 +90,18 @@ First up:
 - [x] function expressions (arrows are too hard to parse and functions show off `this` semantics to boot)
 - [x] return statements
 - [x] assignability
-- [ ] tests of nested functions and objects
+- [x] tests of nested functions and objects
 - [ ] calls
 - [ ] object types
 - [ ] signatures
 - [ ] real type node in parse tree
 
 Then:
+- [ ] type argument inference
+- [ ] control flow analysis
 - [ ] `this`
 - [ ] union types
+- [ ] cleanup pass or two
 
 ## Exercises
 

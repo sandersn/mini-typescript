@@ -105,10 +105,10 @@ export function parse(lexer: Lexer): Module {
             }
             case Token.Return: {
                 lexer.scan()
-                return { kind: Node.Return, expr: parseExpression(), pos, parent: undefined! }
+                return { kind: Node.Return, expression: parseExpression(), pos, parent: undefined! }
             }
             default:
-                return { kind: Node.ExpressionStatement, expr: parseExpression(), pos, parent: undefined! }
+                return { kind: Node.ExpressionStatement, expression: parseExpression(), pos, parent: undefined! }
         }
     }
     function tryParseToken(expected: Token) {

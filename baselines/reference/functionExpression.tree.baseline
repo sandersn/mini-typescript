@@ -29,7 +29,7 @@
         "body": [
           {
             "kind": "Return",
-            "expr": {
+            "expression": {
               "kind": "Identifier",
               "text": "x"
             }
@@ -69,7 +69,7 @@
         "body": [
           {
             "kind": "Return",
-            "expr": {
+            "expression": {
               "kind": "Identifier",
               "text": "x"
             }
@@ -101,7 +101,7 @@
         "body": [
           {
             "kind": "Return",
-            "expr": {
+            "expression": {
               "kind": "NumericLiteral",
               "value": 1
             }
@@ -112,7 +112,7 @@
     },
     {
       "kind": "ExpressionStatement",
-      "expr": {
+      "expression": {
         "kind": "Assignment",
         "name": {
           "kind": "Identifier",
@@ -126,7 +126,7 @@
     },
     {
       "kind": "ExpressionStatement",
-      "expr": {
+      "expression": {
         "kind": "Assignment",
         "name": {
           "kind": "Identifier",
@@ -140,7 +140,7 @@
     },
     {
       "kind": "ExpressionStatement",
-      "expr": {
+      "expression": {
         "kind": "Assignment",
         "name": {
           "kind": "Identifier",
@@ -154,7 +154,7 @@
     },
     {
       "kind": "ExpressionStatement",
-      "expr": {
+      "expression": {
         "kind": "Assignment",
         "name": {
           "kind": "Identifier",
@@ -168,7 +168,7 @@
     },
     {
       "kind": "ExpressionStatement",
-      "expr": {
+      "expression": {
         "kind": "Assignment",
         "name": {
           "kind": "Identifier",
@@ -180,7 +180,7 @@
           "body": [
             {
               "kind": "Return",
-              "expr": {
+              "expression": {
                 "kind": "StringLiteral",
                 "value": "\"hi\""
               }
@@ -192,7 +192,7 @@
     },
     {
       "kind": "ExpressionStatement",
-      "expr": {
+      "expression": {
         "kind": "Assignment",
         "name": {
           "kind": "Identifier",
@@ -204,7 +204,7 @@
           "body": [
             {
               "kind": "Return",
-              "expr": {
+              "expression": {
                 "kind": "NumericLiteral",
                 "value": 0
               }
@@ -216,7 +216,7 @@
     },
     {
       "kind": "ExpressionStatement",
-      "expr": {
+      "expression": {
         "kind": "Assignment",
         "name": {
           "kind": "Identifier",
@@ -240,7 +240,7 @@
           "body": [
             {
               "kind": "Return",
-              "expr": {
+              "expression": {
                 "kind": "NumericLiteral",
                 "value": 12
               }
@@ -259,7 +259,7 @@
     },
     {
       "kind": "ExpressionStatement",
-      "expr": {
+      "expression": {
         "kind": "Assignment",
         "name": {
           "kind": "Identifier",
@@ -283,7 +283,7 @@
           "body": [
             {
               "kind": "Return",
-              "expr": {
+              "expression": {
                 "kind": "NumericLiteral",
                 "value": 13
               }

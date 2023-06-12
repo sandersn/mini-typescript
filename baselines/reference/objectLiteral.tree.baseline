@@ -37,7 +37,7 @@
     },
     {
       "kind": "ExpressionStatement",
-      "expr": {
+      "expression": {
         "kind": "Assignment",
         "name": {
           "kind": "Identifier",
@@ -74,7 +74,7 @@
     },
     {
       "kind": "ExpressionStatement",
-      "expr": {
+      "expression": {
         "kind": "Assignment",
         "name": {
           "kind": "Identifier",
@@ -122,7 +122,7 @@
     },
     {
       "kind": "ExpressionStatement",
-      "expr": {
+      "expression": {
         "kind": "Assignment",
         "name": {
           "kind": "Identifier",
@@ -148,7 +148,7 @@
     },
     {
       "kind": "ExpressionStatement",
-      "expr": {
+      "expression": {
         "kind": "Assignment",
         "name": {
           "kind": "Identifier",
@@ -185,7 +185,7 @@
     },
     {
       "kind": "ExpressionStatement",
-      "expr": {
+      "expression": {
         "kind": "Assignment",
         "name": {
           "kind": "Identifier",
@@ -264,7 +264,7 @@
               "body": [
                 {
                   "kind": "Return",
-                  "expr": {
+                  "expression": {
                     "kind": "Object",
                     "properties": [
                       {

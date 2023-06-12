@@ -42,6 +42,7 @@ export enum Node {
     Function,
     Parameter,
     Return,
+    Call,
 }
 export type Error = {
     pos: number
@@ -100,7 +101,7 @@ export type Parameter = Location & {
 }
 export type ExpressionStatement = Location & {
     kind: Node.ExpressionStatement
-    expr: Expression
+    expression: Expression
 }
 export type Var = Location & {
     kind: Node.Var
@@ -117,8 +118,15 @@ export type TypeAlias = Location & {
 }
 export type Return = Location & {
     kind: Node.Return
-    expr: Expression
+    expression: Expression
 }
+export type Call = Location & {
+    kind: Node.Call
+    expression: Expression
+    // TODO: typeArguments, eventually
+    arguments: Expression[]
+}
+
 export type Symbol = {
     valueDeclaration: Declaration | undefined
     declarations: Declaration[]
