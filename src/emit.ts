@@ -8,7 +8,7 @@ function emitStatement(statement: Statement): string {
             return emitExpression(statement.expr)
         case Node.Var:
             const typestring = statement.typename ? ": " + statement.name : ""
-            return `var ${statement.name.text}${typestring} = ${emitExpression(statement.init)}`
+            return `var ${statement.name.text}${typestring} = ${emitExpression(statement.initializer)}`
         case Node.TypeAlias:
             return `type ${statement.name.text} = ${statement.typename.text}`
         case Node.Return:
@@ -26,7 +26,7 @@ function emitExpression(expression: Expression): string {
         case Node.Assignment:
             return `${expression.name.text} = ${emitExpression(expression.value)}`
         case Node.Object:
-            return `{${expression.properties.map(emitProperty).join(", ")}}`
+            return `{ ${expression.properties.map(emitProperty).join(", ")} }`
         case Node.Function:
             return `function ${expression.name ? expression.name.text : ""}(${expression.parameters.map(emitParameter).join(", ")}) {
     ${expression.body.map(emitStatement).join(";\n    ")}

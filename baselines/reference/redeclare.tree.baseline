@@ -7,7 +7,7 @@
         "kind": "Identifier",
         "text": "x"
       },
-      "init": {
+      "initializer": {
         "kind": "NumericLiteral",
         "value": 1
       }
@@ -18,7 +18,7 @@
         "kind": "Identifier",
         "text": "x"
       },
-      "init": {
+      "initializer": {
         "kind": "NumericLiteral",
         "value": 2
       }

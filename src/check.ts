@@ -15,13 +15,13 @@ export function check(module: Module) {
             case Node.ExpressionStatement:
                 return checkExpression(statement.expr)
             case Node.Var:
-                const i = checkExpression(statement.init)
+                const i = checkExpression(statement.initializer)
                 if (!statement.typename) {
                     return i
                 }
                 const t = checkType(statement.typename)
                 if (t !== i && t !== errorType)
-                    error(statement.init.pos, `Cannot assign initialiser of type '${typeToString(i)}' to variable with declared type '${typeToString(t)}'.`)
+                    error(statement.initializer.pos, `Cannot assign initialiser of type '${typeToString(i)}' to variable with declared type '${typeToString(t)}'.`)
                 return t
             case Node.TypeAlias:
                 return checkType(statement.typename)

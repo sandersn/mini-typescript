@@ -106,7 +106,7 @@ export type Var = Location & {
     kind: Node.Var
     name: Identifier
     typename?: Identifier | undefined // TODO: This needs to be more complex
-    init: Expression
+    initializer: Expression
     symbol: Symbol
 }
 export type TypeAlias = Location & {

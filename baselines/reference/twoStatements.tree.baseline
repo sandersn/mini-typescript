@@ -7,7 +7,7 @@
         "kind": "Identifier",
         "text": "arthurTwoShedsJackson"
       },
-      "init": {
+      "initializer": {
         "kind": "NumericLiteral",
         "value": 1
       }

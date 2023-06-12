@@ -7,7 +7,7 @@
         "kind": "Identifier",
         "text": "o"
       },
-      "init": {
+      "initializer": {
         "kind": "Object",
         "properties": [
           {
@@ -208,6 +208,114 @@
           ]
         }
       }
+    },
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
+        "text": "oof"
+      },
+      "initializer": {
+        "kind": "Object",
+        "properties": [
+          {
+            "kind": "PropertyAssignment",
+            "name": {
+              "kind": "Identifier",
+              "text": "first"
+            },
+            "initializer": {
+              "kind": "StringLiteral",
+              "value": "\"John\""
+            }
+          },
+          {
+            "kind": "PropertyAssignment",
+            "name": {
+              "kind": "Identifier",
+              "text": "last"
+            },
+            "initializer": {
+              "kind": "StringLiteral",
+              "value": "\"Doe\""
+            }
+          },
+          {
+            "kind": "PropertyAssignment",
+            "name": {
+              "kind": "Identifier",
+              "text": "f"
+            },
+            "initializer": {
+              "kind": "Function",
+              "parameters": [
+                {
+                  "kind": "Parameter",
+                  "name": {
+                    "kind": "Identifier",
+                    "text": "x"
+                  },
+                  "typename": {
+                    "kind": "Identifier",
+                    "text": "string"
+                  }
+                }
+              ],
+              "body": [
+                {
+                  "kind": "Return",
+                  "expr": {
+                    "kind": "Object",
+                    "properties": [
+                      {
+                        "kind": "PropertyAssignment",
+                        "name": {
+                          "kind": "Identifier",
+                          "text": "first"
+                        },
+                        "initializer": {
+                          "kind": "Identifier",
+                          "text": "x"
+                        }
+                      },
+                      {
+                        "kind": "PropertyAssignment",
+                        "name": {
+                          "kind": "Identifier",
+                          "text": "last"
+                        },
+                        "initializer": {
+                          "kind": "StringLiteral",
+                          "value": "\"Last\""
+                        }
+                      }
+                    ]
+                  }
+                }
+              ],
+              "locals": {
+                "x": [
+                  {
+                    "kind": "Parameter",
+                    "pos": 220
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "PropertyAssignment",
+            "name": {
+              "kind": "Identifier",
+              "text": "extra"
+            },
+            "initializer": {
+              "kind": "StringLiteral",
+              "value": "\"yep\""
+            }
+          }
+        ]
+      }
     }
   ],
   "locals": {
@@ -215,6 +323,12 @@
       {
         "kind": "Var",
         "pos": 3
+      }
+    ],
+    "oof": [
+      {
+        "kind": "Var",
+        "pos": 157
       }
     ]
   }

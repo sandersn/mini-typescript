@@ -7,7 +7,7 @@
         "kind": "Identifier",
         "text": "singleDeclaration"
       },
-      "init": {
+      "initializer": {
         "kind": "NumericLiteral",
         "value": 1
       }

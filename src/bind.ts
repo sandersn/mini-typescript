@@ -11,8 +11,8 @@ export function bind(m: Module) {
     function bindStatement(locals: Table, statement: Statement) {
         switch (statement.kind) {
             case Node.Var:
-                setParents(statement, [statement.name, statement.typename, statement.init])
-                bindExpression(statement.init)
+                setParents(statement, [statement.name, statement.typename, statement.initializer])
+                bindExpression(statement.initializer)
                 declareSymbol(locals, statement, Meaning.Value)
                 break
             case Node.TypeAlias:
@@ -33,6 +33,7 @@ export function bind(m: Module) {
             case Node.Object:
                 setParents(expr, expr.properties)
                 for (const property of expr.properties) {
+                    setParents(property, [property.name, property.initializer])
                     bindExpression(property.initializer)
                     declareSymbol(expr.symbol.members, property, Meaning.Value)
                 }
@@ -40,6 +41,7 @@ export function bind(m: Module) {
             case Node.Function:
                 setParents(expr, [expr.name, ...expr.parameters, expr.typename, ...expr.body])
                 for (const parameter of expr.parameters) {
+                    setParents(parameter, [parameter.name, parameter.typename])
                     declareSymbol(expr.locals, parameter, Meaning.Value)
                 }
                 for (const statement of expr.body) {

@@ -11,7 +11,7 @@
         "kind": "Identifier",
         "text": "string"
       },
-      "init": {
+      "initializer": {
         "kind": "NumericLiteral",
         "value": 1
       }

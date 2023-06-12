@@ -18,7 +18,7 @@
         "kind": "Identifier",
         "text": "Nat"
       },
-      "init": {
+      "initializer": {
         "kind": "NumericLiteral",
         "value": 12
       }
@@ -33,7 +33,7 @@
         "kind": "Identifier",
         "text": "Nat"
       },
-      "init": {
+      "initializer": {
         "kind": "NumericLiteral",
         "value": 13
       }
@@ -81,7 +81,7 @@
         "kind": "Identifier",
         "text": "Not"
       },
-      "init": {
+      "initializer": {
         "kind": "NumericLiteral",
         "value": 14
       }
@@ -92,7 +92,7 @@
         "kind": "Identifier",
         "text": "Nut"
       },
-      "init": {
+      "initializer": {
         "kind": "NumericLiteral",
         "value": 15
       }
@@ -107,7 +107,7 @@
         "kind": "Identifier",
         "text": "Nut"
       },
-      "init": {
+      "initializer": {
         "kind": "NumericLiteral",
         "value": 16
       }
@@ -129,7 +129,7 @@
         "kind": "Identifier",
         "text": "net"
       },
-      "init": {
+      "initializer": {
         "kind": "Identifier",
         "text": "Net"
       }

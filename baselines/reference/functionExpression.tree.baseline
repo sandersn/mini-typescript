@@ -7,7 +7,7 @@
         "kind": "Identifier",
         "text": "f"
       },
-      "init": {
+      "initializer": {
         "kind": "Function",
         "parameters": [
           {
@@ -51,7 +51,7 @@
         "kind": "Identifier",
         "text": "g"
       },
-      "init": {
+      "initializer": {
         "kind": "Function",
         "name": {
           "kind": "Identifier",
@@ -91,7 +91,7 @@
         "kind": "Identifier",
         "text": "e"
       },
-      "init": {
+      "initializer": {
         "kind": "Function",
         "parameters": [],
         "typename": {

@@ -11,7 +11,7 @@ function typescript(statements: Statement[]) {
             case Node.ExpressionStatement:
                 return [{ ...statement, expr: transformExpression(statement.expr) }]
             case Node.Var:
-                return [{ ...statement, typename: undefined, init: transformExpression(statement.init) }]
+                return [{ ...statement, typename: undefined, initializer: transformExpression(statement.initializer) }]
             case Node.TypeAlias:
                 return []
             case Node.Return:

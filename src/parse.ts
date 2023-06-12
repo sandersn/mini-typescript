@@ -93,8 +93,8 @@ export function parse(lexer: Lexer): Module {
                 const name = parseIdentifier()
                 const typename = tryParseToken(Token.Colon) ? parseIdentifier() : undefined
                 parseExpected(Token.Equals)
-                const init = parseExpression()
-                return { kind: Node.Var, name, typename, init, pos, symbol: undefined!, parent: undefined! }
+                const initializer = parseExpression()
+                return { kind: Node.Var, name, typename, initializer, pos, symbol: undefined!, parent: undefined! }
             }
             case Token.Type: {
                 lexer.scan()
