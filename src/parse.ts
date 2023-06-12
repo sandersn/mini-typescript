@@ -14,6 +14,13 @@ export function parse(lexer: Lexer): Module {
         return statements
     }
     function parseExpression(): Expression {
+        const expression = parseExpressionBelowCall()
+        if (tryParseToken(Token.OpenParen)) {
+            return { kind: Node.Call, expression, arguments: parseTerminated(parseExpression, Token.Comma, Token.CloseParen), pos: expression.pos, parent: undefined! }
+        }
+        return expression
+    }
+    function parseExpressionBelowCall(): Expression {
         const pos = lexer.pos()
         if (tryParseToken(Token.OpenBrace)) {
             const object = {

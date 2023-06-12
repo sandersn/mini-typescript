@@ -1,0 +1,22 @@
+[
+  {
+    "pos": 110,
+    "message": "Expected argument of type 'string', but got 'number'.",
+    "snippet": "irst\")\nf(1/*!!*/)\nn(1)\nf()"
+  },
+  {
+    "pos": 113,
+    "message": "Cannot call expression of type 'number'.",
+    "snippet": "t\")\nf(1)\nn/*!!*/(1)\nf()\nf("
+  },
+  {
+    "pos": 118,
+    "message": "Expected 1 arguments, but got 0.",
+    "snippet": "(1)\nn(1)\nf/*!!*/()\nf(\"firs"
+  },
+  {
+    "pos": 122,
+    "message": "Expected 1 arguments, but got 2.",
+    "snippet": "n(1)\nf()\nf/*!!*/(\"first\", "
+  }
+]

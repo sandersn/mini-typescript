@@ -1,0 +1,172 @@
+{
+  "kind": "Module",
+  "statements": [
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
+        "text": "n"
+      },
+      "initializer": {
+        "kind": "NumericLiteral",
+        "value": 1
+      }
+    },
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
+        "text": "f"
+      },
+      "initializer": {
+        "kind": "Function",
+        "parameters": [
+          {
+            "kind": "Parameter",
+            "name": {
+              "kind": "Identifier",
+              "text": "x"
+            },
+            "typename": {
+              "kind": "Identifier",
+              "text": "string"
+            }
+          }
+        ],
+        "body": [
+          {
+            "kind": "Return",
+            "expression": {
+              "kind": "Object",
+              "properties": [
+                {
+                  "kind": "PropertyAssignment",
+                  "name": {
+                    "kind": "Identifier",
+                    "text": "first"
+                  },
+                  "initializer": {
+                    "kind": "Identifier",
+                    "text": "x"
+                  }
+                },
+                {
+                  "kind": "PropertyAssignment",
+                  "name": {
+                    "kind": "Identifier",
+                    "text": "last"
+                  },
+                  "initializer": {
+                    "kind": "Identifier",
+                    "text": "n"
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "locals": {
+          "x": [
+            {
+              "kind": "Parameter",
+              "pos": 29
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "ExpressionStatement",
+      "expression": {
+        "kind": "Call",
+        "expression": {
+          "kind": "Identifier",
+          "text": "f"
+        },
+        "arguments": [
+          {
+            "kind": "StringLiteral",
+            "value": "\"first\""
+          }
+        ]
+      }
+    },
+    {
+      "kind": "ExpressionStatement",
+      "expression": {
+        "kind": "Call",
+        "expression": {
+          "kind": "Identifier",
+          "text": "f"
+        },
+        "arguments": [
+          {
+            "kind": "NumericLiteral",
+            "value": 1
+          }
+        ]
+      }
+    },
+    {
+      "kind": "ExpressionStatement",
+      "expression": {
+        "kind": "Call",
+        "expression": {
+          "kind": "Identifier",
+          "text": "n"
+        },
+        "arguments": [
+          {
+            "kind": "NumericLiteral",
+            "value": 1
+          }
+        ]
+      }
+    },
+    {
+      "kind": "ExpressionStatement",
+      "expression": {
+        "kind": "Call",
+        "expression": {
+          "kind": "Identifier",
+          "text": "f"
+        },
+        "arguments": []
+      }
+    },
+    {
+      "kind": "ExpressionStatement",
+      "expression": {
+        "kind": "Call",
+        "expression": {
+          "kind": "Identifier",
+          "text": "f"
+        },
+        "arguments": [
+          {
+            "kind": "StringLiteral",
+            "value": "\"first\""
+          },
+          {
+            "kind": "StringLiteral",
+            "value": "\"second\""
+          }
+        ]
+      }
+    }
+  ],
+  "locals": {
+    "n": [
+      {
+        "kind": "Var",
+        "pos": 3
+      }
+    ],
+    "f": [
+      {
+        "kind": "Var",
+        "pos": 13
+      }
+    ]
+  }
+}

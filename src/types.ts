@@ -52,7 +52,7 @@ export interface Location {
     parent: AllNodes
     pos: number
 }
-export type Expression = Identifier | NumericLiteral | StringLiteral | Assignment | Object | Function
+export type Expression = Identifier | NumericLiteral | StringLiteral | Assignment | Object | Function | Call
 export type Statement = Var | TypeAlias | ExpressionStatement | Return
 export type Declaration = Var | TypeAlias | Object | Parameter | PropertyAssignment
 export type Container = Module | Function

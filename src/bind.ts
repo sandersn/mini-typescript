@@ -52,6 +52,13 @@ export function bind(m: Module) {
                 setParents(expr, [expr.name, expr.value])
                 bindExpression(expr.value)
                 break
+            case Node.Call:
+                setParents(expr, [expr.expression, ...expr.arguments])
+                bindExpression(expr.expression)
+                for (const arg of expr.arguments) {
+                    bindExpression(arg)
+                }
+                break
             case Node.Identifier:
             case Node.StringLiteral:
             case Node.NumericLiteral:

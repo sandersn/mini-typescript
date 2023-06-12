@@ -91,10 +91,11 @@ First up:
 - [x] return statements
 - [x] assignability
 - [x] tests of nested functions and objects
-- [ ] calls
+- [x] calls
 - [ ] object types
 - [ ] signatures
 - [ ] real type node in parse tree
+- [ ] property access/element access
 
 Then:
 - [ ] type argument inference

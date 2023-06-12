@@ -1,5 +1,5 @@
 import { Node, Meaning, Kind } from './types.js'
-import type { AllNodes, Container, Module, Statement, Type, Symbol, Expression, Declaration, Identifier, TypeAlias, Object, PropertyAssignment, ObjectType, Function, Parameter, Return, Table } from './types.js'
+import type { AllNodes, Container, Module, Statement, Type, Symbol, Expression, Declaration, Identifier, TypeAlias, Object, PropertyAssignment, ObjectType, Function, Parameter, Return, Call, Table } from './types.js'
 import { error } from './error.js'
 import { getMeaning } from './bind.js'
 let typeCount = 0
@@ -21,7 +21,7 @@ export function check(module: Module) {
                 }
                 const t = checkType(statement.typename)
                 if (t !== i && t !== errorType)
-                    error(statement.initializer.pos, `Cannot assign initialiser of type '${typeToString(i)}' to variable with declared type '${typeToString(t)}'.`)
+                    error(statement.initializer, `Cannot assign initialiser of type '${typeToString(i)}' to variable with declared type '${typeToString(t)}'.`)
                 return t
             case Node.TypeAlias:
                 return checkType(statement.typename)
@@ -36,7 +36,7 @@ export function check(module: Module) {
                 if (symbol) {
                     return getValueTypeOfSymbol(symbol)
                 }
-                error(expression.pos, "Could not resolve " + expression.text)
+                error(expression, "Could not resolve " + expression.text)
                 return errorType
             case Node.NumericLiteral:
                 return numberType
@@ -48,10 +48,12 @@ export function check(module: Module) {
                 const v = checkExpression(expression.value)
                 const t = checkExpression(expression.name)
                 if (!isAssignableTo(v, t))
-                    error(expression.name.pos, `Cannot assign value of type '${typeToString(v)}' to variable of type '${typeToString(t)}'.`)
+                    error(expression.name, `Cannot assign value of type '${typeToString(v)}' to variable of type '${typeToString(t)}'.`)
                 return t
             case Node.Function:
                 return checkFunction(expression)
+            case Node.Call:
+                return checkCall(expression)
         }
     }
     function checkObject(object: Object): ObjectType {
@@ -85,6 +87,25 @@ export function check(module: Module) {
             }
         }
     }
+    function checkCall(call: Call): Type {
+        const expressionType = checkExpression(call.expression)
+        if (expressionType.kind !== Kind.Function) {
+            error(call.expression, `Cannot call expression of type '${typeToString(expressionType)}'.`)
+            return errorType
+        }
+        const sig = expressionType.signature
+        if (sig.parameters.length !== call.arguments.length) {
+            error(call.expression, `Expected ${sig.parameters.length} arguments, but got ${call.arguments.length}.`)
+        }
+        const argTypes = call.arguments.map(checkExpression)
+        for (let i = 0; i < Math.min(argTypes.length, sig.parameters.length); i++) {
+            const parameterType = checkParameter(sig.parameters[i].valueDeclaration as Parameter)
+            if (!isAssignableTo(argTypes[i], parameterType)) {
+                error(call.arguments[i], `Expected argument of type '${typeToString(parameterType)}', but got '${typeToString(argTypes[i])}'.`)
+            }
+        }
+        return sig.returnType
+    }
     function checkParameter(parameter: Parameter): Type {
         return parameter.typename ? checkType(parameter.typename) : anyType
     }
@@ -99,7 +120,7 @@ export function check(module: Module) {
             const returnType = checkStatement(returnStatement)
             if (declaredType && returnType !== declaredType) {
                 if (!isAssignableTo(returnType, declaredType))
-                    error(returnStatement.pos, `Returned type '${typeToString(returnType)}' does not match declared return type '${typeToString(declaredType)}'.`)
+                    error(returnStatement, `Returned type '${typeToString(returnType)}' does not match declared return type '${typeToString(declaredType)}'.`)
             }
             types.push(returnType)
         })
@@ -135,7 +156,7 @@ export function check(module: Module) {
                 if (symbol) {
                     return checkType((symbol.declarations.find(d => d.kind === Node.TypeAlias) as TypeAlias).typename)
                 }
-                error(name.pos, "Could not resolve type " + name.text)
+                error(name, "Could not resolve type " + name.text)
                 return errorType
         }
     }

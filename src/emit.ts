@@ -31,6 +31,8 @@ function emitExpression(expression: Expression): string {
             return `function ${expression.name ? expression.name.text : ""}(${expression.parameters.map(emitParameter).join(", ")}) {
     ${expression.body.map(emitStatement).join(";\n    ")}
 }`
+        case Node.Call:
+            return `${emitExpression(expression.expression)}(${expression.arguments.map(emitExpression).join(", ")})`
     }
 }
 function emitProperty(property: PropertyAssignment): string {

@@ -30,6 +30,8 @@ function typescript(statements: Statement[]) {
                 return { ...expr, parameters: expr.parameters.map(transformParameter), typename: undefined, body: expr.body.flatMap(transformStatement) }
             case Node.Assignment:
                 return { ...expr, value: transformExpression(expr.value) }
+            case Node.Call:
+                return { ...expr, expression: transformExpression(expr.expression), arguments: expr.arguments.map(transformExpression) }
         }
     }
     function transformProperty(property: PropertyAssignment): PropertyAssignment {
