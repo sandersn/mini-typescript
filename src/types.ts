@@ -26,7 +26,7 @@ export type Lexer = {
     pos(): number
     text(): string
 }
-export enum Node {
+export enum SyntaxKind {
     Module,
     Identifier,
     NumericLiteral,
@@ -37,7 +37,7 @@ export enum Node {
     TypeAlias,
     Object,
     PropertyAssignment,
-    ObjectType,
+    ObjectLiteralType,
     PropertyDeclaration,
     Function,
     Parameter,
@@ -49,79 +49,91 @@ export type Error = {
     message: string
 }
 export interface Location {
-    parent: AllNodes
+    parent: Node
     pos: number
 }
 export type Expression = Identifier | NumericLiteral | StringLiteral | Assignment | Object | Function | Call
 export type Statement = Var | TypeAlias | ExpressionStatement | Return
-export type Declaration = Var | TypeAlias | Object | Parameter | PropertyAssignment
+export type TypeNode = ObjectLiteralType | Identifier
+export type Declaration = Var | TypeAlias | ObjectLiteralType | Object | Parameter | PropertyAssignment | PropertyDeclaration
 export type Container = Module | Function
-export type AllNodes = Expression | Statement | Declaration | Module
+export type Node = Expression | Statement | Declaration | Module | TypeNode
 export type Identifier = Location & {
-    kind: Node.Identifier
+    kind: SyntaxKind.Identifier
     text: string
 }
 export type NumericLiteral = Location & {
-    kind: Node.NumericLiteral
+    kind: SyntaxKind.NumericLiteral
     value: number
 }
 export type StringLiteral = Location & {
-    kind: Node.StringLiteral
+    kind: SyntaxKind.StringLiteral
     value: string
 }
+export type ObjectLiteralType = Location & {
+    kind: SyntaxKind.ObjectLiteralType
+    properties: PropertyDeclaration[]
+    symbol: ObjectSymbol
+}
 export type Object = Location & {
-    kind: Node.Object
+    kind: SyntaxKind.Object
     properties: PropertyAssignment[]
     symbol: ObjectSymbol
 }
 export type PropertyAssignment = Location & {
-    kind: Node.PropertyAssignment
+    kind: SyntaxKind.PropertyAssignment
     name: Identifier
     initializer: Expression
     symbol: Symbol
 }
+export type PropertyDeclaration = Location & {
+    kind: SyntaxKind.PropertyDeclaration
+    name: Identifier
+    typename?: TypeNode
+    symbol: Symbol
+}
 export type Assignment = Location & {
-    kind: Node.Assignment
+    kind: SyntaxKind.Assignment
     name: Identifier
     value: Expression
 }
 export type Function = Location & {
-    kind: Node.Function
+    kind: SyntaxKind.Function
     name?: Identifier
     parameters: Parameter[]
-    typename?: Identifier | undefined // TODO: This needs to be more complex
+    typename?: TypeNode
     body: Statement[] // TODO: Maybe need to be Block
     locals: Table
 }
 export type Parameter = Location & {
-    kind: Node.Parameter
+    kind: SyntaxKind.Parameter
     name: Identifier
-    typename?: Identifier // TODO: This needs to be more complex
+    typename?: TypeNode
     symbol: Symbol
 }
 export type ExpressionStatement = Location & {
-    kind: Node.ExpressionStatement
+    kind: SyntaxKind.ExpressionStatement
     expression: Expression
 }
 export type Var = Location & {
-    kind: Node.Var
+    kind: SyntaxKind.Var
     name: Identifier
-    typename?: Identifier | undefined // TODO: This needs to be more complex
+    typename?: TypeNode
     initializer: Expression
     symbol: Symbol
 }
 export type TypeAlias = Location & {
-    kind: Node.TypeAlias
+    kind: SyntaxKind.TypeAlias
     name: Identifier
-    typename: Identifier // TODO: This needs to be more complex
+    typename: TypeNode
     symbol: Symbol
 }
 export type Return = Location & {
-    kind: Node.Return
+    kind: SyntaxKind.Return
     expression: Expression
 }
 export type Call = Location & {
-    kind: Node.Call
+    kind: SyntaxKind.Call
     expression: Expression
     // TODO: typeArguments, eventually
     arguments: Expression[]
@@ -140,7 +152,7 @@ export enum Meaning {
 }
 export type Table = Map<string, Symbol>
 export type Module = Location & {
-    kind: Node.Module
+    kind: SyntaxKind.Module
     locals: Table
     statements: Statement[]
 }

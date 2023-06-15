@@ -1,5 +1,5 @@
 import * as fs from 'fs'
-import { Error, Token, Node, Table } from './types.js'
+import { Error, Token, SyntaxKind, Table } from './types.js'
 import { lexAll } from './lex.js'
 import { compile } from './compile.js'
 
@@ -75,7 +75,7 @@ function displayErrors(errors: Error[], text: string) {
 function displayTable(table: Table) {
     const o = {} as any
     for (const [k,v] of table) {
-        o[k] = v.declarations.map(({ kind, pos }) => ({ kind: Node[kind], pos }))
+        o[k] = v.declarations.map(({ kind, pos }) => ({ kind: SyntaxKind[kind], pos }))
     }
     return o
 }
@@ -84,7 +84,7 @@ function display(o: any): any {
     const o2 = {} as any
     for (const k in o) {
         if (k === 'pos' || k === 'symbol' || k === 'parent') continue
-        else if (k === 'kind') o2[k] = Node[o.kind]
+        else if (k === 'kind') o2[k] = SyntaxKind[o.kind]
         else if (k === 'locals' || k === 'members') o2[k] = displayTable(o[k])
         else if (typeof o[k] === 'object') o2[k] = display(o[k])
         else o2[k] = o[k]

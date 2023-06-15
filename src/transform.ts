@@ -1,4 +1,4 @@
-import { Statement, Expression, Node, PropertyAssignment, Parameter } from './types.js'
+import { Statement, Expression, SyntaxKind, PropertyAssignment, Parameter } from './types.js'
 export function transform(statements: Statement[]) {
     return typescript(statements)
 }
@@ -8,29 +8,29 @@ function typescript(statements: Statement[]) {
 
     function transformStatement(statement: Statement): Statement[] {
         switch (statement.kind) {
-            case Node.ExpressionStatement:
+            case SyntaxKind.ExpressionStatement:
                 return [{ ...statement, expression: transformExpression(statement.expression) }]
-            case Node.Var:
+            case SyntaxKind.Var:
                 return [{ ...statement, typename: undefined, initializer: transformExpression(statement.initializer) }]
-            case Node.TypeAlias:
+            case SyntaxKind.TypeAlias:
                 return []
-            case Node.Return:
+            case SyntaxKind.Return:
                 return [{ ...statement, expression: transformExpression(statement.expression) }]
         }
     }
     function transformExpression(expr: Expression): Expression {
         switch (expr.kind) {
-            case Node.Identifier:
-            case Node.NumericLiteral:
-            case Node.StringLiteral:
+            case SyntaxKind.Identifier:
+            case SyntaxKind.NumericLiteral:
+            case SyntaxKind.StringLiteral:
                 return expr
-            case Node.Object:
+            case SyntaxKind.Object:
                 return { ...expr, properties: expr.properties.map(transformProperty) }
-            case Node.Function:
+            case SyntaxKind.Function:
                 return { ...expr, parameters: expr.parameters.map(transformParameter), typename: undefined, body: expr.body.flatMap(transformStatement) }
-            case Node.Assignment:
+            case SyntaxKind.Assignment:
                 return { ...expr, value: transformExpression(expr.value) }
-            case Node.Call:
+            case SyntaxKind.Call:
                 return { ...expr, expression: transformExpression(expr.expression), arguments: expr.arguments.map(transformExpression) }
         }
     }

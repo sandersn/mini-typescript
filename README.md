@@ -92,14 +92,16 @@ First up:
 - [x] assignability
 - [x] tests of nested functions and objects
 - [x] calls
+- [ ] real type node in parse tree
 - [ ] object types
 - [ ] signatures
-- [ ] real type node in parse tree
 - [ ] property access/element access
 
 Then:
 - [ ] type argument inference
 - [ ] control flow analysis
+- [ ] type resolution (suggested by Daniel, not sure what this means)
+- [ ] type instantiation
 - [ ] `this`
 - [ ] union types
 - [ ] cleanup pass or two

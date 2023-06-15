@@ -4,6 +4,10 @@ o = { x: 3, y: "string", extra: "yep" }
 o = { x: 4 }
 o = { x: 5, z: "hiiii" }
 o = { k: "byeeee" }
+var p: { x: number, y: string } = o
+var q: { x: number, y: string, extra: string } = o
+var r: { x: number } = o
+var s: { x: number, z: string } = { x: 1, z: "string" }
 var oof = {
     first: "John",
     last: "Doe",
@@ -14,4 +18,7 @@ var oof = {
         }
     },
     extra: "yep"
+}
+var f = function (inward: { a: number }): { c: string } {
+    return { c: "string" }
 }

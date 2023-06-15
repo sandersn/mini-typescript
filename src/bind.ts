@@ -1,7 +1,7 @@
-import { Expression, Module, AllNodes, Location, Node, Statement, Table, Declaration, Meaning } from './types.js'
+import { Expression, Module, Node, Location, SyntaxKind, Statement, TypeNode, Table, Declaration, Meaning } from './types.js'
 import { error } from './error.js'
-export const valueDeclarations = new Set([Node.Var, Node.Object, Node.PropertyAssignment, Node.Parameter])
-export const typeDeclarations = new Set([Node.TypeAlias])
+export const valueDeclarations = new Set([SyntaxKind.Var, SyntaxKind.Object, SyntaxKind.PropertyAssignment, SyntaxKind.Parameter])
+export const typeDeclarations = new Set([SyntaxKind.TypeAlias])
 export function bind(m: Module) {
     setParents(m, m.statements)
     for (const statement of m.statements) {
@@ -10,27 +10,29 @@ export function bind(m: Module) {
 
     function bindStatement(locals: Table, statement: Statement) {
         switch (statement.kind) {
-            case Node.Var:
+            case SyntaxKind.Var:
                 setParents(statement, [statement.name, statement.typename, statement.initializer])
                 bindExpression(statement.initializer)
+                bindType(statement.typename)
                 declareSymbol(locals, statement, Meaning.Value)
                 break
-            case Node.TypeAlias:
+            case SyntaxKind.TypeAlias:
                 setParents(statement, [statement.name, statement.typename])
+                bindType(statement.typename)
                 declareSymbol(locals, statement, Meaning.Type)
                 break
-            case Node.ExpressionStatement:
-            case Node.Return:
+            case SyntaxKind.ExpressionStatement:
+            case SyntaxKind.Return:
                 setParents(statement, [statement.expression])
                 bindExpression(statement.expression)
                 break
             default:
-                throw new Error(`Unexpected statement kind ${Node[(statement as Statement).kind]}`)
+                throw new Error(`Unexpected statement kind ${SyntaxKind[(statement as Statement).kind]}`)
         }
     }
     function bindExpression(expr: Expression) {
         switch (expr.kind) {
-            case Node.Object:
+            case SyntaxKind.Object:
                 setParents(expr, expr.properties)
                 for (const property of expr.properties) {
                     setParents(property, [property.name, property.initializer])
@@ -38,33 +40,49 @@ export function bind(m: Module) {
                     declareSymbol(expr.symbol.members, property, Meaning.Value)
                 }
                 break
-            case Node.Function:
+            case SyntaxKind.Function:
                 setParents(expr, [expr.name, ...expr.parameters, expr.typename, ...expr.body])
+                bindType(expr.typename)
                 for (const parameter of expr.parameters) {
                     setParents(parameter, [parameter.name, parameter.typename])
+                    bindType(parameter.typename)
                     declareSymbol(expr.locals, parameter, Meaning.Value)
                 }
                 for (const statement of expr.body) {
                     bindStatement(expr.locals, statement)
                 }
                 break
-            case Node.Assignment:
+            case SyntaxKind.Assignment:
                 setParents(expr, [expr.name, expr.value])
                 bindExpression(expr.value)
                 break
-            case Node.Call:
+            case SyntaxKind.Call:
                 setParents(expr, [expr.expression, ...expr.arguments])
                 bindExpression(expr.expression)
                 for (const arg of expr.arguments) {
                     bindExpression(arg)
                 }
                 break
-            case Node.Identifier:
-            case Node.StringLiteral:
-            case Node.NumericLiteral:
+            case SyntaxKind.Identifier:
+            case SyntaxKind.StringLiteral:
+            case SyntaxKind.NumericLiteral:
                 break
             default:
-                throw new Error(`Unexpected expression kind ${Node[(expr as Expression).kind]}`)
+                throw new Error(`Unexpected expression kind ${SyntaxKind[(expr as Expression).kind]}`)
+        }
+    }
+    function bindType(type: TypeNode | undefined) {
+        switch (type?.kind) {
+            case SyntaxKind.ObjectLiteralType:
+                setParents(type, type.properties)
+                for (const property of type.properties) {
+                    setParents(property, [property.name, property.typename])
+                    bindType(property.typename)
+                    declareSymbol(type.symbol.members, property, Meaning.Type)
+                }
+                break
+            case SyntaxKind.Identifier:
+                break
         }
     }
     function declareSymbol(container: Table, declaration: Declaration, meaning: Meaning) {
@@ -92,7 +110,7 @@ export function bind(m: Module) {
         declaration.symbol = symbol
     }
 }
-function setParents(parent: AllNodes, children: (Location | undefined)[]) {
+function setParents(parent: Node, children: (Location | undefined)[]) {
     for (const child of children) {
         if (child)
             child.parent = parent
@@ -103,12 +121,12 @@ export function getMeaning(declaration: Declaration) {
 }
 export function getDeclarationName(node: Declaration) {
     switch (node.kind) {
-        case Node.Var:
-        case Node.TypeAlias:
-        case Node.PropertyAssignment:
-        case Node.Parameter:
+        case SyntaxKind.Var:
+        case SyntaxKind.TypeAlias:
+        case SyntaxKind.PropertyAssignment:
+        case SyntaxKind.Parameter:
             return node.name.text
-        case Node.Object:
+        case SyntaxKind.Object:
             return "__object"
         default:
             error((node as Declaration).pos, `Cannot get name of ${(node as Declaration).kind}`)

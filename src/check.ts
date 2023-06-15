@@ -1,5 +1,5 @@
-import { Node, Meaning, Kind } from './types.js'
-import type { AllNodes, Container, Module, Statement, Type, Symbol, Expression, Declaration, Identifier, TypeAlias, Object, PropertyAssignment, ObjectType, Function, Parameter, Return, Call, Table } from './types.js'
+import { SyntaxKind, Meaning, Kind } from './types.js'
+import type { Node, Container, Module, Statement, Type, Symbol, Expression, Declaration, TypeNode, TypeAlias, Object, ObjectLiteralType, PropertyAssignment, PropertyDeclaration, ObjectType, Function, Parameter, Return, Call, Table } from './types.js'
 import { error } from './error.js'
 import { getMeaning } from './bind.js'
 let typeCount = 0
@@ -12,9 +12,9 @@ export function check(module: Module) {
 
     function checkStatement(statement: Statement): Type {
         switch (statement.kind) {
-            case Node.ExpressionStatement:
+            case SyntaxKind.ExpressionStatement:
                 return checkExpression(statement.expression)
-            case Node.Var:
+            case SyntaxKind.Var:
                 const i = checkExpression(statement.initializer)
                 if (!statement.typename) {
                     return i
@@ -23,36 +23,36 @@ export function check(module: Module) {
                 if (t !== i && t !== errorType)
                     error(statement.initializer, `Cannot assign initialiser of type '${typeToString(i)}' to variable with declared type '${typeToString(t)}'.`)
                 return t
-            case Node.TypeAlias:
+            case SyntaxKind.TypeAlias:
                 return checkType(statement.typename)
-            case Node.Return:
+            case SyntaxKind.Return:
                 return checkExpression(statement.expression)
         }
     }
     function checkExpression(expression: Expression): Type {
         switch (expression.kind) {
-            case Node.Identifier:
+            case SyntaxKind.Identifier:
                 const symbol = resolve(expression, expression.text, Meaning.Value)
                 if (symbol) {
                     return getValueTypeOfSymbol(symbol)
                 }
                 error(expression, "Could not resolve " + expression.text)
                 return errorType
-            case Node.NumericLiteral:
+            case SyntaxKind.NumericLiteral:
                 return numberType
-            case Node.StringLiteral:
+            case SyntaxKind.StringLiteral:
                 return stringType
-            case Node.Object:
+            case SyntaxKind.Object:
                 return checkObject(expression)
-            case Node.Assignment:
+            case SyntaxKind.Assignment:
                 const v = checkExpression(expression.value)
                 const t = checkExpression(expression.name)
                 if (!isAssignableTo(v, t))
                     error(expression.name, `Cannot assign value of type '${typeToString(v)}' to variable of type '${typeToString(t)}'.`)
                 return t
-            case Node.Function:
+            case SyntaxKind.Function:
                 return checkFunction(expression)
-            case Node.Call:
+            case SyntaxKind.Call:
                 return checkCall(expression)
         }
     }
@@ -72,12 +72,12 @@ export function check(module: Module) {
         return checkExpression(property.initializer)
     }
     function checkFunction(func: Function): Type {
-        const declaredType = func.typename && checkType(func.typename)
-        const bodyType = checkBody(func.body, declaredType)
-        const returnType = declaredType || bodyType
         for (const parameters of func.parameters) {
             checkParameter(parameters)
         }
+        const declaredType = func.typename && checkType(func.typename)
+        const bodyType = checkBody(func.body, declaredType)
+        const returnType = declaredType || bodyType
         return {
             kind: Kind.Function,
             id: typeCount++,
@@ -133,11 +133,11 @@ export function check(module: Module) {
         }
         function traverse(node: Statement) {
             switch (node.kind) {
-                case Node.ExpressionStatement:
-                case Node.Var:
-                case Node.TypeAlias:
+                case SyntaxKind.ExpressionStatement:
+                case SyntaxKind.Var:
+                case SyntaxKind.TypeAlias:
                     return
-                case Node.Return:
+                case SyntaxKind.Return:
                     return callback(node)
                 default:
                     const unused: never = node
@@ -145,20 +145,44 @@ export function check(module: Module) {
             }
         }
     }
-    function checkType(name: Identifier): Type {
-        switch (name.text) {
-            case "string":
-                return stringType
-            case "number":
-                return numberType
-            default:
-                const symbol = resolve(name, name.text, Meaning.Type)
-                if (symbol) {
-                    return checkType((symbol.declarations.find(d => d.kind === Node.TypeAlias) as TypeAlias).typename)
+    function checkType(name: TypeNode): Type {
+        switch (name.kind) {
+            case SyntaxKind.Identifier:
+                switch (name.text) {
+                    case "string":
+                        return stringType
+                    case "number":
+                        return numberType
+                    default:
+                        const symbol = resolve(name, name.text, Meaning.Type)
+                        if (symbol) {
+                            return checkType((symbol.declarations.find(d => d.kind === SyntaxKind.TypeAlias) as TypeAlias).typename)
+                        }
+                        error(name, "Could not resolve type " + name.text)
+                        return errorType
                 }
-                error(name, "Could not resolve type " + name.text)
-                return errorType
+            case SyntaxKind.ObjectLiteralType:
+                return checkObjectLiteralType(name)
         }
+    }
+    function checkObjectLiteralType(object: ObjectLiteralType): ObjectType {
+        const members: Table = new Map()
+        for (const p of object.properties) {
+            const symbol = resolve(p, p.name.text, Meaning.Type)
+            if (!symbol) {
+                // TODO: Throws on function return type (which is admittedly checked first)
+                throw new Error(`Binder did not correctly bind property ${p.name.text} of object literal type with keys ${Object.keys(object.symbol.members)}`)
+            }
+            members.set(p.name.text, symbol)
+            checkPropertyDeclaration(p)
+        }
+        return { kind: Kind.Object, id: typeCount++, members }
+    }
+    function checkPropertyDeclaration(property: PropertyDeclaration): Type {
+        if (property.typename) {
+            return checkType(property.typename)
+        }
+        return anyType
     }
     function getValueTypeOfSymbol(symbol: Symbol): Type {
         if (!symbol.valueDeclaration) {
@@ -167,17 +191,17 @@ export function check(module: Module) {
         // TODO: Caching
         // TODO: symbol flags
         switch (symbol.valueDeclaration.kind) {
-            case Node.Var:
-            case Node.TypeAlias:
+            case SyntaxKind.Var:
+            case SyntaxKind.TypeAlias:
                 return checkStatement(symbol.valueDeclaration)
-            case Node.Object:
+            case SyntaxKind.Object:
                 return checkExpression(symbol.valueDeclaration)
-            case Node.PropertyAssignment:
+            case SyntaxKind.PropertyAssignment:
                 return checkProperty(symbol.valueDeclaration)
-            case Node.Parameter:
+            case SyntaxKind.Parameter:
                 return checkParameter(symbol.valueDeclaration)
             default:
-                throw new Error("Unxpected value declaration kind " + Node[(symbol.valueDeclaration as Declaration).kind])
+                throw new Error("Unxpected value declaration kind " + SyntaxKind[(symbol.valueDeclaration as Declaration).kind])
         }
     }
     function typeToString(type: Type): string {
@@ -197,21 +221,21 @@ export function check(module: Module) {
         }
         return '(anonymous)'
     }
-    function resolve(location: AllNodes, name: string, meaning: Meaning) {
+    function resolve(location: Node, name: string, meaning: Meaning) {
         while (location) {
-            if (location.kind === Node.Module || location.kind === Node.Function) {
+            if (location.kind === SyntaxKind.Module || location.kind === SyntaxKind.Function) {
                 const symbol = getSymbol((location as Container).locals, name, meaning)
                 if (symbol) {
                     return symbol
                 }
             }
-            else if (location.kind === Node.Object) {
+            else if (location.kind === SyntaxKind.Object) {
                 const symbol = getSymbol((location as Object).symbol.members, name, meaning)
                 if (symbol) {
                     return symbol
                 }
             }
-            location = location.parent as AllNodes
+            location = location.parent as Node
         }
     }
     function getSymbol(locals: Table, name: string, meaning: Meaning) {

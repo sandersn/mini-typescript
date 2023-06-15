@@ -1,4 +1,4 @@
-import { Lexer, Token, Node, Statement, Identifier, Expression, Module, PropertyAssignment, Object, Parameter } from './types.js'
+import { Lexer, Token, SyntaxKind, Statement, Identifier, Expression, Module, PropertyAssignment, PropertyDeclaration, Object, ObjectLiteralType, Parameter, TypeNode } from './types.js'
 import { error } from './error.js'
 export function parse(lexer: Lexer): Module {
     lexer.scan()
@@ -6,7 +6,7 @@ export function parse(lexer: Lexer): Module {
 
     function parseModule(): Module {
         const statements = parseTerminated(parseStatement, Token.Semicolon, Token.EOF)
-        return { kind: Node.Module, statements, locals: new Map(), pos: 0, parent: undefined! }
+        return { kind: SyntaxKind.Module, statements, locals: new Map(), pos: 0, parent: undefined! }
     }
     function parseBlock(): Statement[] {
         parseExpected(Token.OpenBrace)
@@ -16,7 +16,7 @@ export function parse(lexer: Lexer): Module {
     function parseExpression(): Expression {
         const expression = parseExpressionBelowCall()
         if (tryParseToken(Token.OpenParen)) {
-            return { kind: Node.Call, expression, arguments: parseTerminated(parseExpression, Token.Comma, Token.CloseParen), pos: expression.pos, parent: undefined! }
+            return { kind: SyntaxKind.Call, expression, arguments: parseTerminated(parseExpression, Token.Comma, Token.CloseParen), pos: expression.pos, parent: undefined! }
         }
         return expression
     }
@@ -24,7 +24,7 @@ export function parse(lexer: Lexer): Module {
         const pos = lexer.pos()
         if (tryParseToken(Token.OpenBrace)) {
             const object = {
-                kind: Node.Object,
+                kind: SyntaxKind.Object,
                 properties: parseTerminated(parseProperty, Token.Comma, Token.CloseBrace),
                 symbol: undefined!,
                 pos,
@@ -39,33 +39,55 @@ export function parse(lexer: Lexer): Module {
             const parameters = parseTerminated(parseParameter, Token.Comma, Token.CloseParen)
             const typename = tryParseTypeAnnotation()
             const body = parseBlock()
-            return { kind: Node.Function, name, parameters, typename, body, locals: new Map(), pos, parent: undefined! }
+            return { kind: SyntaxKind.Function, name, parameters, typename, body, locals: new Map(), pos, parent: undefined! }
         }
         const e = parseIdentifierOrLiteral()
-        if (e.kind === Node.Identifier && tryParseToken(Token.Equals)) {
-            return { kind: Node.Assignment, name: e, value: parseExpression(), pos, parent: undefined! }
+        if (e.kind === SyntaxKind.Identifier && tryParseToken(Token.Equals)) {
+            return { kind: SyntaxKind.Assignment, name: e, value: parseExpression(), pos, parent: undefined! }
         }
         return e
     }
     function parseParameter(): Parameter {
         const name = parseIdentifier()
         const typename = tryParseTypeAnnotation()
-        return { kind: Node.Parameter, name, typename, pos: name.pos, symbol: undefined!, parent: undefined! }
+        return { kind: SyntaxKind.Parameter, name, typename, pos: name.pos, symbol: undefined!, parent: undefined! }
     }
-    // TODO: Needs to return a real Type node
-    function tryParseTypeAnnotation(): Identifier | undefined {
+    function tryParseTypeAnnotation(): TypeNode | undefined {
         if (tryParseToken(Token.Colon)) {
-            return parseIdentifier()
+            return parseType()
         }
+    }
+    function parseType(): TypeNode {
+        const pos = lexer.pos()
+        if (tryParseToken(Token.OpenBrace)) {
+            const object = {
+                kind: SyntaxKind.ObjectLiteralType,
+                properties: parseTerminated(parsePropertyDeclaration, Token.Comma, Token.CloseBrace),
+                symbol: undefined!,
+                pos,
+                parent: undefined!,
+            } as ObjectLiteralType
+            object.symbol = { valueDeclaration: undefined, declarations: [object], members: new Map() }
+            return object
+        }
+        return parseIdentifier()
     }
     function parseProperty(): PropertyAssignment {
         const name = parseIdentifierOrLiteral()
-        if (name.kind !== Node.Identifier) {
+        if (name.kind !== SyntaxKind.Identifier) {
             throw new Error("Only identifiers are allowed as property names in deci-typescript")
         }
         parseExpected(Token.Colon)
         const initializer = parseExpression()
-        return { kind: Node.PropertyAssignment, name, initializer, pos: name.pos, symbol: undefined!, parent: undefined! }
+        return { kind: SyntaxKind.PropertyAssignment, name, initializer, pos: name.pos, symbol: undefined!, parent: undefined! }
+    }
+    function parsePropertyDeclaration(): PropertyDeclaration {
+        const name = parseIdentifierOrLiteral()
+        if (name.kind !== SyntaxKind.Identifier) {
+            throw new Error("Only identifiers are allowed as property names in deci-typescript")
+        }
+        const typename = tryParseTypeAnnotation()
+        return { kind: SyntaxKind.PropertyDeclaration, name, typename, pos: name.pos, symbol: undefined!, parent: undefined! }
     }
     function parseIdentifierOrLiteral(): Expression {
         const pos = lexer.pos()
@@ -74,23 +96,23 @@ export function parse(lexer: Lexer): Module {
         lexer.scan()
         switch (token) {
             case Token.Identifier:
-                return { kind: Node.Identifier, text, pos, parent: undefined! }
+                return { kind: SyntaxKind.Identifier, text, pos, parent: undefined! }
             case Token.NumericLiteral:
-                return { kind: Node.NumericLiteral, value: +text, pos, parent: undefined! }
+                return { kind: SyntaxKind.NumericLiteral, value: +text, pos, parent: undefined! }
             case Token.StringLiteral:
-                return { kind: Node.StringLiteral, value: text, pos, parent: undefined! }
+                return { kind: SyntaxKind.StringLiteral, value: text, pos, parent: undefined! }
             default:
                 error(pos, "Expected identifier or literal but got " + Token[token] + " with text " + text)
-                return { kind: Node.Identifier, text: "(missing)", pos, parent: undefined! }
+                return { kind: SyntaxKind.Identifier, text: "(missing)", pos, parent: undefined! }
         }
     }
     function parseIdentifier(): Identifier {
         const e = parseIdentifierOrLiteral()
-        if (e.kind === Node.Identifier) {
+        if (e.kind === SyntaxKind.Identifier) {
             return e
         }
         error(e.pos, "Expected identifier but got a literal")
-        return { kind: Node.Identifier, text: "(missing)", pos: e.pos, parent: undefined! }
+        return { kind: SyntaxKind.Identifier, text: "(missing)", pos: e.pos, parent: undefined! }
     }
     function parseStatement(): Statement {
         const pos = lexer.pos()
@@ -101,21 +123,21 @@ export function parse(lexer: Lexer): Module {
                 const typename = tryParseToken(Token.Colon) ? parseIdentifier() : undefined
                 parseExpected(Token.Equals)
                 const initializer = parseExpression()
-                return { kind: Node.Var, name, typename, initializer, pos, symbol: undefined!, parent: undefined! }
+                return { kind: SyntaxKind.Var, name, typename, initializer, pos, symbol: undefined!, parent: undefined! }
             }
             case Token.Type: {
                 lexer.scan()
                 const name = parseIdentifier()
                 parseExpected(Token.Equals)
                 const typename = parseIdentifier()
-                return { kind: Node.TypeAlias, name, typename, pos, symbol: undefined!, parent: undefined! }
+                return { kind: SyntaxKind.TypeAlias, name, typename, pos, symbol: undefined!, parent: undefined! }
             }
             case Token.Return: {
                 lexer.scan()
-                return { kind: Node.Return, expression: parseExpression(), pos, parent: undefined! }
+                return { kind: SyntaxKind.Return, expression: parseExpression(), pos, parent: undefined! }
             }
             default:
-                return { kind: Node.ExpressionStatement, expression: parseExpression(), pos, parent: undefined! }
+                return { kind: SyntaxKind.ExpressionStatement, expression: parseExpression(), pos, parent: undefined! }
         }
     }
     function tryParseToken(expected: Token) {
