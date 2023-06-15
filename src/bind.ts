@@ -1,6 +1,6 @@
 import { Expression, Module, Node, Location, SyntaxKind, Statement, TypeNode, Table, Declaration, Meaning } from './types.js'
 import { error } from './error.js'
-export const valueDeclarations = new Set([SyntaxKind.Var, SyntaxKind.Object, SyntaxKind.PropertyAssignment, SyntaxKind.Parameter])
+export const valueDeclarations = new Set([SyntaxKind.Var, SyntaxKind.Object, SyntaxKind.PropertyAssignment, SyntaxKind.PropertyDeclaration, SyntaxKind.Parameter])
 export const typeDeclarations = new Set([SyntaxKind.TypeAlias])
 export function bind(m: Module) {
     setParents(m, m.statements)
@@ -78,7 +78,7 @@ export function bind(m: Module) {
                 for (const property of type.properties) {
                     setParents(property, [property.name, property.typename])
                     bindType(property.typename)
-                    declareSymbol(type.symbol.members, property, Meaning.Type)
+                    declareSymbol(type.symbol.members, property, Meaning.Value)
                 }
                 break
             case SyntaxKind.Identifier:
@@ -124,6 +124,7 @@ export function getDeclarationName(node: Declaration) {
         case SyntaxKind.Var:
         case SyntaxKind.TypeAlias:
         case SyntaxKind.PropertyAssignment:
+        case SyntaxKind.PropertyDeclaration:
         case SyntaxKind.Parameter:
             return node.name.text
         case SyntaxKind.Object:

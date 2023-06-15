@@ -92,8 +92,8 @@ First up:
 - [x] assignability
 - [x] tests of nested functions and objects
 - [x] calls
-- [ ] real type node in parse tree
-- [ ] object types
+- [x] real type node in parse tree
+- [x] object types
 - [ ] signatures
 - [ ] property access/element access
 

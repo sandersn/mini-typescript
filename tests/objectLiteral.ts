@@ -8,6 +8,7 @@ var p: { x: number, y: string } = o
 var q: { x: number, y: string, extra: string } = o
 var r: { x: number } = o
 var s: { x: number, z: string } = { x: 1, z: "string" }
+var t: { y: string, x: number } = o
 var oof = {
     first: "John",
     last: "Doe",
@@ -19,6 +20,9 @@ var oof = {
     },
     extra: "yep"
 }
+type In = { a: number }
 var f = function (inward: { a: number }): { c: string } {
     return { c: "string" }
 }
+var i: In = { a: 1 }
+f(i)

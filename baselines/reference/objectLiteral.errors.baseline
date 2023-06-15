@@ -13,5 +13,10 @@
     "pos": 135,
     "message": "Cannot assign value of type '{ k: string }' to variable of type '{ x: number, y: string }'.",
     "snippet": "hiiii\" }\no/*!!*/ = { k: \"b"
+  },
+  {
+    "pos": 240,
+    "message": "Cannot assign initialiser of type '{ x: number, y: string }' to variable with declared type '{ x: number, y: string, extra: string }'.",
+    "snippet": "ring } = o/*!!*/\nvar r: { "
   }
 ]

@@ -20,7 +20,7 @@ export function check(module: Module) {
                     return i
                 }
                 const t = checkType(statement.typename)
-                if (t !== i && t !== errorType)
+                if (!isAssignableTo(i, t))
                     error(statement.initializer, `Cannot assign initialiser of type '${typeToString(i)}' to variable with declared type '${typeToString(t)}'.`)
                 return t
             case SyntaxKind.TypeAlias:
@@ -168,7 +168,7 @@ export function check(module: Module) {
     function checkObjectLiteralType(object: ObjectLiteralType): ObjectType {
         const members: Table = new Map()
         for (const p of object.properties) {
-            const symbol = resolve(p, p.name.text, Meaning.Type)
+            const symbol = resolve(p, p.name.text, Meaning.Value)
             if (!symbol) {
                 // TODO: Throws on function return type (which is admittedly checked first)
                 throw new Error(`Binder did not correctly bind property ${p.name.text} of object literal type with keys ${Object.keys(object.symbol.members)}`)
@@ -198,6 +198,8 @@ export function check(module: Module) {
                 return checkExpression(symbol.valueDeclaration)
             case SyntaxKind.PropertyAssignment:
                 return checkProperty(symbol.valueDeclaration)
+            case SyntaxKind.PropertyDeclaration:
+                return symbol.valueDeclaration.typename ? checkType(symbol.valueDeclaration.typename) : anyType;
             case SyntaxKind.Parameter:
                 return checkParameter(symbol.valueDeclaration)
             default:
@@ -229,7 +231,7 @@ export function check(module: Module) {
                     return symbol
                 }
             }
-            else if (location.kind === SyntaxKind.Object) {
+            else if (location.kind === SyntaxKind.Object || location.kind === SyntaxKind.ObjectLiteralType) {
                 const symbol = getSymbol((location as Object).symbol.members, name, meaning)
                 if (symbol) {
                     return symbol
@@ -245,7 +247,7 @@ export function check(module: Module) {
         }
     }
     function isAssignableTo(source: Type, target: Type): boolean {
-        if (source === anyType || target === anyType)
+        if (source === anyType || target === anyType || source === errorType || target === errorType)
             return true
         else if (source.kind === Kind.Primitive || target.kind === Kind.Primitive)
             return source === target

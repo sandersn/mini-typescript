@@ -120,7 +120,7 @@ export function parse(lexer: Lexer): Module {
             case Token.Var: {
                 lexer.scan()
                 const name = parseIdentifier()
-                const typename = tryParseToken(Token.Colon) ? parseIdentifier() : undefined
+                const typename = tryParseTypeAnnotation()
                 parseExpected(Token.Equals)
                 const initializer = parseExpression()
                 return { kind: SyntaxKind.Var, name, typename, initializer, pos, symbol: undefined!, parent: undefined! }
@@ -129,7 +129,7 @@ export function parse(lexer: Lexer): Module {
                 lexer.scan()
                 const name = parseIdentifier()
                 parseExpected(Token.Equals)
-                const typename = parseIdentifier()
+                const typename = parseType()
                 return { kind: SyntaxKind.TypeAlias, name, typename, pos, symbol: undefined!, parent: undefined! }
             }
             case Token.Return: {

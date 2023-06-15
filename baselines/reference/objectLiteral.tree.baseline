@@ -213,6 +213,219 @@
       "kind": "Var",
       "name": {
         "kind": "Identifier",
+        "text": "p"
+      },
+      "typename": {
+        "kind": "ObjectLiteralType",
+        "properties": [
+          {
+            "kind": "PropertyDeclaration",
+            "name": {
+              "kind": "Identifier",
+              "text": "x"
+            },
+            "typename": {
+              "kind": "Identifier",
+              "text": "number"
+            }
+          },
+          {
+            "kind": "PropertyDeclaration",
+            "name": {
+              "kind": "Identifier",
+              "text": "y"
+            },
+            "typename": {
+              "kind": "Identifier",
+              "text": "string"
+            }
+          }
+        ]
+      },
+      "initializer": {
+        "kind": "Identifier",
+        "text": "o"
+      }
+    },
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
+        "text": "q"
+      },
+      "typename": {
+        "kind": "ObjectLiteralType",
+        "properties": [
+          {
+            "kind": "PropertyDeclaration",
+            "name": {
+              "kind": "Identifier",
+              "text": "x"
+            },
+            "typename": {
+              "kind": "Identifier",
+              "text": "number"
+            }
+          },
+          {
+            "kind": "PropertyDeclaration",
+            "name": {
+              "kind": "Identifier",
+              "text": "y"
+            },
+            "typename": {
+              "kind": "Identifier",
+              "text": "string"
+            }
+          },
+          {
+            "kind": "PropertyDeclaration",
+            "name": {
+              "kind": "Identifier",
+              "text": "extra"
+            },
+            "typename": {
+              "kind": "Identifier",
+              "text": "string"
+            }
+          }
+        ]
+      },
+      "initializer": {
+        "kind": "Identifier",
+        "text": "o"
+      }
+    },
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
+        "text": "r"
+      },
+      "typename": {
+        "kind": "ObjectLiteralType",
+        "properties": [
+          {
+            "kind": "PropertyDeclaration",
+            "name": {
+              "kind": "Identifier",
+              "text": "x"
+            },
+            "typename": {
+              "kind": "Identifier",
+              "text": "number"
+            }
+          }
+        ]
+      },
+      "initializer": {
+        "kind": "Identifier",
+        "text": "o"
+      }
+    },
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
+        "text": "s"
+      },
+      "typename": {
+        "kind": "ObjectLiteralType",
+        "properties": [
+          {
+            "kind": "PropertyDeclaration",
+            "name": {
+              "kind": "Identifier",
+              "text": "x"
+            },
+            "typename": {
+              "kind": "Identifier",
+              "text": "number"
+            }
+          },
+          {
+            "kind": "PropertyDeclaration",
+            "name": {
+              "kind": "Identifier",
+              "text": "z"
+            },
+            "typename": {
+              "kind": "Identifier",
+              "text": "string"
+            }
+          }
+        ]
+      },
+      "initializer": {
+        "kind": "Object",
+        "properties": [
+          {
+            "kind": "PropertyAssignment",
+            "name": {
+              "kind": "Identifier",
+              "text": "x"
+            },
+            "initializer": {
+              "kind": "NumericLiteral",
+              "value": 1
+            }
+          },
+          {
+            "kind": "PropertyAssignment",
+            "name": {
+              "kind": "Identifier",
+              "text": "z"
+            },
+            "initializer": {
+              "kind": "StringLiteral",
+              "value": "\"string\""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
+        "text": "t"
+      },
+      "typename": {
+        "kind": "ObjectLiteralType",
+        "properties": [
+          {
+            "kind": "PropertyDeclaration",
+            "name": {
+              "kind": "Identifier",
+              "text": "y"
+            },
+            "typename": {
+              "kind": "Identifier",
+              "text": "string"
+            }
+          },
+          {
+            "kind": "PropertyDeclaration",
+            "name": {
+              "kind": "Identifier",
+              "text": "x"
+            },
+            "typename": {
+              "kind": "Identifier",
+              "text": "number"
+            }
+          }
+        ]
+      },
+      "initializer": {
+        "kind": "Identifier",
+        "text": "o"
+      }
+    },
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
         "text": "oof"
       },
       "initializer": {
@@ -297,7 +510,7 @@
                 "x": [
                   {
                     "kind": "Parameter",
-                    "pos": 220
+                    "pos": 424
                   }
                 ]
               }
@@ -316,6 +529,152 @@
           }
         ]
       }
+    },
+    {
+      "kind": "TypeAlias",
+      "name": {
+        "kind": "Identifier",
+        "text": "In"
+      },
+      "typename": {
+        "kind": "ObjectLiteralType",
+        "properties": [
+          {
+            "kind": "PropertyDeclaration",
+            "name": {
+              "kind": "Identifier",
+              "text": "a"
+            },
+            "typename": {
+              "kind": "Identifier",
+              "text": "number"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
+        "text": "f"
+      },
+      "initializer": {
+        "kind": "Function",
+        "parameters": [
+          {
+            "kind": "Parameter",
+            "name": {
+              "kind": "Identifier",
+              "text": "inward"
+            },
+            "typename": {
+              "kind": "ObjectLiteralType",
+              "properties": [
+                {
+                  "kind": "PropertyDeclaration",
+                  "name": {
+                    "kind": "Identifier",
+                    "text": "a"
+                  },
+                  "typename": {
+                    "kind": "Identifier",
+                    "text": "number"
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "typename": {
+          "kind": "ObjectLiteralType",
+          "properties": [
+            {
+              "kind": "PropertyDeclaration",
+              "name": {
+                "kind": "Identifier",
+                "text": "c"
+              },
+              "typename": {
+                "kind": "Identifier",
+                "text": "string"
+              }
+            }
+          ]
+        },
+        "body": [
+          {
+            "kind": "Return",
+            "expression": {
+              "kind": "Object",
+              "properties": [
+                {
+                  "kind": "PropertyAssignment",
+                  "name": {
+                    "kind": "Identifier",
+                    "text": "c"
+                  },
+                  "initializer": {
+                    "kind": "StringLiteral",
+                    "value": "\"string\""
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "locals": {
+          "inward": [
+            {
+              "kind": "Parameter",
+              "pos": 584
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
+        "text": "i"
+      },
+      "typename": {
+        "kind": "Identifier",
+        "text": "In"
+      },
+      "initializer": {
+        "kind": "Object",
+        "properties": [
+          {
+            "kind": "PropertyAssignment",
+            "name": {
+              "kind": "Identifier",
+              "text": "a"
+            },
+            "initializer": {
+              "kind": "NumericLiteral",
+              "value": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "kind": "ExpressionStatement",
+      "expression": {
+        "kind": "Call",
+        "expression": {
+          "kind": "Identifier",
+          "text": "f"
+        },
+        "arguments": [
+          {
+            "kind": "Identifier",
+            "text": "i"
+          }
+        ]
+      }
     }
   ],
   "locals": {
@@ -325,10 +684,58 @@
         "pos": 3
       }
     ],
-    "oof": [
+    "p": [
       {
         "kind": "Var",
         "pos": 157
+      }
+    ],
+    "q": [
+      {
+        "kind": "Var",
+        "pos": 193
+      }
+    ],
+    "r": [
+      {
+        "kind": "Var",
+        "pos": 244
+      }
+    ],
+    "s": [
+      {
+        "kind": "Var",
+        "pos": 269
+      }
+    ],
+    "t": [
+      {
+        "kind": "Var",
+        "pos": 325
+      }
+    ],
+    "oof": [
+      {
+        "kind": "Var",
+        "pos": 361
+      }
+    ],
+    "In": [
+      {
+        "kind": "TypeAlias",
+        "pos": 540
+      }
+    ],
+    "f": [
+      {
+        "kind": "Var",
+        "pos": 563
+      }
+    ],
+    "i": [
+      {
+        "kind": "Var",
+        "pos": 650
       }
     ]
   }
