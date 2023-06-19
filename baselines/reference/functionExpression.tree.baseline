@@ -299,6 +299,342 @@
           }
         }
       }
+    },
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
+        "text": "h"
+      },
+      "typename": {
+        "kind": "Signature",
+        "parameters": [
+          {
+            "kind": "Parameter",
+            "name": {
+              "kind": "Identifier",
+              "text": "x"
+            },
+            "typename": {
+              "kind": "Identifier",
+              "text": "number"
+            }
+          }
+        ],
+        "typename": {
+          "kind": "Identifier",
+          "text": "number"
+        },
+        "locals": {
+          "x": [
+            {
+              "kind": "Parameter",
+              "pos": 301
+            }
+          ]
+        }
+      },
+      "initializer": {
+        "kind": "Function",
+        "parameters": [
+          {
+            "kind": "Parameter",
+            "name": {
+              "kind": "Identifier",
+              "text": "x"
+            }
+          }
+        ],
+        "body": [
+          {
+            "kind": "Return",
+            "expression": {
+              "kind": "Identifier",
+              "text": "x"
+            }
+          }
+        ],
+        "locals": {
+          "x": [
+            {
+              "kind": "Parameter",
+              "pos": 334
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "ExpressionStatement",
+      "expression": {
+        "kind": "Assignment",
+        "name": {
+          "kind": "Identifier",
+          "text": "h"
+        },
+        "value": {
+          "kind": "Identifier",
+          "text": "f"
+        }
+      }
+    },
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
+        "text": "i"
+      },
+      "typename": {
+        "kind": "Signature",
+        "parameters": [
+          {
+            "kind": "Parameter",
+            "name": {
+              "kind": "Identifier",
+              "text": "x"
+            },
+            "typename": {
+              "kind": "Identifier",
+              "text": "number"
+            }
+          }
+        ],
+        "typename": {
+          "kind": "Identifier",
+          "text": "string"
+        },
+        "locals": {
+          "x": [
+            {
+              "kind": "Parameter",
+              "pos": 364
+            }
+          ]
+        }
+      },
+      "initializer": {
+        "kind": "Identifier",
+        "text": "f"
+      }
+    },
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
+        "text": "j"
+      },
+      "typename": {
+        "kind": "Signature",
+        "parameters": [
+          {
+            "kind": "Parameter",
+            "name": {
+              "kind": "Identifier",
+              "text": "x"
+            },
+            "typename": {
+              "kind": "Identifier",
+              "text": "string"
+            }
+          }
+        ],
+        "typename": {
+          "kind": "Identifier",
+          "text": "number"
+        },
+        "locals": {
+          "x": [
+            {
+              "kind": "Parameter",
+              "pos": 397
+            }
+          ]
+        }
+      },
+      "initializer": {
+        "kind": "Identifier",
+        "text": "f"
+      }
+    },
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
+        "text": "apply"
+      },
+      "initializer": {
+        "kind": "Function",
+        "parameters": [
+          {
+            "kind": "Parameter",
+            "name": {
+              "kind": "Identifier",
+              "text": "f"
+            },
+            "typename": {
+              "kind": "Signature",
+              "parameters": [
+                {
+                  "kind": "Parameter",
+                  "name": {
+                    "kind": "Identifier",
+                    "text": "x"
+                  },
+                  "typename": {
+                    "kind": "Identifier",
+                    "text": "number"
+                  }
+                }
+              ],
+              "typename": {
+                "kind": "Identifier",
+                "text": "number"
+              },
+              "locals": {
+                "x": [
+                  {
+                    "kind": "Parameter",
+                    "pos": 448
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "Parameter",
+            "name": {
+              "kind": "Identifier",
+              "text": "x"
+            },
+            "typename": {
+              "kind": "Identifier",
+              "text": "number"
+            }
+          }
+        ],
+        "body": [
+          {
+            "kind": "Return",
+            "expression": {
+              "kind": "Call",
+              "expression": {
+                "kind": "Identifier",
+                "text": "f"
+              },
+              "arguments": [
+                {
+                  "kind": "Identifier",
+                  "text": "x"
+                }
+              ]
+            }
+          }
+        ],
+        "locals": {
+          "f": [
+            {
+              "kind": "Parameter",
+              "pos": 444
+            }
+          ],
+          "x": [
+            {
+              "kind": "Parameter",
+              "pos": 470
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
+        "text": "misapply"
+      },
+      "initializer": {
+        "kind": "Function",
+        "parameters": [
+          {
+            "kind": "Parameter",
+            "name": {
+              "kind": "Identifier",
+              "text": "f"
+            },
+            "typename": {
+              "kind": "Signature",
+              "parameters": [
+                {
+                  "kind": "Parameter",
+                  "name": {
+                    "kind": "Identifier",
+                    "text": "x"
+                  },
+                  "typename": {
+                    "kind": "Identifier",
+                    "text": "number"
+                  }
+                }
+              ],
+              "typename": {
+                "kind": "Identifier",
+                "text": "number"
+              },
+              "locals": {
+                "x": [
+                  {
+                    "kind": "Parameter",
+                    "pos": 526
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "Parameter",
+            "name": {
+              "kind": "Identifier",
+              "text": "x"
+            },
+            "typename": {
+              "kind": "Identifier",
+              "text": "string"
+            }
+          }
+        ],
+        "body": [
+          {
+            "kind": "Return",
+            "expression": {
+              "kind": "Call",
+              "expression": {
+                "kind": "Identifier",
+                "text": "f"
+              },
+              "arguments": [
+                {
+                  "kind": "Identifier",
+                  "text": "x"
+                }
+              ]
+            }
+          }
+        ],
+        "locals": {
+          "f": [
+            {
+              "kind": "Parameter",
+              "pos": 522
+            }
+          ],
+          "x": [
+            {
+              "kind": "Parameter",
+              "pos": 548
+            }
+          ]
+        }
+      }
     }
   ],
   "locals": {
@@ -318,6 +654,36 @@
       {
         "kind": "Var",
         "pos": 91
+      }
+    ],
+    "h": [
+      {
+        "kind": "Var",
+        "pos": 295
+      }
+    ],
+    "i": [
+      {
+        "kind": "Var",
+        "pos": 358
+      }
+    ],
+    "j": [
+      {
+        "kind": "Var",
+        "pos": 391
+      }
+    ],
+    "apply": [
+      {
+        "kind": "Var",
+        "pos": 424
+      }
+    ],
+    "misapply": [
+      {
+        "kind": "Var",
+        "pos": 499
       }
     ]
   }

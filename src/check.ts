@@ -1,5 +1,5 @@
 import { SyntaxKind, Meaning, Kind } from './types.js'
-import type { Node, Container, Module, Statement, Type, Symbol, Expression, Declaration, TypeNode, TypeAlias, Object, ObjectLiteralType, PropertyAssignment, PropertyDeclaration, ObjectType, Function, Parameter, Return, Call, Table } from './types.js'
+import type { Node, Container, Module, Statement, Type, Symbol, Expression, Declaration, TypeNode, TypeAlias, Object, ObjectLiteralType, PropertyAssignment, PropertyDeclaration, ObjectType, Function, SignatureDeclaration, Parameter, Return, Call, Table } from './types.js'
 import { error } from './error.js'
 import { getMeaning } from './bind.js'
 let typeCount = 0
@@ -77,15 +77,9 @@ export function check(module: Module) {
         }
         const declaredType = func.typename && checkType(func.typename)
         const bodyType = checkBody(func.body, declaredType)
+        const parameters = func.parameters.map(p => p.symbol)
         const returnType = declaredType || bodyType
-        return {
-            kind: Kind.Function,
-            id: typeCount++,
-            signature: {
-                parameters: func.parameters.map(p => p.symbol),
-                returnType,
-            }
-        }
+        return { kind: Kind.Function, id: typeCount++, signature: { parameters, returnType, } }
     }
     function checkCall(call: Call): Type {
         const expressionType = checkExpression(call.expression)
@@ -145,24 +139,26 @@ export function check(module: Module) {
             }
         }
     }
-    function checkType(name: TypeNode): Type {
-        switch (name.kind) {
+    function checkType(type: TypeNode): Type {
+        switch (type.kind) {
             case SyntaxKind.Identifier:
-                switch (name.text) {
+                switch (type.text) {
                     case "string":
                         return stringType
                     case "number":
                         return numberType
                     default:
-                        const symbol = resolve(name, name.text, Meaning.Type)
+                        const symbol = resolve(type, type.text, Meaning.Type)
                         if (symbol) {
                             return checkType((symbol.declarations.find(d => d.kind === SyntaxKind.TypeAlias) as TypeAlias).typename)
                         }
-                        error(name, "Could not resolve type " + name.text)
+                        error(type, "Could not resolve type " + type.text)
                         return errorType
                 }
             case SyntaxKind.ObjectLiteralType:
-                return checkObjectLiteralType(name)
+                return checkObjectLiteralType(type)
+            case SyntaxKind.Signature:
+                return checkSignature(type)
         }
     }
     function checkObjectLiteralType(object: ObjectLiteralType): ObjectType {
@@ -177,6 +173,14 @@ export function check(module: Module) {
             checkPropertyDeclaration(p)
         }
         return { kind: Kind.Object, id: typeCount++, members }
+    }
+    function checkSignature(signature: SignatureDeclaration): Type {
+        for (const parameters of signature.parameters) {
+            checkParameter(parameters)
+        }
+        const parameters = signature.parameters.map(p => p.symbol)
+        const returnType = signature.typename && checkType(signature.typename) || anyType
+        return { kind: Kind.Function, id: typeCount++, signature: { parameters, returnType } }
     }
     function checkPropertyDeclaration(property: PropertyDeclaration): Type {
         if (property.typename) {

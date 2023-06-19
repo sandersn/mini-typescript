@@ -94,7 +94,7 @@ First up:
 - [x] calls
 - [x] real type node in parse tree
 - [x] object types
-- [ ] signatures
+- [x] signatures
 - [ ] property access/element access
 
 Then:

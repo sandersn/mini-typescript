@@ -11,6 +11,7 @@ export enum Token {
     Semicolon,
     Comma,
     Colon,
+    Arrow,
     Whitespace,
     OpenBrace,
     CloseBrace,
@@ -40,6 +41,7 @@ export enum SyntaxKind {
     ObjectLiteralType,
     PropertyDeclaration,
     Function,
+    Signature,
     Parameter,
     Return,
     Call,
@@ -54,7 +56,7 @@ export interface Location {
 }
 export type Expression = Identifier | NumericLiteral | StringLiteral | Assignment | Object | Function | Call
 export type Statement = Var | TypeAlias | ExpressionStatement | Return
-export type TypeNode = ObjectLiteralType | Identifier
+export type TypeNode = ObjectLiteralType | Identifier | SignatureDeclaration
 export type Declaration = Var | TypeAlias | ObjectLiteralType | Object | Parameter | PropertyAssignment | PropertyDeclaration
 export type Container = Module | Function
 export type Node = Expression | Statement | Declaration | Module | TypeNode
@@ -103,6 +105,12 @@ export type Function = Location & {
     parameters: Parameter[]
     typename?: TypeNode
     body: Statement[] // TODO: Maybe need to be Block
+    locals: Table
+}
+export type SignatureDeclaration = Location & {
+    kind: SyntaxKind.Signature
+    parameters: Parameter[]
+    typename: TypeNode
     locals: Table
 }
 export type Parameter = Location & {

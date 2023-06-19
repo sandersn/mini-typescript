@@ -81,6 +81,14 @@ export function bind(m: Module) {
                     declareSymbol(type.symbol.members, property, Meaning.Value)
                 }
                 break
+            case SyntaxKind.Signature:
+                setParents(type, [...type.parameters, type.typename])
+                for (const parameter of type.parameters) {
+                    setParents(parameter, [parameter.name, parameter.typename])
+                    bindType(parameter.typename)
+                    declareSymbol(type.locals, parameter, Meaning.Value)
+                }
+                break
             case SyntaxKind.Identifier:
                 break
         }

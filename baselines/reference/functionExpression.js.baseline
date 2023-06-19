@@ -22,4 +22,16 @@ f = function (y) {
 };
 f = function (z) {
     return 13
+};
+var h = function (x) {
+    return x
+};
+h = f;
+var i = f;
+var j = f;
+var apply = function (f, x) {
+    return f(x)
+};
+var misapply = function (f, x) {
+    return f(x)
 }

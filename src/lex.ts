@@ -47,7 +47,13 @@ export function lex(s: string): Lexer {
         else {
             pos++
             switch (s.charAt(pos - 1)) {
-                case '=': token = Token.Equals; break
+                case '=': 
+                    if (s.charAt(pos) === '>') {
+                        pos++
+                        token = Token.Arrow
+                        break
+                    }
+                    token = Token.Equals; break
                 case ',': token = Token.Comma; break
                 case ';': token = Token.Semicolon; break
                 case ":": token = Token.Colon; break

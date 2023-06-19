@@ -28,5 +28,20 @@
     "pos": 254,
     "message": "Cannot assign value of type '(z: string) => number' to variable of type '(x: number) => number'.",
     "snippet": "urn 12 }\nf/*!!*/ = functio"
+  },
+  {
+    "pos": 387,
+    "message": "Cannot assign initialiser of type '(x: number) => number' to variable with declared type '(x: number) => string'.",
+    "snippet": "string = f/*!!*/\nvar j: (x"
+  },
+  {
+    "pos": 420,
+    "message": "Cannot assign initialiser of type '(x: number) => number' to variable with declared type '(x: string) => number'.",
+    "snippet": "number = f/*!!*/\nvar apply"
+  },
+  {
+    "pos": 570,
+    "message": "Expected argument of type 'number', but got 'string'.",
+    "snippet": "return f(x/*!!*/) }\n"
   }
 ]

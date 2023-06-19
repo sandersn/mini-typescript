@@ -70,6 +70,12 @@ export function parse(lexer: Lexer): Module {
             object.symbol = { valueDeclaration: undefined, declarations: [object], members: new Map() }
             return object
         }
+        else if (tryParseToken(Token.OpenParen)) {
+            const parameters = parseTerminated(parseParameter, Token.Comma, Token.CloseParen)
+            parseExpected(Token.Arrow)
+            const typename = parseType()
+            return { kind: SyntaxKind.Signature, parameters, typename, locals: new Map(), pos, parent: undefined! }
+        }
         return parseIdentifier()
     }
     function parseProperty(): PropertyAssignment {

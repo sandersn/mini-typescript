@@ -21,6 +21,8 @@ function emitType(type: TypeNode): string {
             return type.text
         case SyntaxKind.ObjectLiteralType:
             return "not done yet!"
+        case SyntaxKind.Signature:
+            return "ouhdhdoh"
     }
 }
 function emitExpression(expression: Expression): string {
