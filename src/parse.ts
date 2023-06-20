@@ -1,4 +1,4 @@
-import { Lexer, Token, SyntaxKind, Statement, Identifier, Expression, Module, PropertyAssignment, PropertyDeclaration, Object, ObjectLiteralType, Parameter, TypeNode } from './types.js'
+import { Lexer, Token, SyntaxKind, Statement, Identifier, Expression, Module, PropertyAssignment, PropertyDeclaration, Object, ObjectLiteralType, Parameter, TypeNode, SignatureDeclaration, TypeParameter } from './types.js'
 import { error } from './error.js'
 export function parse(lexer: Lexer): Module {
     lexer.scan()
@@ -18,6 +18,11 @@ export function parse(lexer: Lexer): Module {
         if (tryParseToken(Token.OpenParen)) {
             return { kind: SyntaxKind.Call, expression, arguments: parseTerminated(parseExpression, Token.Comma, Token.CloseParen), pos: expression.pos, parent: undefined! }
         }
+        else if (tryParseToken(Token.LessThan)) {
+            const typeArguments = parseTerminated(parseType, Token.Comma, Token.GreaterThan)
+            parseExpected(Token.OpenParen)
+            return { kind: SyntaxKind.Call, expression, typeArguments, arguments: parseTerminated(parseExpression, Token.Comma, Token.CloseParen), pos: expression.pos, parent: undefined! }
+        }
         return expression
     }
     function parseExpressionBelowCall(): Expression {
@@ -35,11 +40,12 @@ export function parse(lexer: Lexer): Module {
         }
         else if (tryParseToken(Token.Function)) {
             const name = lexer.token() === Token.Identifier ? parseIdentifier() : undefined
+            const typeParameters = tryParseToken(Token.LessThan) ? parseTerminated(parseTypeParameter, Token.Comma, Token.GreaterThan) : undefined
             parseExpected(Token.OpenParen)
             const parameters = parseTerminated(parseParameter, Token.Comma, Token.CloseParen)
             const typename = tryParseTypeAnnotation()
             const body = parseBlock()
-            return { kind: SyntaxKind.Function, name, parameters, typename, body, locals: new Map(), pos, parent: undefined! }
+            return { kind: SyntaxKind.Function, name, typeParameters, parameters, typename, body, locals: new Map(), pos, parent: undefined! }
         }
         const e = parseIdentifierOrLiteral()
         if (e.kind === SyntaxKind.Identifier && tryParseToken(Token.Equals)) {
@@ -51,6 +57,10 @@ export function parse(lexer: Lexer): Module {
         const name = parseIdentifier()
         const typename = tryParseTypeAnnotation()
         return { kind: SyntaxKind.Parameter, name, typename, pos: name.pos, symbol: undefined!, parent: undefined! }
+    }
+    function parseTypeParameter(): TypeParameter {
+        const id = parseIdentifier()
+        return { kind: SyntaxKind.TypeParameter, name: id, pos: id.pos, symbol: undefined!, parent: undefined!}
     }
     function tryParseTypeAnnotation(): TypeNode | undefined {
         if (tryParseToken(Token.Colon)) {
@@ -70,13 +80,21 @@ export function parse(lexer: Lexer): Module {
             object.symbol = { valueDeclaration: undefined, declarations: [object], members: new Map() }
             return object
         }
-        else if (tryParseToken(Token.OpenParen)) {
+        return tryParseSignature() || parseIdentifier()
+    }
+    function tryParseSignature(): SignatureDeclaration | undefined {
+        const pos = lexer.pos()
+        let typeParameters: TypeParameter[] | undefined
+        if (tryParseToken(Token.LessThan)) {
+            typeParameters = parseTerminated(parseTypeParameter, Token.Comma, Token.GreaterThan)
+            parseExpected(Token.OpenParen)
+        }
+        if (typeParameters || tryParseToken(Token.OpenParen)) {
             const parameters = parseTerminated(parseParameter, Token.Comma, Token.CloseParen)
             parseExpected(Token.Arrow)
             const typename = parseType()
-            return { kind: SyntaxKind.Signature, parameters, typename, locals: new Map(), pos, parent: undefined! }
+            return { kind: SyntaxKind.Signature, typeParameters, parameters, typename, locals: new Map(), pos, parent: undefined! }
         }
-        return parseIdentifier()
     }
     function parseProperty(): PropertyAssignment {
         const name = parseIdentifierOrLiteral()

@@ -98,10 +98,10 @@ First up:
 - [ ] property access/element access
 
 Then:
+- [ ] type instantiation/generic types
 - [ ] type argument inference
-- [ ] control flow analysis
 - [ ] type resolution (suggested by Daniel, not sure what this means)
-- [ ] type instantiation
+- [ ] control flow analysis
 - [ ] `this`
 - [ ] union types
 - [ ] cleanup pass or two

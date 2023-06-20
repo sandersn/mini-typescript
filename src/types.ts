@@ -17,6 +17,8 @@ export enum Token {
     CloseBrace,
     OpenParen,
     CloseParen,
+    LessThan,
+    GreaterThan,
     Unknown,
     BOF,
     EOF,
@@ -43,6 +45,7 @@ export enum SyntaxKind {
     Function,
     Signature,
     Parameter,
+    TypeParameter,
     Return,
     Call,
 }
@@ -57,7 +60,7 @@ export interface Location {
 export type Expression = Identifier | NumericLiteral | StringLiteral | Assignment | Object | Function | Call
 export type Statement = Var | TypeAlias | ExpressionStatement | Return
 export type TypeNode = ObjectLiteralType | Identifier | SignatureDeclaration
-export type Declaration = Var | TypeAlias | ObjectLiteralType | Object | Parameter | PropertyAssignment | PropertyDeclaration
+export type Declaration = Var | TypeAlias | ObjectLiteralType | Object | Parameter | TypeParameter | PropertyAssignment | PropertyDeclaration
 export type Container = Module | Function
 export type Node = Expression | Statement | Declaration | Module | TypeNode
 export type Identifier = Location & {
@@ -102,6 +105,7 @@ export type Assignment = Location & {
 export type Function = Location & {
     kind: SyntaxKind.Function
     name?: Identifier
+    typeParameters?: TypeParameter[]
     parameters: Parameter[]
     typename?: TypeNode
     body: Statement[] // TODO: Maybe need to be Block
@@ -109,9 +113,15 @@ export type Function = Location & {
 }
 export type SignatureDeclaration = Location & {
     kind: SyntaxKind.Signature
+    typeParameters?: TypeParameter[]
     parameters: Parameter[]
     typename: TypeNode
     locals: Table
+}
+export type TypeParameter = Location & {
+    kind: SyntaxKind.TypeParameter
+    name: Identifier
+    symbol: Symbol
 }
 export type Parameter = Location & {
     kind: SyntaxKind.Parameter
@@ -143,7 +153,7 @@ export type Return = Location & {
 export type Call = Location & {
     kind: SyntaxKind.Call
     expression: Expression
-    // TODO: typeArguments, eventually
+    typeArguments?: TypeNode[]
     arguments: Expression[]
 }
 
@@ -172,6 +182,7 @@ export enum Kind {
     Primitive,
     Object,
     Function,
+    TypeVariable,
 }
 export type ObjectType = SimpleType & {
     kind: Kind.Object
@@ -181,8 +192,16 @@ export type FunctionType = SimpleType & {
     kind: Kind.Function
     signature: Signature
 }
+export type TypeVariable = SimpleType & {
+    kind: TypeVariable
+}
 export type Signature = {
+    typeParameters?: Symbol[]
+    target?: Signature
+    mapper?: Mapper
+    // TODO: Maybe need instantiations?: Map<string, Signature> too? It's technically caching I think, and I'm not doing that yet
     parameters: Symbol[]
     returnType: Type
 }
 export type Type = PrimitiveType | ObjectType | FunctionType
+export type Mapper = { source: Type, target: Type }

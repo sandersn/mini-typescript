@@ -61,6 +61,8 @@ export function lex(s: string): Lexer {
                 case "}": token = Token.CloseBrace; break
                 case "(": token = Token.OpenParen; break
                 case ")": token = Token.CloseParen; break
+                case "<": token = Token.LessThan; break
+                case ">": token = Token.GreaterThan; break
                 default: token = Token.Unknown; break
             }
         }

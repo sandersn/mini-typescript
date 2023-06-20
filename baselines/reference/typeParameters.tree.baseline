@@ -1,0 +1,682 @@
+{
+  "kind": "Module",
+  "statements": [
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
+        "text": "apply"
+      },
+      "initializer": {
+        "kind": "Function",
+        "typeParameters": [
+          {
+            "kind": "TypeParameter",
+            "name": {
+              "kind": "Identifier",
+              "text": "T"
+            }
+          },
+          {
+            "kind": "TypeParameter",
+            "name": {
+              "kind": "Identifier",
+              "text": "U"
+            }
+          }
+        ],
+        "parameters": [
+          {
+            "kind": "Parameter",
+            "name": {
+              "kind": "Identifier",
+              "text": "f"
+            },
+            "typename": {
+              "kind": "Signature",
+              "parameters": [
+                {
+                  "kind": "Parameter",
+                  "name": {
+                    "kind": "Identifier",
+                    "text": "x"
+                  },
+                  "typename": {
+                    "kind": "Identifier",
+                    "text": "T"
+                  }
+                }
+              ],
+              "typename": {
+                "kind": "Identifier",
+                "text": "U"
+              },
+              "locals": {
+                "x": [
+                  {
+                    "kind": "Parameter",
+                    "pos": 32
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "Parameter",
+            "name": {
+              "kind": "Identifier",
+              "text": "x"
+            },
+            "typename": {
+              "kind": "Identifier",
+              "text": "T"
+            }
+          }
+        ],
+        "typename": {
+          "kind": "Identifier",
+          "text": "U"
+        },
+        "body": [
+          {
+            "kind": "Return",
+            "expression": {
+              "kind": "Call",
+              "expression": {
+                "kind": "Identifier",
+                "text": "f"
+              },
+              "arguments": [
+                {
+                  "kind": "Identifier",
+                  "text": "x"
+                }
+              ]
+            }
+          }
+        ],
+        "locals": {
+          "T": [
+            {
+              "kind": "TypeParameter",
+              "pos": 23
+            }
+          ],
+          "U": [
+            {
+              "kind": "TypeParameter",
+              "pos": 25
+            }
+          ],
+          "f": [
+            {
+              "kind": "Parameter",
+              "pos": 28
+            }
+          ],
+          "x": [
+            {
+              "kind": "Parameter",
+              "pos": 44
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "Var",
+      "name": {
+        "kind": "Identifier",
+        "text": "apply2"
+      },
+      "typename": {
+        "kind": "Signature",
+        "typeParameters": [
+          {
+            "kind": "TypeParameter",
+            "name": {
+              "kind": "Identifier",
+              "text": "T"
+            }
+          },
+          {
+            "kind": "TypeParameter",
+            "name": {
+              "kind": "Identifier",
+              "text": "U"
+            }
+          }
+        ],
+        "parameters": [
+          {
+            "kind": "Parameter",
+            "name": {
+              "kind": "Identifier",
+              "text": "f"
+            },
+            "typename": {
+              "kind": "Signature",
+              "parameters": [
+                {
+                  "kind": "Parameter",
+                  "name": {
+                    "kind": "Identifier",
+                    "text": "x"
+                  },
+                  "typename": {
+                    "kind": "Identifier",
+                    "text": "T"
+                  }
+                }
+              ],
+              "typename": {
+                "kind": "Identifier",
+                "text": "U"
+              },
+              "locals": {
+                "x": [
+                  {
+                    "kind": "Parameter",
+                    "pos": 91
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "Parameter",
+            "name": {
+              "kind": "Identifier",
+              "text": "x"
+            },
+            "typename": {
+              "kind": "Identifier",
+              "text": "T"
+            }
+          }
+        ],
+        "typename": {
+          "kind": "Identifier",
+          "text": "U"
+        },
+        "locals": {
+          "f": [
+            {
+              "kind": "Parameter",
+              "pos": 87
+            }
+          ],
+          "x": [
+            {
+              "kind": "Parameter",
+              "pos": 103
+            }
+          ]
+        }
+      },
+      "initializer": {
+        "kind": "Function",
+        "typeParameters": [
+          {
+            "kind": "TypeParameter",
+            "name": {
+              "kind": "Identifier",
+              "text": "T"
+            }
+          },
+          {
+            "kind": "TypeParameter",
+            "name": {
+              "kind": "Identifier",
+              "text": "U"
+            }
+          }
+        ],
+        "parameters": [
+          {
+            "kind": "Parameter",
+            "name": {
+              "kind": "Identifier",
+              "text": "f"
+            },
+            "typename": {
+              "kind": "Signature",
+              "parameters": [
+                {
+                  "kind": "Parameter",
+                  "name": {
+                    "kind": "Identifier",
+                    "text": "x"
+                  },
+                  "typename": {
+                    "kind": "Identifier",
+                    "text": "T"
+                  }
+                }
+              ],
+              "typename": {
+                "kind": "Identifier",
+                "text": "U"
+              },
+              "locals": {
+                "x": [
+                  {
+                    "kind": "Parameter",
+                    "pos": 135
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "Parameter",
+            "name": {
+              "kind": "Identifier",
+              "text": "x"
+            },
+            "typename": {
+              "kind": "Identifier",
+              "text": "T"
+            }
+          }
+        ],
+        "typename": {
+          "kind": "Identifier",
+          "text": "U"
+        },
+        "body": [
+          {
+            "kind": "Return",
+            "expression": {
+              "kind": "Call",
+              "expression": {
+                "kind": "Identifier",
+                "text": "f"
+              },
+              "arguments": [
+                {
+                  "kind": "Identifier",
+                  "text": "x"
+                }
+              ]
+            }
+          }
+        ],
+        "locals": {
+          "T": [
+            {
+              "kind": "TypeParameter",
+              "pos": 126
+            }
+          ],
+          "U": [
+            {
+              "kind": "TypeParameter",
+              "pos": 128
+            }
+          ],
+          "f": [
+            {
+              "kind": "Parameter",
+              "pos": 131
+            }
+          ],
+          "x": [
+            {
+              "kind": "Parameter",
+              "pos": 147
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "ExpressionStatement",
+      "expression": {
+        "kind": "Call",
+        "expression": {
+          "kind": "Identifier",
+          "text": "apply"
+        },
+        "typeArguments": [
+          {
+            "kind": "Identifier",
+            "text": "number"
+          },
+          {
+            "kind": "Identifier",
+            "text": "number"
+          }
+        ],
+        "arguments": [
+          {
+            "kind": "Function",
+            "parameters": [
+              {
+                "kind": "Parameter",
+                "name": {
+                  "kind": "Identifier",
+                  "text": "n"
+                },
+                "typename": {
+                  "kind": "Identifier",
+                  "text": "number"
+                }
+              }
+            ],
+            "body": [
+              {
+                "kind": "Return",
+                "expression": {
+                  "kind": "Identifier",
+                  "text": "n"
+                }
+              }
+            ],
+            "locals": {
+              "n": [
+                {
+                  "kind": "Parameter",
+                  "pos": 204
+                }
+              ]
+            }
+          },
+          {
+            "kind": "NumericLiteral",
+            "value": 1
+          }
+        ]
+      }
+    },
+    {
+      "kind": "ExpressionStatement",
+      "expression": {
+        "kind": "Call",
+        "expression": {
+          "kind": "Identifier",
+          "text": "apply"
+        },
+        "typeArguments": [
+          {
+            "kind": "Identifier",
+            "text": "number"
+          }
+        ],
+        "arguments": [
+          {
+            "kind": "Function",
+            "parameters": [
+              {
+                "kind": "Parameter",
+                "name": {
+                  "kind": "Identifier",
+                  "text": "n"
+                },
+                "typename": {
+                  "kind": "Identifier",
+                  "text": "number"
+                }
+              }
+            ],
+            "body": [
+              {
+                "kind": "Return",
+                "expression": {
+                  "kind": "Identifier",
+                  "text": "n"
+                }
+              }
+            ],
+            "locals": {
+              "n": [
+                {
+                  "kind": "Parameter",
+                  "pos": 256
+                }
+              ]
+            }
+          },
+          {
+            "kind": "NumericLiteral",
+            "value": 1
+          }
+        ]
+      }
+    },
+    {
+      "kind": "ExpressionStatement",
+      "expression": {
+        "kind": "Call",
+        "expression": {
+          "kind": "Identifier",
+          "text": "apply"
+        },
+        "typeArguments": [
+          {
+            "kind": "Identifier",
+            "text": "number"
+          },
+          {
+            "kind": "Identifier",
+            "text": "number"
+          },
+          {
+            "kind": "Identifier",
+            "text": "number"
+          }
+        ],
+        "arguments": [
+          {
+            "kind": "Function",
+            "parameters": [
+              {
+                "kind": "Parameter",
+                "name": {
+                  "kind": "Identifier",
+                  "text": "n"
+                },
+                "typename": {
+                  "kind": "Identifier",
+                  "text": "number"
+                }
+              }
+            ],
+            "body": [
+              {
+                "kind": "Return",
+                "expression": {
+                  "kind": "Identifier",
+                  "text": "n"
+                }
+              }
+            ],
+            "locals": {
+              "n": [
+                {
+                  "kind": "Parameter",
+                  "pos": 324
+                }
+              ]
+            }
+          },
+          {
+            "kind": "NumericLiteral",
+            "value": 1
+          }
+        ]
+      }
+    },
+    {
+      "kind": "ExpressionStatement",
+      "expression": {
+        "kind": "Call",
+        "expression": {
+          "kind": "Identifier",
+          "text": "apply"
+        },
+        "typeArguments": [
+          {
+            "kind": "Identifier",
+            "text": "string"
+          },
+          {
+            "kind": "Identifier",
+            "text": "string"
+          }
+        ],
+        "arguments": [
+          {
+            "kind": "Function",
+            "parameters": [
+              {
+                "kind": "Parameter",
+                "name": {
+                  "kind": "Identifier",
+                  "text": "n"
+                },
+                "typename": {
+                  "kind": "Identifier",
+                  "text": "number"
+                }
+              }
+            ],
+            "body": [
+              {
+                "kind": "Return",
+                "expression": {
+                  "kind": "Identifier",
+                  "text": "n"
+                }
+              }
+            ],
+            "locals": {
+              "n": [
+                {
+                  "kind": "Parameter",
+                  "pos": 384
+                }
+              ]
+            }
+          },
+          {
+            "kind": "NumericLiteral",
+            "value": 1
+          }
+        ]
+      }
+    },
+    {
+      "kind": "ExpressionStatement",
+      "expression": {
+        "kind": "Call",
+        "expression": {
+          "kind": "Identifier",
+          "text": "apply"
+        },
+        "arguments": [
+          {
+            "kind": "Function",
+            "parameters": [
+              {
+                "kind": "Parameter",
+                "name": {
+                  "kind": "Identifier",
+                  "text": "n"
+                },
+                "typename": {
+                  "kind": "Identifier",
+                  "text": "number"
+                }
+              }
+            ],
+            "body": [
+              {
+                "kind": "Return",
+                "expression": {
+                  "kind": "Identifier",
+                  "text": "n"
+                }
+              }
+            ],
+            "locals": {
+              "n": [
+                {
+                  "kind": "Parameter",
+                  "pos": 428
+                }
+              ]
+            }
+          },
+          {
+            "kind": "NumericLiteral",
+            "value": 1
+          }
+        ]
+      }
+    },
+    {
+      "kind": "ExpressionStatement",
+      "expression": {
+        "kind": "Call",
+        "expression": {
+          "kind": "Identifier",
+          "text": "apply"
+        },
+        "arguments": [
+          {
+            "kind": "Function",
+            "parameters": [
+              {
+                "kind": "Parameter",
+                "name": {
+                  "kind": "Identifier",
+                  "text": "s"
+                },
+                "typename": {
+                  "kind": "Identifier",
+                  "text": "string"
+                }
+              }
+            ],
+            "body": [
+              {
+                "kind": "Return",
+                "expression": {
+                  "kind": "Identifier",
+                  "text": "s"
+                }
+              }
+            ],
+            "locals": {
+              "s": [
+                {
+                  "kind": "Parameter",
+                  "pos": 472
+                }
+              ]
+            }
+          },
+          {
+            "kind": "StringLiteral",
+            "value": "\"a\""
+          }
+        ]
+      }
+    }
+  ],
+  "locals": {
+    "apply": [
+      {
+        "kind": "Var",
+        "pos": 3
+      }
+    ],
+    "apply2": [
+      {
+        "kind": "Var",
+        "pos": 71
+      }
+    ]
+  }
+}

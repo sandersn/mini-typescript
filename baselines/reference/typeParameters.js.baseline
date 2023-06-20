@@ -1,0 +1,24 @@
+var apply = function (f, x) {
+    return f(x)
+};
+var apply2 = function (f, x) {
+    return f(x)
+};
+apply(function (n) {
+    return n
+}, 1);
+apply(function (n) {
+    return n
+}, 1);
+apply(function (n) {
+    return n
+}, 1);
+apply(function (n) {
+    return n
+}, 1);
+apply(function (n) {
+    return n
+}, 1);
+apply(function (s) {
+    return s
+}, "a")

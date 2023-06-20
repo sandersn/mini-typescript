@@ -41,8 +41,12 @@ export function bind(m: Module) {
                 }
                 break
             case SyntaxKind.Function:
-                setParents(expr, [expr.name, ...expr.parameters, expr.typename, ...expr.body])
+                setParents(expr, [expr.name, ...(expr.typeParameters ?? []), ...expr.parameters, expr.typename, ...expr.body])
                 bindType(expr.typename)
+                for (const typeParameter of expr.typeParameters ?? []) {
+                    setParents(typeParameter, [typeParameter.name])
+                    declareSymbol(expr.locals, typeParameter, Meaning.Type)
+                }
                 for (const parameter of expr.parameters) {
                     setParents(parameter, [parameter.name, parameter.typename])
                     bindType(parameter.typename)
@@ -57,8 +61,11 @@ export function bind(m: Module) {
                 bindExpression(expr.value)
                 break
             case SyntaxKind.Call:
-                setParents(expr, [expr.expression, ...expr.arguments])
+                setParents(expr, [expr.expression, ...(expr.typeArguments ?? []), ...expr.arguments])
                 bindExpression(expr.expression)
+                for (const typeArgument of expr.typeArguments ?? []) {
+                    bindType(typeArgument)
+                }
                 for (const arg of expr.arguments) {
                     bindExpression(arg)
                 }
@@ -134,11 +141,12 @@ export function getDeclarationName(node: Declaration) {
         case SyntaxKind.PropertyAssignment:
         case SyntaxKind.PropertyDeclaration:
         case SyntaxKind.Parameter:
+        case SyntaxKind.TypeParameter:
             return node.name.text
         case SyntaxKind.Object:
             return "__object"
         default:
-            error((node as Declaration).pos, `Cannot get name of ${(node as Declaration).kind}`)
+            error((node as Declaration).pos, `Cannot get name of ${SyntaxKind[(node as Declaration).kind]}`)
             return "__missing"
     }
 }

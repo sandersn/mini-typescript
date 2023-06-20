@@ -150,7 +150,16 @@ export function check(module: Module) {
                     default:
                         const symbol = resolve(type, type.text, Meaning.Type)
                         if (symbol) {
-                            return checkType((symbol.declarations.find(d => d.kind === SyntaxKind.TypeAlias) as TypeAlias).typename)
+                            // TODO: find a better way to write this
+                            for (const d of symbol.declarations) {
+                                switch (d.kind) {
+                                    case SyntaxKind.TypeAlias:
+                                        return checkType(d.typename)
+                                    case SyntaxKind.TypeParameter:
+                                        // TODO: This requires caching, because it's going to use nominal assignability (at least in inference)
+                                        return { id: typeCount++, kind: Kind.Primitive }
+                                }
+                            }
                         }
                         error(type, "Could not resolve type " + type.text)
                         return errorType
