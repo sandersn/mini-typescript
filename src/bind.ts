@@ -41,7 +41,7 @@ export function bind(m: Module) {
                 }
                 break
             case SyntaxKind.Function:
-                setParents(expr, [expr.name, ...(expr.typeParameters ?? []), ...expr.parameters, expr.typename, ...expr.body])
+                setParents(expr, [expr.name, ...expr.typeParameters ?? [], ...expr.parameters, expr.typename, ...expr.body])
                 bindType(expr.typename)
                 for (const typeParameter of expr.typeParameters ?? []) {
                     setParents(typeParameter, [typeParameter.name])
@@ -89,7 +89,11 @@ export function bind(m: Module) {
                 }
                 break
             case SyntaxKind.Signature:
-                setParents(type, [...type.parameters, type.typename])
+                setParents(type, [...type.typeParameters ?? [], ...type.parameters, type.typename])
+                for (const typeParameter of type.typeParameters ?? []) {
+                    setParents(typeParameter, [typeParameter.name])
+                    declareSymbol(type.locals, typeParameter, Meaning.Type)
+                }
                 for (const parameter of type.parameters) {
                     setParents(parameter, [parameter.name, parameter.typename])
                     bindType(parameter.typename)

@@ -1,4 +1,4 @@
-import { Lexer, Token, SyntaxKind, Statement, Identifier, Expression, Module, PropertyAssignment, PropertyDeclaration, Object, ObjectLiteralType, Parameter, TypeNode, SignatureDeclaration, TypeParameter } from './types.js'
+import { Lexer, Token, SyntaxKind, Statement, Identifier, Expression, Module, PropertyAssignment, PropertyDeclaration, Object, ObjectLiteralType, Parameter, TypeNode, SignatureDeclaration, TypeParameter, Function } from './types.js'
 import { error } from './error.js'
 export function parse(lexer: Lexer): Module {
     lexer.scan()
@@ -45,7 +45,20 @@ export function parse(lexer: Lexer): Module {
             const parameters = parseTerminated(parseParameter, Token.Comma, Token.CloseParen)
             const typename = tryParseTypeAnnotation()
             const body = parseBlock()
-            return { kind: SyntaxKind.Function, name, typeParameters, parameters, typename, body, locals: new Map(), pos, parent: undefined! }
+            const func = { 
+                kind: SyntaxKind.Function, 
+                name,
+                typeParameters,
+                parameters,
+                typename,
+                body,
+                locals: new Map(),
+                pos,
+                symbol: undefined!,
+                parent: undefined! 
+            } as Function
+            func.symbol = { valueDeclaration: func, declarations: [func] }
+            return func
         }
         const e = parseIdentifierOrLiteral()
         if (e.kind === SyntaxKind.Identifier && tryParseToken(Token.Equals)) {
@@ -93,7 +106,18 @@ export function parse(lexer: Lexer): Module {
             const parameters = parseTerminated(parseParameter, Token.Comma, Token.CloseParen)
             parseExpected(Token.Arrow)
             const typename = parseType()
-            return { kind: SyntaxKind.Signature, typeParameters, parameters, typename, locals: new Map(), pos, parent: undefined! }
+            const signature = { 
+                kind: SyntaxKind.Signature,
+                typeParameters,
+                parameters,
+                typename,
+                locals: new Map(),
+                pos,
+                symbol: undefined!,
+                parent: undefined!,
+            } as SignatureDeclaration
+            signature.symbol = { valueDeclaration: signature, declarations: [signature] }
+            return signature
         }
     }
     function parseProperty(): PropertyAssignment {

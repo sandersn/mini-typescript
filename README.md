@@ -95,13 +95,15 @@ First up:
 - [x] real type node in parse tree
 - [x] object types
 - [x] signatures
-- [ ] property access/element access
-
-Then:
-- [ ] type instantiation/generic types
+- [x] type parameters/arguments
+- [x] type caching
+- [ ] signature instantiation
+- [ ] signature assignability wrt type parameters
 - [ ] type argument inference
 - [ ] type resolution (suggested by Daniel, not sure what this means)
 - [ ] control flow analysis
+
+Then:
 - [ ] `this`
 - [ ] union types
 - [ ] cleanup pass or two
