@@ -1,0 +1,27 @@
+[
+  {
+    "pos": 239,
+    "message": "Expected 2 type arguments, but got 1.",
+    "snippet": ", 1)\napply/*!!*/<number>(f"
+  },
+  {
+    "pos": 291,
+    "message": "Expected 2 type arguments, but got 3.",
+    "snippet": ", 2)\napply/*!!*/<number, n"
+  },
+  {
+    "pos": 389,
+    "message": "Expected argument of type '(x: string) => string', but got '(k: number) => number'.",
+    "snippet": ">(function/*!!*/ (k: numbe"
+  },
+  {
+    "pos": 417,
+    "message": "Expected argument of type 'string', but got 'number'.",
+    "snippet": "urn k }, 4/*!!*/)\napply<st"
+  },
+  {
+    "pos": 449,
+    "message": "Expected argument of type '(x: string) => number', but got '(j: number) => number'.",
+    "snippet": ">(function/*!!*/ (j: numbe"
+  }
+]

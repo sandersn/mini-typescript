@@ -152,7 +152,7 @@
             "kind": "Parameter",
             "name": {
               "kind": "Identifier",
-              "text": "f"
+              "text": "f2"
             },
             "typename": {
               "kind": "Signature",
@@ -177,7 +177,7 @@
                 "x": [
                   {
                     "kind": "Parameter",
-                    "pos": 91
+                    "pos": 92
                   }
                 ]
               }
@@ -200,16 +200,28 @@
           "text": "U"
         },
         "locals": {
-          "f": [
+          "T": [
+            {
+              "kind": "TypeParameter",
+              "pos": 82
+            }
+          ],
+          "U": [
+            {
+              "kind": "TypeParameter",
+              "pos": 84
+            }
+          ],
+          "f2": [
             {
               "kind": "Parameter",
-              "pos": 87
+              "pos": 88
             }
           ],
           "x": [
             {
               "kind": "Parameter",
-              "pos": 103
+              "pos": 104
             }
           ]
         }
@@ -237,7 +249,7 @@
             "kind": "Parameter",
             "name": {
               "kind": "Identifier",
-              "text": "f"
+              "text": "f3"
             },
             "typename": {
               "kind": "Signature",
@@ -262,7 +274,7 @@
                 "x": [
                   {
                     "kind": "Parameter",
-                    "pos": 135
+                    "pos": 137
                   }
                 ]
               }
@@ -291,7 +303,7 @@
               "kind": "Call",
               "expression": {
                 "kind": "Identifier",
-                "text": "f"
+                "text": "f3"
               },
               "arguments": [
                 {
@@ -306,25 +318,25 @@
           "T": [
             {
               "kind": "TypeParameter",
-              "pos": 126
+              "pos": 127
             }
           ],
           "U": [
             {
               "kind": "TypeParameter",
-              "pos": 128
+              "pos": 129
             }
           ],
-          "f": [
+          "f3": [
             {
               "kind": "Parameter",
-              "pos": 131
+              "pos": 133
             }
           ],
           "x": [
             {
               "kind": "Parameter",
-              "pos": 147
+              "pos": 149
             }
           ]
         }
@@ -377,7 +389,7 @@
               "n": [
                 {
                   "kind": "Parameter",
-                  "pos": 204
+                  "pos": 207
                 }
               ]
             }
@@ -411,7 +423,7 @@
                 "kind": "Parameter",
                 "name": {
                   "kind": "Identifier",
-                  "text": "n"
+                  "text": "m"
                 },
                 "typename": {
                   "kind": "Identifier",
@@ -424,22 +436,22 @@
                 "kind": "Return",
                 "expression": {
                   "kind": "Identifier",
-                  "text": "n"
+                  "text": "m"
                 }
               }
             ],
             "locals": {
-              "n": [
+              "m": [
                 {
                   "kind": "Parameter",
-                  "pos": 256
+                  "pos": 259
                 }
               ]
             }
           },
           {
             "kind": "NumericLiteral",
-            "value": 1
+            "value": 2
           }
         ]
       }
@@ -474,7 +486,7 @@
                 "kind": "Parameter",
                 "name": {
                   "kind": "Identifier",
-                  "text": "n"
+                  "text": "l"
                 },
                 "typename": {
                   "kind": "Identifier",
@@ -487,22 +499,22 @@
                 "kind": "Return",
                 "expression": {
                   "kind": "Identifier",
-                  "text": "n"
+                  "text": "l"
                 }
               }
             ],
             "locals": {
-              "n": [
+              "l": [
                 {
                   "kind": "Parameter",
-                  "pos": 324
+                  "pos": 327
                 }
               ]
             }
           },
           {
-            "kind": "NumericLiteral",
-            "value": 1
+            "kind": "StringLiteral",
+            "value": "\"oops\""
           }
         ]
       }
@@ -533,7 +545,7 @@
                 "kind": "Parameter",
                 "name": {
                   "kind": "Identifier",
-                  "text": "n"
+                  "text": "k"
                 },
                 "typename": {
                   "kind": "Identifier",
@@ -546,22 +558,81 @@
                 "kind": "Return",
                 "expression": {
                   "kind": "Identifier",
-                  "text": "n"
+                  "text": "k"
                 }
               }
             ],
             "locals": {
-              "n": [
+              "k": [
                 {
                   "kind": "Parameter",
-                  "pos": 384
+                  "pos": 392
                 }
               ]
             }
           },
           {
             "kind": "NumericLiteral",
-            "value": 1
+            "value": 4
+          }
+        ]
+      }
+    },
+    {
+      "kind": "ExpressionStatement",
+      "expression": {
+        "kind": "Call",
+        "expression": {
+          "kind": "Identifier",
+          "text": "apply"
+        },
+        "typeArguments": [
+          {
+            "kind": "Identifier",
+            "text": "string"
+          },
+          {
+            "kind": "Identifier",
+            "text": "number"
+          }
+        ],
+        "arguments": [
+          {
+            "kind": "Function",
+            "parameters": [
+              {
+                "kind": "Parameter",
+                "name": {
+                  "kind": "Identifier",
+                  "text": "j"
+                },
+                "typename": {
+                  "kind": "Identifier",
+                  "text": "number"
+                }
+              }
+            ],
+            "body": [
+              {
+                "kind": "Return",
+                "expression": {
+                  "kind": "Identifier",
+                  "text": "j"
+                }
+              }
+            ],
+            "locals": {
+              "j": [
+                {
+                  "kind": "Parameter",
+                  "pos": 452
+                }
+              ]
+            }
+          },
+          {
+            "kind": "StringLiteral",
+            "value": "\"ok\""
           }
         ]
       }
@@ -582,7 +653,7 @@
                 "kind": "Parameter",
                 "name": {
                   "kind": "Identifier",
-                  "text": "n"
+                  "text": "i"
                 },
                 "typename": {
                   "kind": "Identifier",
@@ -595,22 +666,22 @@
                 "kind": "Return",
                 "expression": {
                   "kind": "Identifier",
-                  "text": "n"
+                  "text": "i"
                 }
               }
             ],
             "locals": {
-              "n": [
+              "i": [
                 {
                   "kind": "Parameter",
-                  "pos": 428
+                  "pos": 499
                 }
               ]
             }
           },
           {
             "kind": "NumericLiteral",
-            "value": 1
+            "value": 5
           }
         ]
       }
@@ -652,7 +723,7 @@
               "s": [
                 {
                   "kind": "Parameter",
-                  "pos": 472
+                  "pos": 543
                 }
               ]
             }

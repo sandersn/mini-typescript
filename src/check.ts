@@ -82,24 +82,27 @@ export function check(module: Module) {
             error(call.expression, `Cannot call expression of type '${typeToString(expressionType)}'.`)
             return errorType
         }
+        const argTypes = call.arguments.map(checkExpression)
         let sig = expressionType.signature
         if (sig.typeParameters) {
+            let typeArguments: Type[]
+            const typeParameters = sig.typeParameters.map(getTypeTypeOfSymbol) as TypeVariable[]
             if (!call.typeArguments) {
-                error(call.expression, "TODO: Cannot call generic function without type arguments because inference isn't implemented yet")
+                typeArguments = inferTypeArguments(typeParameters, sig, argTypes)
             }
             else if (sig.typeParameters.length !== call.typeArguments.length) {
-                // TODO: Match them anyway, filling in any for missing ones -OR- do whatever Typescript does
+                // TODO: check whether Typescript handles incorrect lengths this way (I think it ALWAYS does the fallback, and has the error-checking branch do less work)
                 error(call.expression, `Expected ${sig.typeParameters.length} type arguments, but got ${call.typeArguments.length}.`)
-                sig = instantiateSignature(sig, { sources: sig.typeParameters.map(getTypeTypeOfSymbol) as TypeVariable[], targets: sig.typeParameters.map((_,i) => call.typeArguments![i] ? checkType(call.typeArguments![i]) : anyType) })
+                typeArguments = sig.typeParameters.map(_ => anyType)
             }
             else {
-                sig = instantiateSignature(sig, { sources: sig.typeParameters.map(getTypeTypeOfSymbol) as TypeVariable[], targets: call.typeArguments.map(checkType) })
+                typeArguments = call.typeArguments.map(checkType)
             }
+            sig = instantiateSignature(sig, { sources: typeParameters, targets: typeArguments })
         }
         if (sig.parameters.length !== call.arguments.length) {
             error(call.expression, `Expected ${sig.parameters.length} arguments, but got ${call.arguments.length}.`)
         }
-        const argTypes = call.arguments.map(checkExpression)
         for (let i = 0; i < Math.min(argTypes.length, sig.parameters.length); i++) {
             const parameterType = getValueTypeOfSymbol(sig.parameters[i])
             if (!isAssignableTo(argTypes[i], parameterType)) {
@@ -151,7 +154,55 @@ export function check(module: Module) {
             typeType: symbol.typeType && instantiateType(symbol.typeType, mapper),
         }
     }
+    function inferTypeArguments(typeParameters: TypeVariable[], signature: Signature, argTypes: Type[]): Type[] {
+        const inferences: Map<TypeVariable, Type[]> = new Map()
+        for (const typeParameter of typeParameters) {
+            inferences.set(typeParameter, [])
+        }
+        let i = 0
+        for (const parameter of signature.parameters) {
+            inferType(argTypes[i], getValueTypeOfSymbol(parameter))
+            i++
+        }
+        // TODO: Check for dupes, decide whether to union, etc etc
+        return typeParameters.map(p => inferences.get(p)![0])
 
+        function inferType(source: Type, target: Type): void {
+            switch (target.kind) {
+                case Kind.Primitive:
+                    return
+                case Kind.Function:
+                    if (source.kind === Kind.Function) {
+    // TODO: Maybe need instantiations?: Map<string, Signature> too? It's technically caching I think, and I'm not doing that yet
+    // TODO: Decide what to do if signature target/mapper are defined -- it should already have been instantiated.. maybe?
+                        const sourceSig = source.signature
+                        const targetSig = target.signature
+                        if (sourceSig.typeParameters && targetSig.typeParameters) {
+                            inferFromSymbols(sourceSig.typeParameters, targetSig.typeParameters)
+                        }
+                        // TODO: We don't care about variance, but this would be the place to flip it
+                        inferFromSymbols(sourceSig.parameters, targetSig.parameters)
+                        inferType(sourceSig.returnType, targetSig.returnType)
+                    }
+                    // recur if source is also a function
+                    return
+                case Kind.Object:
+                    // recur if source is also an object
+                    return
+                case Kind.TypeVariable:
+                    inferences.get(target)!.push(source)
+                    return
+            }
+
+        }
+        function inferFromSymbols(sources: Symbol[], targets: Symbol[]): void {
+            for (let i = 0; i < Math.min(sources.length, targets.length); i++) {
+                if (targets[i])
+                    inferType(getValueTypeOfSymbol(sources[i]), getValueTypeOfSymbol(targets[i]))
+            }
+
+        }
+    }
     function checkParameter(parameter: Parameter): Type {
         return parameter.typename ? checkType(parameter.typename) : anyType
     }

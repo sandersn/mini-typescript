@@ -1,24 +1,27 @@
 var apply = function (f, x) {
     return f(x)
 };
-var apply2 = function (f, x) {
-    return f(x)
+var apply2 = function (f3, x) {
+    return f3(x)
 };
 apply(function (n) {
     return n
 }, 1);
-apply(function (n) {
-    return n
-}, 1);
-apply(function (n) {
-    return n
-}, 1);
-apply(function (n) {
-    return n
-}, 1);
-apply(function (n) {
-    return n
-}, 1);
+apply(function (m) {
+    return m
+}, 2);
+apply(function (l) {
+    return l
+}, "oops");
+apply(function (k) {
+    return k
+}, 4);
+apply(function (j) {
+    return j
+}, "ok");
+apply(function (i) {
+    return i
+}, 5);
 apply(function (s) {
     return s
 }, "a")

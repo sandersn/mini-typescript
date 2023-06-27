@@ -97,10 +97,10 @@ First up:
 - [x] signatures
 - [x] type parameters/arguments
 - [x] type caching
-- [ ] signature instantiation
-- [ ] signature assignability wrt type parameters
-- [ ] type argument inference
-- [ ] type resolution (suggested by Daniel, not sure what this means)
+- [x] signature instantiation
+- [x] signature assignability wrt type parameters
+- [x] type argument inference
+- [x] type resolution (suggested by Daniel, not sure what this means)
 - [ ] control flow analysis
 
 Then:
