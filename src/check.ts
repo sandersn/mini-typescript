@@ -385,18 +385,14 @@ export function check(module: Module) {
             case Kind.TypeVariable:
                 return type.name
         }
-        return '(anonymous)'
     }
     function resolve(location: Node, name: string, meaning: Meaning) {
         while (location) {
-            if (location.kind === SyntaxKind.Module || location.kind === SyntaxKind.Function || location.kind === SyntaxKind.Signature) {
-                const symbol = getSymbol((location as Container).locals, name, meaning)
-                if (symbol) {
-                    return symbol
-                }
-            }
-            else if (location.kind === SyntaxKind.Object || location.kind === SyntaxKind.ObjectLiteralType) {
-                const symbol = getSymbol((location as Object).symbol.members, name, meaning)
+            const table = (location.kind === SyntaxKind.Module || location.kind === SyntaxKind.Function || location.kind === SyntaxKind.Signature) ? location.locals
+                : (location.kind === SyntaxKind.Object || location.kind === SyntaxKind.ObjectLiteralType) ? location.symbol.members 
+                : undefined
+            if (table) {
+                const symbol = getSymbol(table, name, meaning)
                 if (symbol) {
                     return symbol
                 }
