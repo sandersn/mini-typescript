@@ -7,7 +7,7 @@ micro-typescript started when I started reading [Modern Compiler Implementation 
 
 I realised a small Typescript would be useful to others who want to learn how the Typescript compiler works. So I rewrote it in Typescript and added some exercises to let you practise with it. micro-typescript is the smallest compiler I can imagine, implementing just a tiny slice of Typescript: `var` declarations, assignments and numeric literals. The only two types are `string` and `number`.
 
-So that's micro-typescript: a textbook compiler that implements a tiny bit of Typescript in a way that's a tiny bit like the Typescript compiler. centi-typescript, on the other hand, is a 1/100 scale model of the Typescript compiler. It's intended as a reference in code for peopple who want to see how the Typescript compiler actually works, without the clutter caused by real-life compatibility and requirements. Currently centi-typescript is most complete in the checker, because most of Typescript's complexity is there.
+So that's micro-typescript: a textbook compiler that implements a tiny bit of Typescript in a way that's a tiny bit like the Typescript compiler. [centi-typescript](https://github.com/sandersn/mini-typescript/tree/centi-typescript), on the other hand, is a 1/100 scale model of the Typescript compiler. It's intended as a reference in code for peopple who want to see how the Typescript compiler actually works, without the clutter caused by real-life compatibility and requirements. Currently centi-typescript is most complete in the checker, because most of Typescript's complexity is there.
 
 ### To get set up
 
