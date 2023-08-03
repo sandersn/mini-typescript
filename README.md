@@ -1,9 +1,13 @@
 # mini-typescript
 A miniature model of the Typescript compiler, intended to teach the structure of the real Typescript compiler
 
-I started this project as part of reading [Modern Compiler Implementation in ML](https://www.cs.princeton.edu/~appel/modern/ml/) because I wanted to learn more about compiler backends. When I started building the example compiler I found I disagreed with the implementation of nearly everything in the *frontend*. So I wrote my own, and found that I had just written [a small Typescript](https://github.com/sandersn/minits).
+This project contains two models of the compiler: micro-typescript and centi-typescript.
 
-I realised a small Typescript would be useful to others who want to learn how the Typescript compiler works. So I rewrote it in Typescript and added some exercises to let you practise with it. The resulting compiler covers a tiny slice of Typescript: just `var` declarations, assignments and numeric literals. The only two types are `string` and `number`.
+micro-typescript started when I started reading [Modern Compiler Implementation in ML](https://www.cs.princeton.edu/~appel/modern/ml/) because I wanted to learn more about compiler backends. When I started building the example compiler I found I disagreed with the implementation of nearly everything in the *frontend*. So I wrote my own, and found that I had just written [a small Typescript](https://github.com/sandersn/minits).
+
+I realised a small Typescript would be useful to others who want to learn how the Typescript compiler works. So I rewrote it in Typescript and added some exercises to let you practise with it. micro-typescript is the smallest compiler I can imagine, implementing just a tiny slice of Typescript: `var` declarations, assignments and numeric literals. The only two types are `string` and `number`.
+
+So that's micro-typescript: a textbook compiler that implements a tiny bit of Typescript in a way that's a tiny bit like the Typescript compiler. centi-typescript, on the other hand, is a 1/100 scale model of the Typescript compiler. It's intended as a reference in code for peopple who want to see how the Typescript compiler actually works, without the clutter caused by real-life compatibility and requirements. Currently centi-typescript is most complete in the checker, because most of Typescript's complexity is there.
 
 ### To get set up
 
@@ -21,6 +25,13 @@ npm run build --watch
 
 # Run the compiler:
 npm run mtsc ./tests/singleVar.ts
+```
+
+### To switch to centi-typescript
+
+```sh
+git checkout centi-typescript
+npm run build
 ```
 
 ## Limitations
