@@ -434,10 +434,9 @@ export function check(module: Module) {
                 }
             }
             return isAssignableTo(source.signature.returnType, targetSignature.returnType)
-                && targetSignature.parameters.length >= source.signature.parameters.length
-                && targetSignature.parameters.every((p, i) =>
-                    i >= source.signature.parameters.length
-                    || isAssignableTo(getValueTypeOfSymbol(p), getValueTypeOfSymbol(source.signature.parameters[i])))
+                && source.signature.parameters.length <= targetSignature.parameters.length
+                && source.signature.parameters.every((p, i) => 
+                    isAssignableTo(getValueTypeOfSymbol(targetSignature.parameters[i]), getValueTypeOfSymbol(p)))
         }
         return false
     }
